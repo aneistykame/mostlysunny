@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Košík</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial, sans-serif;
+}
+
+body{
+display:flex;
+flex-direction:column;
+min-height:100vh;
+background:#f2f2f2;
+}
+
+/* HEADER */
+
+header{
+background:#222;
+color:white;
+display:flex;
+align-items:center;
+padding:15px 30px;
+flex-wrap:wrap;
+gap:10px;
+}
+
+.logo{
+font-size:22px;
+font-weight:bold;
+}
+
+.search-box{
+display:flex;
+align-items:center;
+margin-left:auto;
+margin-right:auto;
+width:100%;
+max-width:320px;
+}
+
+.search-box input{ 
+padding:8px 14px; 
+border-radius:6px; 
+border:none; 
+width:100%;
+}
+
+.header-right{
+display:flex;
+gap:15px;
+font-size:20px;
+margin-left:auto;
+}
+
+.header-right button{
+background:none;
+border:none;
+color:white;
+cursor:pointer;
+font-size:20px;
+}
+
+/* MAIN */
+
+.main{
+flex:1;
+display:flex;
+justify-content:center;
+align-items:center;
+padding:40px;
+}
+
+/* CART WINDOW */
+
+.cart-container{
+background:white;
+width:100%;
+max-width:1100px;
+min-height:450px;
+padding:40px;
+border-radius:12px;
+box-shadow:0 6px 20px rgba(0,0,0,0.2);
+position:relative;
+}
+
+/* CHECKOUT STEPS */
+
+.checkout-steps{
+font-size:14px;
+color:#777;
+margin-bottom:25px;
+}
+
+/* TABLE */
+
+table{
+width:100%;
+border-collapse:collapse;
+}
+
+th,td{
+padding:14px;
+border-bottom:1px solid #ddd;
+}
+
+.product-cell{
+width:100%;
+}
+
+.product-info{
+display:flex;
+align-items:center;
+gap:15px;
+flex-wrap:wrap;
+}
+
+.product-img{
+width:60px;
+}
+
+.product-text{
+display:flex;
+flex-direction:column;
+}
+
+.product-name{
+font-weight:bold;
+margin-bottom:5px;
+}
+
+.product-quantity input{
+width:60px;
+padding:4px;
+margin-left:5px;
+}
+
+.price{
+text-align:right;
+font-weight:bold;
+width:120px;
+white-space:nowrap;
+}
+
+/* TOTAL */
+
+.total{
+margin-top:20px;
+font-size:18px;
+text-align:right;
+}
+
+/* BUTTON */
+
+.checkout-btn{
+position:absolute;
+bottom:30px;
+right:40px;
+padding:12px 22px;
+border:none;
+background:#007BFF;
+color:white;
+border-radius:6px;
+cursor:pointer;
+font-size:16px;
+}
+
+.checkout-btn:hover{
+background:#0056b3;
+}
+
+/* FOOTER */
+
+footer{
+background:#222;
+color:white;
+text-align:center;
+padding:15px;
+}
+
+/* ===================== */
+/* TABLET */
+/* ===================== */
+
+@media (max-width:900px){
+
+.main{
+padding:20px;
+}
+
+.cart-container{
+padding:25px;
+}
+
+.product-info{
+flex-direction:row;
+}
+
+}
+
+/* ===================== */
+/* MOBILE */
+/* ===================== */
+
+@media (max-width:600px){
+
+header{
+flex-direction:column;
+align-items:flex-start;
+}
+
+.search-box{
+margin:10px 0;
+max-width:100%;
+}
+
+.header-right{
+align-self:flex-end;
+}
+
+.product-info{
+flex-direction:column;
+align-items:flex-start;
+}
+
+.price{
+width:100%;
+text-align:left;
+margin-top:5px;
+}
+
+.checkout-btn{
+position:static;
+margin-top:25px;
+width:100%;
+}
+
+.cart-container{
+padding:20px;
+}
+
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div class="logo">
+Mostly Sunny Toys
+</div>
+
+<div class="search-box">
+<input type="text" placeholder="Hľadať produkt...">
+</div>
+
+<div class="header-right">
+<button>👤</button>
+<button>🛒</button>
+<button>✕</button>
+</div>
+
+</header>
+
+<div class="main">
+
+<div class="cart-container">
+
+<div class="checkout-steps">
+Košík → Doprava → Platba → Údaje
+</div>
+
+<table>
+
+<tr>
+<td class="product-cell">
+
+<div class="product-info">
+
+<img src="toy.jpg" class="product-img">
+
+<div class="product-text">
+<div class="product-name">Plyšový medveď</div>
+
+<div class="product-quantity">
+Množstvo:
+<input type="number" value="1" min="1">
+</div>
+
+</div>
+
+</div>
+
+</td>
+
+<td class="price">€15.99</td>
+
+</tr>
+
+</table>
+
+<button class="checkout-btn">Pokračovať k platbe</button>
+
+</div>
+
+</div>
+
+<footer>© 2026 My Website</footer>
+
+</body>
+</html>

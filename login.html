@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+
+    <style>
+        *{
+        margin:0;
+        padding:0;
+        box-sizing:border-box;
+        font-family:Arial, sans-serif;
+        }
+
+        body{
+        display:flex;
+        flex-direction:column;
+        min-height:100vh;
+        background:#f2f2f2;
+        }
+
+        /* HEADER */
+        header{
+        background:#222;
+        color:white;
+        text-align:center;
+        padding:20px;
+        font-size:24px;
+        position:relative;
+        }
+
+        /* CLOSE BUTTON */
+        .close-btn{
+        position:absolute;
+        top:10px;
+        right:15px;
+        background:none;
+        border:none;
+        color:white;
+        font-size:26px;
+        cursor:pointer;
+        }
+
+        .close-btn:hover{
+        opacity:0.7;
+        }
+
+        /* MAIN */
+        .main-container{
+        flex:1;
+        display:grid;
+        grid-template-columns:1fr 420px 1fr;
+        align-items:center;
+        }
+
+        /* SIDE */
+        .side{
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        padding:20px;
+        }
+        .side img{
+        max-width:100%;
+        opacity:0.85;
+        }
+
+        /* LOGIN */
+        .login-box{
+        background:white;
+        padding:40px;
+        border-radius:12px;
+        box-shadow:0 6px 20px rgba(0,0,0,0.2);
+        }
+
+        .login-box h2{
+        text-align:center;
+        margin-bottom:25px;
+        }
+
+        .login-box input{
+        width:100%;
+        padding:12px;
+        margin:8px 0;
+        border:1px solid #ccc;
+        border-radius:6px;
+        }
+
+        /* FORGOT PASSWORD */
+        .forgot{
+        text-align:center;
+        margin:10px 0 15px 0;
+        }
+
+        .forgot a{
+        text-decoration:none;
+        color:#007BFF;
+        font-size:14px;
+        }
+
+        .forgot a:hover{
+        text-decoration:underline;
+        }
+
+        /* BUTTON */
+        .login-btn{
+        width:100%;
+        padding:12px;
+        border:none;
+        background:#007BFF;
+        color:white;
+        font-size:16px;
+        border-radius:6px;
+        cursor:pointer;
+        }
+
+        .login-btn:hover{
+        background:#0056b3;
+        }
+
+        /* DIVIDER */
+        .divider{
+        text-align:center;
+        margin:20px 0;
+        color:#999;
+        }
+
+        /* SOCIAL LOGIN */
+        .social-login{
+        display:flex;
+        flex-direction:column;
+        gap:10px;
+        }
+
+        .social-btn{
+        padding:10px;
+        border:1px solid #ccc;
+        background:white;
+        border-radius:6px;
+        cursor:pointer;
+        }
+
+        .social-btn:hover{
+        background:#f4f4f4;
+        }
+
+        /* REGISTER */
+        .register{
+        text-align:center;
+        margin-top:20px;
+        font-size:14px;
+        }
+
+        .register a{
+        color:#007BFF;
+        text-decoration:none;
+        }
+
+        /* FOOTER */
+        footer{
+        background:#222;
+        color:white;
+        text-align:center;
+        padding:15px;
+        }
+
+        /* TABLET */
+        @media (max-width:900px){
+
+        .main-container{
+        grid-template-columns:1fr;
+        padding:20px;
+        }
+
+        .side{
+        display:none;
+        }
+
+        }
+
+    </style>
+</head>
+<body>
+    <header>Mostly Sunny Toys<button class="close-btn">✕</button></header>
+
+    <div class="main-container">
+
+        <div class="side">
+            <img src="left.jpg">
+        </div>
+
+        <div class="login-box">
+            <h2>Login</h2>
+            <form>
+                <input type="email" placeholder="Email" required>
+                <input type="password" placeholder="Heslo" required>
+                <div class="forgot">
+                    <a href="#">Zabudnuté heslo?</a>
+                </div>
+                <button class="login-btn">Prihlásiť sa</button>
+            </form>
+            <div class="divider">alebo</div>
+            
+            <div class="social-login">
+                <button class="social-btn">Prihlásiť cez Google</button>
+            </div>
+
+            <div class="register">Ešte nemáte účet? <a href="register.html">Zaregistrujte sa</a></div>
+        </div>
+
+        <div class="side">
+            <img src="right.jpg">
+        </div>
+    </div>
+    <footer>© 2026 My Website</footer>
+</body>
+</html>
