@@ -1,213 +1,193 @@
 <!DOCTYPE html>
 <html lang="sk">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Register</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <style>
+        *{
+        margin:0;
+        padding:0;
+        box-sizing:border-box;
+        font-family:Arial, sans-serif;
+        }
 
-<style>
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Arial, sans-serif;
-}
+        body{
+        display:flex;
+        flex-direction:column;
+        min-height:100vh;
+        background:#f2f2f2;
+        }
 
-body{
-display:flex;
-flex-direction:column;
-min-height:100vh;
-background:#f2f2f2;
-}
+        /* HEADER */
+        header{
+        background:#222;
+        color:white;
+        text-align:center;
+        padding:20px;
+        font-size:24px;
+        position:relative;
+        }
 
-/* HEADER */
-header{
-background:#222;
-color:white;
-text-align:center;
-padding:20px;
-font-size:24px;
-position:relative;
-}
+        /* CLOSE BUTTON */
+        .close-btn{
+        position:absolute;
+        top:10px;
+        right:15px;
+        background:none;
+        border:none;
+        color:white;
+        font-size:26px;
+        cursor:pointer;
+        }
 
-/* CLOSE BUTTON */
-.close-btn{
-position:absolute;
-top:10px;
-right:15px;
-background:none;
-border:none;
-color:white;
-font-size:26px;
-cursor:pointer;
-}
+        .close-btn:hover{
+        opacity:0.7;
+        }
 
-.close-btn:hover{
-opacity:0.7;
-}
+        /* MAIN */
+        .main-container{
+        flex:1;
+        display:grid;
+        grid-template-columns:1fr 420px 1fr;
+        align-items:center;
+        }
 
-/* MAIN */
-.main-container{
-flex:1;
-display:grid;
-grid-template-columns:1fr 420px 1fr;
-align-items:center;
-}
+        /* SIDE */
+        .side{
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        padding:20px;
+        }
 
-/* SIDE */
-.side{
-display:flex;
-justify-content:center;
-align-items:center;
-padding:20px;
-}
+        .side img{
+        max-width:100%;
+        opacity:0.85;
+        }
 
-.side img{
-max-width:100%;
-opacity:0.85;
-}
+        /* REGISTER BOX */
+        .register-box{
+        background:white;
+        padding:40px;
+        border-radius:12px;
+        box-shadow:0 6px 20px rgba(0,0,0,0.2);
+        }
 
-/* REGISTER BOX */
-.register-box{
-background:white;
-padding:40px;
-border-radius:12px;
-box-shadow:0 6px 20px rgba(0,0,0,0.2);
-}
+        .register-box h2{
+        text-align:center;
+        margin-bottom:25px;
+        }
 
-.register-box h2{
-text-align:center;
-margin-bottom:25px;
-}
+        .register-box input{
+        width:100%;
+        padding:12px;
+        margin:8px 0;
+        border:1px solid #ccc;
+        border-radius:6px;
+        }
 
-.register-box input{
-width:100%;
-padding:12px;
-margin:8px 0;
-border:1px solid #ccc;
-border-radius:6px;
-}
+        /* BUTTON */
+        .register-btn{
+        width:100%;
+        padding:12px;
+        border:none;
+        background:#007BFF;
+        color:white;
+        font-size:16px;
+        border-radius:6px;
+        cursor:pointer;
+        margin-top:10px;
+        }
 
-/* BUTTON */
-.register-btn{
-width:100%;
-padding:12px;
-border:none;
-background:#007BFF;
-color:white;
-font-size:16px;
-border-radius:6px;
-cursor:pointer;
-margin-top:10px;
-}
+        .register-btn:hover{
+        background:#0056b3;
+        }
 
-.register-btn:hover{
-background:#0056b3;
-}
+        /* DIVIDER */
+        .divider{
+        text-align:center;
+        margin:20px 0;
+        color:#999;
+        }
 
-/* DIVIDER */
-.divider{
-text-align:center;
-margin:20px 0;
-color:#999;
-}
+        /* SOCIAL */
+        .social-login{
+        display:flex;
+        flex-direction:column;
+        gap:10px;
+        }
 
-/* SOCIAL */
-.social-login{
-display:flex;
-flex-direction:column;
-gap:10px;
-}
+        .social-btn{
+        padding:10px;
+        border:1px solid #ccc;
+        background:white;
+        border-radius:6px;
+        cursor:pointer;
+        }
 
-.social-btn{
-padding:10px;
-border:1px solid #ccc;
-background:white;
-border-radius:6px;
-cursor:pointer;
-}
+        .social-btn:hover{
+        background:#f4f4f4;
+        }
 
-.social-btn:hover{
-background:#f4f4f4;
-}
+        /* LOGIN LINK */
+        .login{
+        text-align:center;
+        margin-top:20px;
+        font-size:14px;
+        }
 
-/* LOGIN LINK */
-.login{
-text-align:center;
-margin-top:20px;
-font-size:14px;
-}
+        .login a{
+        color:#007BFF;
+        text-decoration:none;
+        }
 
-.login a{
-color:#007BFF;
-text-decoration:none;
-}
+        /* FOOTER */
+        footer{
+        background:#222;
+        color:white;
+        text-align:center;
+        padding:15px;
+        }
 
-/* FOOTER */
-footer{
-background:#222;
-color:white;
-text-align:center;
-padding:15px;
-}
+        /* TABLET */
+        @media (max-width:900px){
+            .main-container{
+            grid-template-columns:1fr;
+            padding:20px;
+            }
 
-/* TABLET */
-@media (max-width:900px){
-
-.main-container{
-grid-template-columns:1fr;
-padding:20px;
-}
-
-.side{
-display:none;
-}
-
-}
-</style>
+            .side{
+            display:none;
+            }
+        }
+    </style>
 </head>
-
 <body>
-
-<header>Mostly Sunny Toys<button class="close-btn">✕</button></header>
-
-<div class="main-container">
-
-<div class="side">
-<img src="left.jpg">
-</div>
-
-<div class="register-box">
-<h2>Registrácia</h2>
-
-<form>
-<input type="text" placeholder="Meno" required>
-<input type="email" placeholder="Email" required>
-<input type="password" placeholder="Heslo" required>
-<input type="password" placeholder="Potvrdiť heslo" required>
-
-<button class="register-btn">Vytvoriť účet</button>
-</form>
-
-<div class="divider">alebo</div>
-
-<div class="social-login">
-<button class="social-btn">Registrovať cez Google</button>
-</div>
-
-<div class="login">
-Máte už účet? <a href="#">Prihláste sa</a>
-</div>
-
-</div>
-
-<div class="side">
-<img src="right.jpg">
-</div>
-
-</div>
-
-<footer>© 2026 My Website</footer>
-
+    <header>Mostly Sunny Toys<button class="close-btn">✕</button></header>
+    <div class="main-container">
+        <div class="side">
+            <img src="left.jpg">
+        </div>
+        <div class="register-box">
+            <h2>Registrácia</h2>
+            <form>
+                <input type="text" placeholder="Meno" required>
+                <input type="email" placeholder="Email" required>
+                <input type="password" placeholder="Heslo" required>
+                <input type="password" placeholder="Potvrdiť heslo" required>
+                <button class="register-btn">Vytvoriť účet</button>
+            </form>
+            <div class="divider">alebo</div>
+            <div class="social-login">
+                <button class="social-btn">Registrovať cez Google</button>
+            </div>
+            <div class="login">Máte už účet? <a href="#">Prihláste sa</a></div>
+        </div>
+        <div class="side">
+            <img src="right.jpg">
+        </div>
+    </div>
+    <footer>© 2026 My Website</footer>
 </body>
 </html>

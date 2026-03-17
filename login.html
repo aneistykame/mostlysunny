@@ -167,29 +167,24 @@
 
         /* TABLET */
         @media (max-width:900px){
+            .main-container{
+            grid-template-columns:1fr;
+            padding:20px;
+            }
 
-        .main-container{
-        grid-template-columns:1fr;
-        padding:20px;
-        }
-
-        .side{
-        display:none;
-        }
-
+            .side{
+            display:none;
+            }
         }
 
     </style>
 </head>
 <body>
     <header>Mostly Sunny Toys<button class="close-btn">✕</button></header>
-
     <div class="main-container">
-
         <div class="side">
             <img src="left.jpg">
         </div>
-
         <div class="login-box">
             <h2>Login</h2>
             <form>
@@ -201,14 +196,11 @@
                 <button class="login-btn">Prihlásiť sa</button>
             </form>
             <div class="divider">alebo</div>
-            
             <div class="social-login">
                 <button class="social-btn">Prihlásiť cez Google</button>
             </div>
-
             <div class="register">Ešte nemáte účet? <a href="register.html">Zaregistrujte sa</a></div>
         </div>
-
         <div class="side">
             <img src="right.jpg">
         </div>
