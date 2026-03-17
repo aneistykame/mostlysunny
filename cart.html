@@ -5,65 +5,103 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Košík</title>
     <style>
+        :root {
+        --purple: #8584B3;
+        --purple-light: #b8b7d8;
+        --purple-dark: #6b6a9a;
+        --pink: #d4a0b5;
+        --pink-light: #e8c5d5;
+        --bg: #e8e8f5;
+        --card-bg: #f5f0f5;
+        --sidebar-bg: #d8d8ee;
+        --banner-1: #c8a0c8;
+        --banner-2: #d4a8c0;
+        --banner-3: #c0a0c8;
+        --banner-4: #d8b8d0;
+        --btn-bg: #b0b0c8;
+        --text: #3a3a5c;
+        --text-light: #7070a0;
+        }
+
         *{
         margin:0;
         padding:0;
         box-sizing:border-box;
-        font-family:Arial, sans-serif;
+        font-family: 'Trebuchet MS', sans-serif;
         }
 
         body{
+        background: var(--bg);
+        color: var(--text);
         display:flex;
         flex-direction:column;
         min-height:100vh;
-        background:#f2f2f2;
         }
 
         /* HEADER */
-        header{
-        background:#222;
-        color:white;
-        display:flex;
-        align-items:center;
-        padding:15px 30px;
-        flex-wrap:wrap;
-        gap:10px;
+        header {
+        background: var(--purple);
+        padding: 12px 28px;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        box-shadow: 0 2px 12px rgba(100, 100, 180, 0.18);
         }
 
-        .logo{
-        font-size:22px;
-        font-weight:bold;
+        .logo {
+        font-family: 'Trebuchet MS', sans-serif;
+        font-size: 20px;
+        color: #fff;
+        white-space: nowrap;
+        text-decoration: none;
         }
 
-        .search-box{
-        display:flex;
-        align-items:center;
-        margin-left:auto;
-        margin-right:auto;
-        width:100%;
-        max-width:320px;
+        .search-box {
+        flex: 1;
+        max-width: 420px;
+        margin: 0 auto;
+        position: relative;
         }
 
-        .search-box input{ 
-        padding:8px 14px; 
-        border-radius:6px; 
-        border:none; 
-        width:100%;
+        .search-box input {
+        width: 100%;
+        padding: 8px 40px 8px 16px;
+        border-radius: 20px;
+        border: none;
+        background: #f0eef8;
+        font-family: 'Nunito', sans-serif;
+        font-size: 14px;
+        color: var(--text);
+        outline: none;
+        transition: box-shadow 0.2s;
+        }
+
+        .search-box input:focus {
+        box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.35);
         }
 
         .header-right{
-        display:flex;
-        gap:15px;
-        font-size:20px;
-        margin-left:auto;
+        display: flex;
+        gap: 8px;
+        margin-left: auto;
         }
 
         .header-right button{
-        background:none;
-        border:none;
-        color:white;
-        cursor:pointer;
-        font-size:20px;
+        background: none;
+        border: none;
+        color: #fff;
+        font-size: 20px;
+        cursor: pointer;
+        padding: 4px 6px;
+        border-radius: 8px;
+        transition: background 0.2s;
+        }
+
+        .header-right button:hover {
+        background: rgba(255, 255, 255, 0.18);
         }
 
         /* MAIN */
@@ -90,7 +128,7 @@
         /* CHECKOUT STEPS */
         .checkout-steps{
         font-size:14px;
-        color:#777;
+        color:var(--text-light);
         margin-bottom:25px;
         }
 
@@ -102,7 +140,7 @@
 
         th,td{
         padding:14px;
-        border-bottom:1px solid #ddd;
+        border-bottom:1px solid var(--text-light);
         }
 
         .product-cell{
@@ -123,17 +161,20 @@
         .product-text{
         display:flex;
         flex-direction:column;
+        color:var(--text)
         }
 
         .product-name{
         font-weight:bold;
         margin-bottom:5px;
+        color:var(--text)
         }
 
         .product-quantity input{
         width:60px;
         padding:4px;
         margin-left:5px;
+        color:var(--text)
         }
 
         .price{
@@ -143,13 +184,6 @@
         white-space:nowrap;
         }
 
-        /* TOTAL */
-        .total{
-        margin-top:20px;
-        font-size:18px;
-        text-align:right;
-        }
-
         /* BUTTON */
         .checkout-btn{
         position:absolute;
@@ -157,7 +191,7 @@
         right:40px;
         padding:12px 22px;
         border:none;
-        background:#007BFF;
+        background:var(--purple);
         color:white;
         border-radius:6px;
         cursor:pointer;
@@ -165,15 +199,17 @@
         }
 
         .checkout-btn:hover{
-        background:#0056b3;
+        background:var(--purple-dark);
         }
 
         /* FOOTER */
         footer{
-        background:#222;
+        background:#6b6a9a;
         color:white;
         text-align:center;
-        padding:15px;
+        padding: 24px;
+        font-size: 13px;
+        letter-spacing: 0.5px;
         }
 
         /* TABLET */
@@ -193,18 +229,19 @@
 
         /* MOBILE */
         @media (max-width:600px){
-            header{
-            flex-direction:column;
-            align-items:flex-start;
+            header {
+                padding: 10px 14px;
+                flex-wrap: wrap;
             }
 
-            .search-box{
-            margin:10px 0;
-            max-width:100%;
+            .search-box {
+                order: 3;
+                max-width: 100%;
+                flex: 1 1 100%;
             }
 
-            .header-right{
-            align-self:flex-end;
+            .header-right {
+                margin-left: 0;
             }
 
             .product-info{
@@ -244,7 +281,7 @@
     </header>
     <div class="main">
         <div class="cart-container">
-            <div class="checkout-steps">Košík → Doprava → Platba → Údaje</div>
+            <div class="checkout-steps"><b>Košík</b> → Doprava → Platba → Údaje</div>
             <table>
                 <tr>
                     <td class="product-cell">

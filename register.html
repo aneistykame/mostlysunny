@@ -5,28 +5,47 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register</title>
     <style>
+        :root {
+        --purple: #8584B3;
+        --purple-light: #b8b7d8;
+        --purple-dark: #6b6a9a;
+        --pink: #d4a0b5;
+        --pink-light: #e8c5d5;
+        --bg: #e8e8f5;
+        --card-bg: #f5f0f5;
+        --sidebar-bg: #d8d8ee;
+        --banner-1: #c8a0c8;
+        --banner-2: #d4a8c0;
+        --banner-3: #c0a0c8;
+        --banner-4: #d8b8d0;
+        --btn-bg: #b0b0c8;
+        --text: #3a3a5c;
+        --text-light: #7070a0;
+        }
+
         *{
         margin:0;
         padding:0;
         box-sizing:border-box;
-        font-family:Arial, sans-serif;
+        font-family:'Trebuchet MS', sans-serif;
         }
 
         body{
         display:flex;
         flex-direction:column;
         min-height:100vh;
-        background:#f2f2f2;
+        background:var(--bg);
         }
 
         /* HEADER */
         header{
-        background:#222;
+        background:var(--purple);
         color:white;
         text-align:center;
         padding:20px;
         font-size:24px;
         position:relative;
+        box-shadow: 0 2px 12px rgba(100, 100, 180, 0.18);
         }
 
         /* CLOSE BUTTON */
@@ -72,6 +91,7 @@
         padding:40px;
         border-radius:12px;
         box-shadow:0 6px 20px rgba(0,0,0,0.2);
+        color:var(--text);
         }
 
         .register-box h2{
@@ -85,6 +105,8 @@
         margin:8px 0;
         border:1px solid #ccc;
         border-radius:6px;
+        background-color: var(--card-bg);
+        color: var(--text);
         }
 
         /* BUTTON */
@@ -92,7 +114,7 @@
         width:100%;
         padding:12px;
         border:none;
-        background:#007BFF;
+        background:var(--purple);
         color:white;
         font-size:16px;
         border-radius:6px;
@@ -101,14 +123,14 @@
         }
 
         .register-btn:hover{
-        background:#0056b3;
+        background:var(--purple-dark);
         }
 
         /* DIVIDER */
         .divider{
         text-align:center;
         margin:20px 0;
-        color:#999;
+        color:var(--text-light);
         }
 
         /* SOCIAL */
@@ -116,18 +138,20 @@
         display:flex;
         flex-direction:column;
         gap:10px;
+        color:var(--text)
         }
 
         .social-btn{
         padding:10px;
         border:1px solid #ccc;
-        background:white;
+        background:var(--btn-bg);
         border-radius:6px;
         cursor:pointer;
+        color:var(--text)
         }
 
         .social-btn:hover{
-        background:#f4f4f4;
+        background:var(--sidebar-bg);
         }
 
         /* LOGIN LINK */
@@ -135,19 +159,22 @@
         text-align:center;
         margin-top:20px;
         font-size:14px;
+        color:var(--text)
         }
 
         .login a{
-        color:#007BFF;
+        color:var(--text-light);
         text-decoration:none;
         }
 
         /* FOOTER */
         footer{
-        background:#222;
+        background:#6b6a9a;
         color:white;
         text-align:center;
-        padding:15px;
+        padding: 24px;
+        font-size: 13px;
+        letter-spacing: 0.5px;
         }
 
         /* TABLET */
@@ -170,7 +197,7 @@
             <img src="left.jpg">
         </div>
         <div class="register-box">
-            <h2>Registrácia</h2>
+            <h2>Register</h2>
             <form>
                 <input type="text" placeholder="Meno" required>
                 <input type="email" placeholder="Email" required>
