@@ -118,7 +118,7 @@ header {
 .sidebar {
    width: 160px;
    flex-shrink: 0;
-   background: var(--sidebar-bg);
+   background: white;
    padding: 10px 0;
    min-height: 100%;
 }
@@ -163,6 +163,11 @@ header {
    color: var(--purple-light);
 }
 
+.sidebar ul li.active {
+   background: rgba(133, 132, 179, 0.452);
+   color: var(--purple-dark);
+}
+
 /*MAIN CONTENT */
 .main-content {
    flex: 1;
@@ -176,14 +181,26 @@ header {
 /* BANNERS */
 .banner-large {
    border-radius: 12px;
-   height: 120px;
-   background: var(--banner-1);
+   height: 180px;
+   background-image: url(src/img/sadSheeps.jpg);
+   background-position: center;
+   background-size: cover;
+   font-size: 250%;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   color: white;
 }
 
 .banner-medium {
    border-radius: 12px;
    height: 110px;
    background: var(--banner-2);
+   font-size: 200%;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   color: wheat;
 }
 
 /*SECTION LABEL */
@@ -204,7 +221,7 @@ header {
 /* PRODUCT GRID */
 .product-grid {
    display: grid;
-   grid-template-columns: repeat(4, 1fr);
+   grid-template-columns: repeat(5, 1fr);
    gap: 12px;
 }
 
@@ -245,7 +262,7 @@ header {
 }
 
 .product-price {
-   font-size: 14px;
+   font-size: 18px;
    font-weight: 700;
    color: var(--text);
 }
@@ -277,15 +294,32 @@ header {
 
 .promo-box {
    border-radius: 12px;
-   height: 110px;
+   height: 210px;
 }
 
 .promo-box:first-child {
    background: var(--banner-3);
+   background-image: url(src/img/disneyToys.jpg);
+   background-position: center;
+   background-size: cover;
+   font-size: 250%;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   color: white;
 }
 
 .promo-box:last-child {
    background: var(--pink-light);
+   background-image: url(src/img/sheepGrass.jpg);
+   background-position: center;
+   background-size: cover;
+   font-size: 200%;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   text-align: center;
+   color: white;
 }
 
 /* WIDE BANNER */
@@ -306,7 +340,7 @@ footer {
 }
 
 
-@media (max-width: 900px) {
+@media (max-width: 1100px) {
    .product-grid {
       grid-template-columns: repeat(3, 1fr);
    }

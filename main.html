@@ -11,7 +11,7 @@
 <body>
 
    <header>
-      <div class="logo">Mostly Sunny Toys</div>
+      <div class="logo" onclick="location.href='main.html'">Mostly Sunny Toys</div>
       <div class="search-box">
          <input type="text" placeholder="Hľadať produkt...">
          <span class="search-icon">🔍</span>
@@ -27,73 +27,78 @@
       <nav class="sidebar">
          <div class="sidebar-title">Kategórie</div>
          <ul>
-            <li><a href="#">Menu Label</a></li>
-            <li><a href="#">Menu Label</a></li>
-            <li><a href="#">Menu Label</a></li>
-            <li><a href="#">Menu Label</a></li>
-            <li><a href="#">Menu Label</a></li>
-            <li><a href="#">Menu Label</a></li>
-            <li><a href="#">Menu Label</a></li>
-            <li><a href="#">Menu Label</a></li>
-            <li><a href="#">Menu Label</a></li>
-            <li><a href="#">Menu Label</a></li>
-            <li><a href="#">Menu Label</a></li>
-            <li><a href="#">Menu Label</a></li>
-            <li><a href="#">Menu Label</a></li>
-            <li><a href="#">Menu Label</a></li>
-            <li><a href="#">Menu Label</a></li>
+            <li><a href="category.html">Plyšové hračky</a></li>
+            <li><a href="category.html">Bábiky</a></li>
+            <li><a href="category.html">Pre najmenších</a></li>
+            <li><a href="category.html">Elektronika</a></li>
+            <li><a href="category.html">Puzzle</a></li>
+            <li><a href="category.html">Stavebnice</a></li>
+            <li><a href="category.html">Spoločenské hry</a></li>
+            <li><a href="category.html">Dopravné prostriedky</a></li>
+            <li><a href="category.html">Roboti</a></li>
+            <li><a href="category.html">Zvieratká</a></li>
+            <li><a href="category.html">Interaktívne zvieratá</a></li>
+            <li><a href="category.html">Hudobné nástroje</a></li>
+            <li><a href="category.html">Do záhrady</a></li>
+            <li><a href="category.html">Do vody</a></li>
+            <li><a href="category.html">Vozidlá</a></li>
          </ul>
       </nav>
 
       <main class="main-content">
 
-         <div class="banner-large"></div>
-         <div class="banner-medium"></div>
+         <div class="banner-large">ZĽAVA NA VŠETKO S PROMO KÓDOM „APRIL24“</div>
+         <div class="banner-medium">Neviete, čo si vybrať? Vyplňte formulár!</div>
 
-         <!-- Products section -->
          <div class="section-label">Odporúčané produkty</div>
 
          <div class="product-grid">
-            <div class="product-card">
-               <div class="product-img"></div>
-               <div class="product-name">Lopsun Ipsum Dolor</div>
+            <div class="product-card" onclick="location.href='product.html'">
+               <img class="product-img" src="src/img/sheep.jpg"></img>
+               <div class="product-name">Plyšová hračka ovečka</div>
                <div class="product-footer">
-                  <span class="product-price">€59.95</span>
+                  <span class="product-price">€12.95</span>
                   <button class="btn-cart">Do košíka</button>
                </div>
             </div>
-            <div class="product-card">
-               <div class="product-img"></div>
-               <div class="product-name">Lopsun Ipsum Dolor</div>
+            <div class="product-card" onclick="location.href='product.html'">
+               <img class="product-img" src="src/img/teddyAdvent.jpg"></img>
+               <div class="product-name">Cestujúci plyšový medvedík</div>
                <div class="product-footer">
-                  <span class="product-price">€59.95</span>
+                  <span class="product-price">€15.95</span>
                   <button class="btn-cart">Do košíka</button>
                </div>
             </div>
-            <div class="product-card">
-               <div class="product-img"></div>
-               <div class="product-name">Lopsun Ipsum Dolor</div>
+            <div class="product-card" onclick="location.href='product.html'">
+               <img class="product-img" src="src/img/whiteTeddyLying.jpg"></img>
+               <div class="product-name">Biely plyšový medvedík</div>
                <div class="product-footer">
-                  <span class="product-price">€59.95</span>
+                  <span class="product-price">€15.95</span>
                   <button class="btn-cart">Do košíka</button>
                </div>
             </div>
-            <div class="product-card">
-               <div class="product-img"></div>
-               <div class="product-name">Lopsun Ipsum Dolor</div>
-               <div class="product-footer">
-                  <span class="product-price">€59.95</span>
-                  <button class="btn-cart">Do košíka</button>
-               </div>
+            <div class="product-card" onclick="location.href='product.html'">
+               <img class="product-img" src="src/img/basik1.jpg"
+                  onerror="this.style.background='#d4d0e0';this.removeAttribute('src')"></img>
+               <div class="product-name">Plyšová mačka</div>
+               <div class="product-footer"><span class="product-price">€21.95</span><button class="btn-cart">Do
+                     košíka</button></div>
+            </div>
+            <div class="product-card" onclick="location.href='product.html'">
+               <img class="product-img" src="src/img/MedvedTricko3.jpg"
+                  onerror="this.style.background='#d4d0e0';this.removeAttribute('src')"></img>
+               <div class="product-name">Plyšový medvedík s tričkom</div>
+               <div class="product-footer"><span class="product-price">€19.95</span><button class="btn-cart">Do
+                     košíka</button></div>
             </div>
          </div>
 
          <div class="promo-row">
-            <div class="promo-box"></div>
-            <div class="promo-box"></div>
+            <div class="promo-box" onclick="location.href='category.html'">PLYŠOVÉ HRAČKY OD 10 EUR</div>
+            <div class="promo-box">POMÔŽTE S NAMI ZACHRÁNIŤ PRÍRODU - 2 % Z VAŠEHO NÁKUPU IDE NA POMOC LESU</div>
          </div>
 
-         <div class="banner-wide"></div>
+         <!--<div class="banner-wide"></div>-->
 
       </main>
    </div>
