@@ -5,14 +5,10 @@
    <meta charset="UTF-8">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>Kategória – Mostly Sunny Toys</title>
+   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&display=swap"
+      rel="stylesheet">
    <link href="mainstyle.css" rel="stylesheet">
    <style>
-      .category-wrapper {
-         display: flex;
-         flex: 1;
-         background: var(--bg);
-      }
-
       .category-topbar {
          display: flex;
          align-items: center;
@@ -41,84 +37,6 @@
          color: var(--text);
          cursor: pointer;
          outline: none;
-      }
-
-      .product-grid {
-         display: grid;
-         grid-template-columns: repeat(6, 1fr);
-         gap: 8px;
-      }
-
-      .product-card {
-         background: #fff;
-         border-radius: 10px;
-         padding: 10px 10px 12px;
-         display: flex;
-         flex-direction: column;
-         gap: 8px;
-         box-shadow: 0 2px 6px rgba(120, 100, 160, 0.08);
-         cursor: pointer;
-         transition: transform 0.18s, box-shadow 0.18s;
-      }
-
-      .product-card:hover {
-         transform: translateY(-2px);
-         box-shadow: 0 5px 14px rgba(120, 100, 160, 0.16);
-      }
-
-      .product-img {
-         width: 90%;
-         margin: 0 auto;
-         aspect-ratio: 1;
-         background: #d4d0e0;
-         border-radius: 6px;
-         object-fit: cover;
-         display: block;
-      }
-
-      .product-name {
-         font-size: 12px;
-         color: var(--text-light);
-         text-align: center;
-         line-height: 1.3;
-         display: -webkit-box;
-         -webkit-line-clamp: 2;
-         line-clamp: 2;
-         -webkit-box-orient: vertical;
-         overflow: hidden;
-      }
-
-      .product-footer {
-         display: flex;
-         justify-content: space-between;
-         align-items: center;
-         gap: 6px;
-         padding-top: 2px;
-      }
-
-      .product-price {
-         font-size: 17px;
-         font-weight: 800;
-         color: var(--text);
-         white-space: nowrap;
-      }
-
-      .btn-cart {
-         background: var(--btn-bg);
-         color: #fff;
-         border: none;
-         padding: 7px 12px;
-         border-radius: 10px;
-         font-size: 12px;
-         font-family: 'Nunito', sans-serif;
-         cursor: pointer;
-         font-weight: 700;
-         transition: background 0.18s;
-         white-space: nowrap;
-      }
-
-      .btn-cart:hover {
-         background: var(--purple);
       }
 
       /* ── PAGINATION ── */
@@ -168,23 +86,7 @@
          display: none;
       }
 
-      @media (max-width: 1170px) {
-         .product-grid {
-            grid-template-columns: repeat(4, 1fr);
-         }
-      }
-
-      @media (max-width: 850px) {
-         .product-grid {
-            grid-template-columns: repeat(3, 1fr);
-         }
-      }
-
       @media (max-width: 700px) {
-         .sidebar {
-            display: none;
-         }
-
          .main-content {
             padding: 10px;
          }
@@ -193,209 +95,269 @@
 </head>
 
 <body>
-
    <header>
-      <div class="logo" onclick="location.href='main.html'">Mostly Sunny Toys</div>
+      <div class="burger-area" id="burgerBtn">
+         <div class="burger-icon">
+            <span></span><span></span><span></span>
+         </div>
+      </div>
+      <div class="logo-text" onclick="location.href='main.html'">
+         Mostly Sunny Toys
+      </div>
       <div class="search-box">
-         <input type="text" placeholder="Hľadať produkt...">
          <span class="search-icon">🔍</span>
+         <input type="text" placeholder="Hľadať produkty...">
       </div>
       <div class="header-icons">
-         <button title="Účet" onclick="location.href='login.html'">👤</button>
-         <button title="Košík" onclick="location.href='cart.html'">🛒</button>
+         <button title="Účet" onclick="location.href='login.html'">👤 Účet</button>
+         <button title="Košík" onclick="location.href='cart.html'">🛒 Košík</button>
       </div>
    </header>
+   <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
-   <div class="page-wrapper category-wrapper">
+   <nav class="sidebar">
+      <div class="sidebar-title">Kategórie</div>
+      <ul>
+         <li><a href="category.html">Plyšové hračky <span class="arrow">›</span></a></li>
+         <li><a href="category.html">Bábiky <span class="arrow">›</span></a></li>
+         <li><a href="category.html">Pre najmenších <span class="arrow">›</span></a></li>
+         <li><a href="category.html">Elektronika <span class="arrow">›</span></a></li>
+         <li><a href="category.html">Puzzle <span class="arrow">›</span></a></li>
+         <li><a href="category.html">Stavebnice <span class="arrow">›</span></a></li>
+         <li><a href="category.html">Spoločenské hry <span class="arrow">›</span></a></li>
+         <li><a href="category.html">Dopravné prostriedky <span class="arrow">›</span></a></li>
+         <li><a href="category.html">Roboti <span class="arrow">›</span></a></li>
+         <li><a href="category.html">Zvieratká <span class="arrow">›</span></a></li>
+         <li><a href="category.html">Interaktívne zvieratá <span class="arrow">›</span></a></li>
+         <li><a href="category.html">Hudobné nástroje <span class="arrow">›</span></a></li>
+         <li><a href="category.html">Do záhrady <span class="arrow">›</span></a></li>
+         <li><a href="category.html">Do vody <span class="arrow">›</span></a></li>
+         <li><a href="category.html">Vozidlá <span class="arrow">›</span></a></li>
+      </ul>
+   </nav>
 
-      <nav class="sidebar">
-         <div class="sidebar-title">Kategórie</div>
-         <ul>
-            <li class="active"><a href="#">Plyšové hračky</a></li>
-            <li><a href="#">Bábiky</a></li>
-            <li><a href="#">Pre najmenších</a></li>
-            <li><a href="#">Elektronika</a></li>
-            <li><a href="#">Puzzle</a></li>
-            <li><a href="#">Stavebnice</a></li>
-            <li><a href="#">Spoločenské hry</a></li>
-            <li><a href="#">Dopravné prostriedky</a></li>
-            <li><a href="#">Roboti</a></li>
-            <li><a href="#">Zvieratká</a></li>
-            <li><a href="#">Interaktívne zvieratá</a></li>
-            <li><a href="#">Hudobné nástroje</a></li>
-            <li><a href="#">Do záhrady</a></li>
-            <li><a href="#">Do vody</a></li>
-            <li><a href="#">Vozidlá</a></li>
-         </ul>
-      </nav>
+   <main class="main-content">
 
-      <main class="main-content">
+      <div class="category-topbar">
+         <div class="category-title">Plyšové hračky</div>
+         <select class="sort-select">
+            <option>Zoradiť: Odporúčané</option>
+            <option>Cena: od najnižšej</option>
+            <option>Cena: od najvyššej</option>
+            <option>Najnovšie</option>
+         </select>
+      </div>
 
-         <div class="category-topbar">
-            <div class="category-title">Plyšové hračky</div>
-            <select class="sort-select">
-               <option>Zoradiť: Odporúčané</option>
-               <option>Cena: od najnižšej</option>
-               <option>Cena: od najvyššej</option>
-               <option>Najnovšie</option>
-            </select>
-         </div>
+      <div class="product-grid" id="productGrid">
 
-         <div class="product-grid" id="productGrid">
-
-            <div class="product-card" onclick="location.href='product.html'">
-               <img class="product-img" src="src/img/sheep.jpg"
-                  onerror="this.style.background='#d4d0e0';this.removeAttribute('src')">
+         <div class="product-card" onclick="location.href='product.html'">
+            <div class="product-img-wrapper"><img class="product-img" src="src/img/sheep.jpg"
+                  onerror="this.style.background='#d4d0e0';this.removeAttribute('src')"></div>
+            <div class="product-info">
                <div class="product-name">Plyšová hračka ovečka</div>
                <div class="product-footer"><span class="product-price">€12.95</span><button class="btn-cart">Do
                      košíka</button></div>
             </div>
-            <div class="product-card" onclick="location.href='product.html'">
-               <img class="product-img" src="src/img/teddyAdvent.jpg"
-                  onerror="this.style.background='#d4d0e0';this.removeAttribute('src')">
+         </div>
+         <div class="product-card" onclick="location.href='product.html'">
+            <div class="product-img-wrapper"><img class="product-img" src="src/img/teddyAdvent.jpg"
+                  onerror="this.style.background='#d4d0e0';this.removeAttribute('src')"></div>
+            <div class="product-info">
                <div class="product-name">Cestujúci plyšový medvedík</div>
                <div class="product-footer"><span class="product-price">€15.95</span><button class="btn-cart">Do
                      košíka</button></div>
             </div>
-            <div class="product-card" onclick="location.href='product.html'">
-               <img class="product-img" src="src/img/owlThird.jpg"
-                  onerror="this.style.background='#d4d0e0';this.removeAttribute('src')">
+         </div>
+         <div class="product-card" onclick="location.href='product.html'">
+            <div class="product-img-wrapper"><img class="product-img" src="src/img/owlThird.jpg"
+                  onerror="this.style.background='#d4d0e0';this.removeAttribute('src')"></div>
+            <div class="product-info">
                <div class="product-name">Plyšová sova</div>
                <div class="product-footer"><span class="product-price">€13.95</span><button class="btn-cart">Do
                      košíka</button></div>
             </div>
-            <div class="product-card" onclick="location.href='product.html'">
-               <img class="product-img" src="src/img/whiteTeddyLying.jpg"
-                  onerror="this.style.background='#d4d0e0';this.removeAttribute('src')">
+         </div>
+         <div class="product-card" onclick="location.href='product.html'">
+            <div class="product-img-wrapper"><img class="product-img" src="src/img/whiteTeddyLying.jpg"
+                  onerror="this.style.background='#d4d0e0';this.removeAttribute('src')"></div>
+            <div class="product-info">
                <div class="product-name">Biely plyšový medvedík</div>
                <div class="product-footer"><span class="product-price">€15.95</span><button class="btn-cart">Do
                      košíka</button></div>
             </div>
-            <div class="product-card" onclick="location.href='product.html'">
-               <img class="product-img" src="src/img/rabbit.jpg"
-                  onerror="this.style.background='#d4d0e0';this.removeAttribute('src')"></img>
+         </div>
+         <div class="product-card" onclick="location.href='product.html'">
+            <div class="product-img-wrapper"><img class="product-img" src="src/img/rabbit.jpg"
+                  onerror="this.style.background='#d4d0e0';this.removeAttribute('src')"></img></div>
+            <div class="product-info">
                <div class="product-name">Plyšový zajačik</div>
                <div class="product-footer"><span class="product-price">€11.95</span><button class="btn-cart">Do
                      košíka</button></div>
             </div>
-            <div class="product-card" onclick="location.href='product.html'">
-               <img class="product-img" src="src/img/lion.jpg"
-                  onerror="this.style.background='#d4d0e0';this.removeAttribute('src')"></img>
+         </div>
+         <div class="product-card" onclick="location.href='product.html'">
+            <div class="product-img-wrapper"><img class="product-img" src="src/img/lion.jpg"
+                  onerror="this.style.background='#d4d0e0';this.removeAttribute('src')"></img></div>
+            <div class="product-info">
                <div class="product-name">Plyšový lev</div>
                <div class="product-footer"><span class="product-price">€14.95</span><button class="btn-cart">Do
                      košíka</button></div>
             </div>
-            <div class="product-card" onclick="location.href='product.html'">
-               <img class="product-img" src="src/img/elephant.jpg"
-                  onerror="this.style.background='#d4d0e0';this.removeAttribute('src')"></img>
+         </div>
+         <div class="product-card" onclick="location.href='product.html'">
+            <div class="product-img-wrapper"><img class="product-img" src="src/img/elephant.jpg"
+                  onerror="this.style.background='#d4d0e0';this.removeAttribute('src')"></img></div>
+            <div class="product-info">
                <div class="product-name">Plyšový slon</div>
                <div class="product-footer"><span class="product-price">€16.95</span><button class="btn-cart">Do
                      košíka</button></div>
             </div>
-            <div class="product-card" onclick="location.href='product.html'">
-               <img class="product-img" src="src/img/sickBear.jpg"
-                  onerror="this.style.background='#d4d0e0';this.removeAttribute('src')"></img>
+         </div>
+         <div class="product-card" onclick="location.href='product.html'">
+            <div class="product-img-wrapper"><img class="product-img" src="src/img/sickBear.jpg"
+                  onerror="this.style.background='#d4d0e0';this.removeAttribute('src')"></img></div>
+            <div class="product-info">
                <div class="product-name">Chorý medveď</div>
                <div class="product-footer"><span class="product-price">€10.95</span><button class="btn-cart">Do
                      košíka</button></div>
             </div>
-            <div class="product-card" onclick="location.href='product.html'">
-               <img class="product-img" src="src/img/doggie.jpg"
-                  onerror="this.style.background='#d4d0e0';this.removeAttribute('src')"></img>
+         </div>
+         <div class="product-card" onclick="location.href='product.html'">
+            <div class="product-img-wrapper"><img class="product-img" src="src/img/doggie.jpg"
+                  onerror="this.style.background='#d4d0e0';this.removeAttribute('src')"></img></div>
+            <div class="product-info">
                <div class="product-name">Plyšový psík malý</div>
                <div class="product-footer"><span class="product-price">€10.95</span><button class="btn-cart">Do
                      košíka</button></div>
             </div>
-            <div class="product-card" onclick="location.href='product.html'">
-               <img class="product-img" src="src/img/bearInChair.jpg"
-                  onerror="this.style.background='#d4d0e0';this.removeAttribute('src')"></img>
+         </div>
+         <div class="product-card" onclick="location.href='product.html'">
+            <div class="product-img-wrapper"><img class="product-img" src="src/img/bearInChair.jpg"
+                  onerror="this.style.background='#d4d0e0';this.removeAttribute('src')"></img></div>
+            <div class="product-info">
                <div class="product-name">Plyšový medveď veľký</div>
                <div class="product-footer"><span class="product-price">€24.95</span><button class="btn-cart">Do
                      košíka</button></div>
             </div>
-            <div class="product-card" onclick="location.href='product.html'">
-               <img class="product-img" src="src/img/dog.jpg"
-                  onerror="this.style.background='#d4d0e0';this.removeAttribute('src')"></img>
+         </div>
+         <div class="product-card" onclick="location.href='product.html'">
+            <div class="product-img-wrapper"><img class="product-img" src="src/img/dog.jpg"
+                  onerror="this.style.background='#d4d0e0';this.removeAttribute('src')"></img></div>
+            <div class="product-info">
                <div class="product-name">Plyšový psík</div>
                <div class="product-footer"><span class="product-price">€14.95</span><button class="btn-cart">Do
                      košíka</button></div>
             </div>
-            <div class="product-card" onclick="location.href='product.html'">
-               <img class="product-img" src="src/img/pinkPinguin.jpg"
-                  onerror="this.style.background='#d4d0e0';this.removeAttribute('src')"></img>
+         </div>
+         <div class="product-card" onclick="location.href='product.html'">
+            <div class="product-img-wrapper"><img class="product-img" src="src/img/pinkPinguin.jpg"
+                  onerror="this.style.background='#d4d0e0';this.removeAttribute('src')"></img></div>
+            <div class="product-info">
                <div class="product-name">Plyšový tučniak ružový</div>
                <div class="product-footer"><span class="product-price">€11.95</span><button class="btn-cart">Do
                      košíka</button></div>
             </div>
-            <div class="product-card" onclick="location.href='product.html'">
-               <img class="product-img" src="src/img/basik1.jpg"
-                  onerror="this.style.background='#d4d0e0';this.removeAttribute('src')"></img>
+         </div>
+         <div class="product-card" onclick="location.href='product.html'">
+            <div class="product-img-wrapper"><img class="product-img" src="src/img/basik1.jpg"
+                  onerror="this.style.background='#d4d0e0';this.removeAttribute('src')"></img></div>
+            <div class="product-info">
                <div class="product-name">Plyšová mačka</div>
                <div class="product-footer"><span class="product-price">€21.95</span><button class="btn-cart">Do
                      košíka</button></div>
             </div>
-            <div class="product-card" onclick="location.href='product.html'">
-               <img class="product-img" src="src/img/orangeDino.jpg"
-                  onerror="this.style.background='#d4d0e0';this.removeAttribute('src')"></img>
+         </div>
+         <div class="product-card" onclick="location.href='product.html'">
+            <div class="product-img-wrapper"><img class="product-img" src="src/img/orangeDino.jpg"
+                  onerror="this.style.background='#d4d0e0';this.removeAttribute('src')"></img></div>
+            <div class="product-info">
                <div class="product-name">Plyšový dinosaurus</div>
                <div class="product-footer"><span class="product-price">€18.95</span><button class="btn-cart">Do
                      košíka</button></div>
             </div>
-            <div class="product-card" onclick="location.href='product.html'">
-               <img class="product-img" src="src/img/MedvedTricko3.jpg"
-                  onerror="this.style.background='#d4d0e0';this.removeAttribute('src')"></img>
+         </div>
+         <div class="product-card" onclick="location.href='product.html'">
+            <div class="product-img-wrapper"><img class="product-img" src="src/img/MedvedTricko3.jpg"
+                  onerror="this.style.background='#d4d0e0';this.removeAttribute('src')"></img></div>
+            <div class="product-info">
                <div class="product-name">Plyšový medvedík s tričkom</div>
                <div class="product-footer"><span class="product-price">€19.95</span><button class="btn-cart">Do
                      košíka</button></div>
             </div>
-            <div class="product-card" onclick="location.href='product.html'">
-               <img class="product-img" src="src/img/whiteTiger.jpg"
-                  onerror="this.style.background='#d4d0e0';this.removeAttribute('src')"></img>
+         </div>
+         <div class="product-card" onclick="location.href='product.html'">
+            <div class="product-img-wrapper"><img class="product-img" src="src/img/whiteTiger.jpg"
+                  onerror="this.style.background='#d4d0e0';this.removeAttribute('src')"></img></div>
+            <div class="product-info">
                <div class="product-name">Plyšový biely tiger</div>
                <div class="product-footer"><span class="product-price">€18.95</span><button class="btn-cart">Do
                      košíka</button></div>
             </div>
-            <div class="product-card" onclick="location.href='product.html'">
-               <img class="product-img" src="src/img/snowGiraffes.jpg"
-                  onerror="this.style.background='#d4d0e0';this.removeAttribute('src')"></img>
+         </div>
+         <div class="product-card" onclick="location.href='product.html'">
+            <div class="product-img-wrapper"><img class="product-img" src="src/img/snowGiraffes.jpg"
+                  onerror="this.style.background='#d4d0e0';this.removeAttribute('src')"></img></div>
+            <div class="product-info">
                <div class="product-name">Plyšová žirafa zimná</div>
                <div class="product-footer"><span class="product-price">€16.95</span><button class="btn-cart">Do
                      košíka</button></div>
             </div>
-            <div class="product-card" onclick="location.href='product.html'">
-               <img class="product-img" src="src/img/horse.jpg"
-                  onerror="this.style.background='#d4d0e0';this.removeAttribute('src')"></img>
+         </div>
+         <div class="product-card" onclick="location.href='product.html'">
+            <div class="product-img-wrapper"><img class="product-img" src="src/img/horse.jpg"
+                  onerror="this.style.background='#d4d0e0';this.removeAttribute('src')"></img></div>
+            <div class="product-info">
                <div class="product-name">Plyšový koník</div>
                <div class="product-footer"><span class="product-price">€14.95</span><button class="btn-cart">Do
                      košíka</button></div>
             </div>
-            <div class="product-card" onclick="location.href='product.html'">
-               <img class="product-img" style="background:#d4d0e0" src="src/img/whiteTeddy.jpg"></img>
+         </div>
+         <div class="product-card" onclick="location.href='product.html'">
+            <div class="product-img-wrapper"><img class="product-img" style="background:#d4d0e0"
+                  src="src/img/whiteTeddy.jpg"></img></div>
+            <div class="product-info">
                <div class="product-name">Plyšový medvedík malý</div>
                <div class="product-footer"><span class="product-price">€9.95</span><button class="btn-cart">Do
                      košíka</button></div>
             </div>
-            <div class="product-card" onclick="location.href='product.html'">
-               <img class="product-img" src="src/img/unicorn.jpg"
-                  onerror="this.style.background='#d4d0e0';this.removeAttribute('src')"></img>
+         </div>
+         <div class="product-card" onclick="location.href='product.html'">
+            <div class="product-img-wrapper"><img class="product-img" src="src/img/unicorn.jpg"
+                  onerror="this.style.background='#d4d0e0';this.removeAttribute('src')"></img></div>
+            <div class="product-info">
                <div class="product-name">Plyšový jednorožec</div>
                <div class="product-footer"><span class="product-price">€17.95</span><button class="btn-cart">Do
                      košíka</button></div>
             </div>
-
-
-         </div>
-         <div class="pagination" id="pagination">
-            <button class="page-btn active">1</button>
-            <button class="page-btn">2</button>
          </div>
 
-      </main>
+
+      </div>
+      <div class="pagination" id="pagination">
+         <button class="page-btn active">1</button>
+         <button class="page-btn">2</button>
+      </div>
+
+   </main>
    </div>
 
-   <footer>© 2025 Mostly Sunny Toys</footer>
+   <footer>© 2026 Mostly Sunny Toys</footer>
 
+   <script>
+      const burgerBtn = document.getElementById('burgerBtn');
+      const overlay = document.getElementById('sidebarOverlay');
 
+      function toggleSidebar() {
+         document.body.classList.toggle('sidebar-open');
+      }
+
+      burgerBtn.addEventListener('click', toggleSidebar);
+      overlay.addEventListener('click', toggleSidebar);
+
+      document.addEventListener('keydown', e => {
+         if (e.key === 'Escape') document.body.classList.remove('sidebar-open');
+      });
+   </script>
 
 </body>
 

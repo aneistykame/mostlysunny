@@ -5,108 +5,196 @@
    <meta charset="UTF-8">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>Mostly Sunny Toys</title>
-   <link <link href="mainstyle.css" rel="stylesheet">
+   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&display=swap"
+      rel="stylesheet">
+   <link href="mainstyle.css" rel="stylesheet">
 </head>
 
 <body>
 
    <header>
-      <div class="logo" onclick="location.href='main.html'">Mostly Sunny Toys</div>
+      <div class="burger-area" id="burgerBtn">
+         <div class="burger-icon">
+            <span></span><span></span><span></span>
+         </div>
+      </div>
+      <div class="logo-text">
+         Mostly Sunny Toys
+      </div>
       <div class="search-box">
-         <input type="text" placeholder="Hľadať produkt...">
          <span class="search-icon">🔍</span>
+         <input type="text" placeholder="Hľadať produkty...">
       </div>
       <div class="header-icons">
-         <button title="Účet" onclick="location.href='login.html'">👤</button>
-         <button title="Košík" onclick="location.href='cart.html'">🛒</button>
+         <button title="Účet" onclick="location.href='login.html'">👤 Účet</button>
+         <button title="Košík" onclick="location.href='cart.html'">🛒 Košík</button>
       </div>
    </header>
+   <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
+   <nav class="sidebar">
+      <div class="sidebar-title">Kategórie</div>
+      <ul>
+         <li><a href="category.html">Plyšové hračky <span class="arrow">›</span></a></li>
+         <li><a href="category.html">Bábiky <span class="arrow">›</span></a></li>
+         <li><a href="category.html">Pre najmenších <span class="arrow">›</span></a></li>
+         <li><a href="category.html">Elektronika <span class="arrow">›</span></a></li>
+         <li><a href="category.html">Puzzle <span class="arrow">›</span></a></li>
+         <li><a href="category.html">Stavebnice <span class="arrow">›</span></a></li>
+         <li><a href="category.html">Spoločenské hry <span class="arrow">›</span></a></li>
+         <li><a href="category.html">Dopravné prostriedky <span class="arrow">›</span></a></li>
+         <li><a href="category.html">Roboti <span class="arrow">›</span></a></li>
+         <li><a href="category.html">Zvieratká <span class="arrow">›</span></a></li>
+         <li><a href="category.html">Interaktívne zvieratá <span class="arrow">›</span></a></li>
+         <li><a href="category.html">Hudobné nástroje <span class="arrow">›</span></a></li>
+         <li><a href="category.html">Do záhrady <span class="arrow">›</span></a></li>
+         <li><a href="category.html">Do vody <span class="arrow">›</span></a></li>
+         <li><a href="category.html">Vozidlá <span class="arrow">›</span></a></li>
+      </ul>
+   </nav>
    <div class="page-wrapper">
-
-      <nav class="sidebar">
-         <div class="sidebar-title">Kategórie</div>
-         <ul>
-            <li><a href="category.html">Plyšové hračky</a></li>
-            <li><a href="category.html">Bábiky</a></li>
-            <li><a href="category.html">Pre najmenších</a></li>
-            <li><a href="category.html">Elektronika</a></li>
-            <li><a href="category.html">Puzzle</a></li>
-            <li><a href="category.html">Stavebnice</a></li>
-            <li><a href="category.html">Spoločenské hry</a></li>
-            <li><a href="category.html">Dopravné prostriedky</a></li>
-            <li><a href="category.html">Roboti</a></li>
-            <li><a href="category.html">Zvieratká</a></li>
-            <li><a href="category.html">Interaktívne zvieratá</a></li>
-            <li><a href="category.html">Hudobné nástroje</a></li>
-            <li><a href="category.html">Do záhrady</a></li>
-            <li><a href="category.html">Do vody</a></li>
-            <li><a href="category.html">Vozidlá</a></li>
-         </ul>
-      </nav>
-
+      <div class="sidebar-spacer"></div>
       <main class="main-content">
 
-         <div class="banner-large">ZĽAVA NA VŠETKO S PROMO KÓDOM „APRIL24“</div>
-         <div class="banner-medium">Neviete, čo si vybrať? Vyplňte formulár!</div>
+         <div class="banner-large">
+            <div class="large-content">
+               <div>
+                  <div class="large-intro">☀ Jarná kolekcia 2026</div>
+                  <div class="large-title">Zľava na všetko<br>s kódom <em>"APRIL24"</em></div>
+               </div>
+               <button class="large-go" onclick="location.href='category.html'">Nakupovať →</button>
+            </div>
+         </div>
+         <div class="midi-banners">
+            <div class="banner-medium">
+               <div class="banner-medium-text"><strong>Neviete, čo si vybrať?</strong> <span>Vyplňte formulár!</span>
+               </div>
+               <div class="banner-medium-arrow">›</div>
+            </div>
+            <div class="banner-medium">
+               <div class="banner-medium-text"><strong>Novinky každý týždeň</strong> <span>Sledujte nás na
+                     Instagram</span>
+               </div>
+               <div class="banner-medium-arrow">›</div>
+            </div>
+         </div>
 
-         <div class="section-label">Odporúčané produkty</div>
+
+         <div class="section-hd">
+            <div class="section-hd-title">Odporúčané produkty</div>
+            <a href="category.html" class="section-hd-link">Zobraziť všetky →</a>
+         </div>
 
          <div class="product-grid">
             <div class="product-card" onclick="location.href='product.html'">
-               <img class="product-img" src="src/img/sheep.jpg"></img>
-               <div class="product-name">Plyšová hračka ovečka</div>
-               <div class="product-footer">
-                  <span class="product-price">€12.95</span>
-                  <button class="btn-cart">Do košíka</button>
+               <div class="product-img-wrapper"><img class="product-img" src="src/img/sheep.jpg"></div>
+               <div class="product-info">
+                  <div class="product-name">Plyšová hračka ovečka</div>
+                  <div class="product-footer">
+                     <span class="product-price">€12.95</span>
+                     <button class="btn-cart">Do košíka</button>
+                  </div>
+               </div>
+
+            </div>
+            <div class="product-card" onclick="location.href='product.html'">
+               <div class="product-img-wrapper">
+                  <img class="product-img" src="src/img/teddyAdvent.jpg" onerror="this.style.display='none'">
+               </div>
+               <div class="product-info">
+                  <div class="product-name">Cestujúci plyšový medvedík</div>
+                  <div class="product-footer">
+                     <span class="product-price">€15.95</span>
+                     <button class="btn-cart">+ Košík</button>
+                  </div>
                </div>
             </div>
             <div class="product-card" onclick="location.href='product.html'">
-               <img class="product-img" src="src/img/teddyAdvent.jpg"></img>
-               <div class="product-name">Cestujúci plyšový medvedík</div>
-               <div class="product-footer">
-                  <span class="product-price">€15.95</span>
-                  <button class="btn-cart">Do košíka</button>
+               <div class="product-img-wrapper">
+                  <img class="product-img" src="src/img/whiteTeddyLying.jpg" onerror="this.style.display='none'">
+               </div>
+               <div class="product-info">
+                  <div class="product-name">Biely plyšový medvedík</div>
+                  <div class="product-footer">
+                     <span class="product-price">€15.95</span>
+                     <button class="btn-cart">+ Košík</button>
+                  </div>
                </div>
             </div>
             <div class="product-card" onclick="location.href='product.html'">
-               <img class="product-img" src="src/img/whiteTeddyLying.jpg"></img>
-               <div class="product-name">Biely plyšový medvedík</div>
-               <div class="product-footer">
-                  <span class="product-price">€15.95</span>
-                  <button class="btn-cart">Do košíka</button>
+               <div class="product-img-wrapper">
+                  <img class="product-img" src="src/img/basik1.jpg"
+                     onerror="this.style.background='var(--purple-faint)';this.removeAttribute('src')">
+               </div>
+               <div class="product-info">
+                  <div class="product-name">Plyšová mačka</div>
+                  <div class="product-footer">
+                     <span class="product-price">€21.95</span>
+                     <button class="btn-cart">+ Košík</button>
+                  </div>
                </div>
             </div>
             <div class="product-card" onclick="location.href='product.html'">
-               <img class="product-img" src="src/img/basik1.jpg"
-                  onerror="this.style.background='#d4d0e0';this.removeAttribute('src')"></img>
-               <div class="product-name">Plyšová mačka</div>
-               <div class="product-footer"><span class="product-price">€21.95</span><button class="btn-cart">Do
-                     košíka</button></div>
-            </div>
-            <div class="product-card" onclick="location.href='product.html'">
-               <img class="product-img" src="src/img/MedvedTricko3.jpg"
-                  onerror="this.style.background='#d4d0e0';this.removeAttribute('src')"></img>
-               <div class="product-name">Plyšový medvedík s tričkom</div>
-               <div class="product-footer"><span class="product-price">€19.95</span><button class="btn-cart">Do
-                     košíka</button></div>
+               <div class="product-img-wrapper">
+                  <img class="product-img" src="src/img/MedvedTricko3.jpg"
+                     onerror="this.style.background='var(--purple-faint)';this.removeAttribute('src')">
+               </div>
+               <div class="product-info">
+                  <div class="product-name">Plyšový medvedík s tričkom</div>
+                  <div class="product-footer">
+                     <span class="product-price">€19.95</span>
+                     <button class="btn-cart">+ Košík</button>
+                  </div>
+               </div>
             </div>
          </div>
 
          <div class="promo-row">
-            <div class="promo-box" onclick="location.href='category.html'">PLYŠOVÉ HRAČKY OD 10 EUR</div>
-            <div class="promo-box">POMÔŽTE S NAMI ZACHRÁNIŤ PRÍRODU - 2 % Z VAŠEHO NÁKUPU IDE NA POMOC LESU</div>
+            <div class="promo-box" onclick="location.href='category.html'">
+               <div class="promo-box-bg"></div>
+               <div class="promo-box-overlay"></div>
+               <div class="promo-box-body">
+                  <div>
+                     <div class="promo-box-tag">Špeciálna ponuka</div>
+                     <div class="promo-box-title">Plyšové hračky<br>od 10 €</div>
+                  </div>
+                  <button class="promo-btn">Zobraziť →</button>
+               </div>
+            </div>
+            <div class="promo-box">
+               <div class="promo-box-bg"></div>
+               <div class="promo-box-overlay"></div>
+               <div class="promo-box-body">
+                  <div>
+                     <div class="promo-box-title">2 % z nákupu<br>ide lesom</div>
+                  </div>
+                  <button class="promo-btn">Viac info →</button>
+               </div>
+            </div>
          </div>
 
-         <!--<div class="banner-wide"></div>-->
 
       </main>
    </div>
 
    <footer>
-      © 2025 Mostly Sunny Toys
+      © 2026 Mostly Sunny Toys
    </footer>
+   <script>
+      const burgerBtn = document.getElementById('burgerBtn');
+      const overlay = document.getElementById('sidebarOverlay');
 
+      function toggleSidebar() {
+         document.body.classList.toggle('sidebar-open');
+      }
+
+      burgerBtn.addEventListener('click', toggleSidebar);
+      overlay.addEventListener('click', toggleSidebar);
+
+      document.addEventListener('keydown', e => {
+         if (e.key === 'Escape') document.body.classList.remove('sidebar-open');
+      });
+   </script>
 </body>
 
 </html>
