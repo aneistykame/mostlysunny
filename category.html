@@ -101,7 +101,7 @@
             <span></span><span></span><span></span>
          </div>
       </div>
-      <div class="logo-text" onclick="location.href='main.html'">
+      <div class="logo-text" onclick="location.href='index.html'">
          Mostly Sunny Toys
       </div>
       <div class="search-box">
@@ -138,19 +138,29 @@
 
    <main class="main-content">
 
-      <div class="category-topbar">
-         <div class="category-title">Plyšové hračky</div>
-         <select class="sort-select">
-            <option>Zoradiť: Odporúčané</option>
-            <option>Cena: od najnižšej</option>
-            <option>Cena: od najvyššej</option>
-            <option>Najnovšie</option>
-         </select>
-      </div>
+      <section class="category-topbar">
+         <h1 class="category-title">Plyšové hračky</h1>
+         <div class="wrapper">
+            <select class="sort-select">
+               <option>Všetky</option>
+               <option>Iba veľké</option>
+               <option>Iba malé</option>
+               <option>Iba s hodnotením</option>
+            </select>
+            <select class="sort-select">
+               <option>Zoradiť: Odporúčané</option>
+               <option>Cena: od najnižšej</option>
+               <option>Cena: od najvyššej</option>
+               <option>Najnovšie</option>
+            </select>
+         </div>
 
-      <div class="product-grid" id="productGrid">
 
-         <div class="product-card" onclick="location.href='product.html'">
+      </section>
+
+      <section class="product-grid" id="productGrid">
+
+         <article class="product-card" onclick="location.href='product.html'">
             <div class="product-img-wrapper"><img class="product-img" src="src/img/sheep.jpg"
                   onerror="this.style.background='#d4d0e0';this.removeAttribute('src')"></div>
             <div class="product-info">
@@ -158,8 +168,8 @@
                <div class="product-footer"><span class="product-price">€12.95</span><button class="btn-cart">Do
                      košíka</button></div>
             </div>
-         </div>
-         <div class="product-card" onclick="location.href='product.html'">
+         </article>
+         <article class="product-card" onclick="location.href='product.html'">
             <div class="product-img-wrapper"><img class="product-img" src="src/img/teddyAdvent.jpg"
                   onerror="this.style.background='#d4d0e0';this.removeAttribute('src')"></div>
             <div class="product-info">
@@ -167,8 +177,8 @@
                <div class="product-footer"><span class="product-price">€15.95</span><button class="btn-cart">Do
                      košíka</button></div>
             </div>
-         </div>
-         <div class="product-card" onclick="location.href='product.html'">
+         </article>
+         <article class="product-card" onclick="location.href='product.html'">
             <div class="product-img-wrapper"><img class="product-img" src="src/img/owlThird.jpg"
                   onerror="this.style.background='#d4d0e0';this.removeAttribute('src')"></div>
             <div class="product-info">
@@ -176,8 +186,8 @@
                <div class="product-footer"><span class="product-price">€13.95</span><button class="btn-cart">Do
                      košíka</button></div>
             </div>
-         </div>
-         <div class="product-card" onclick="location.href='product.html'">
+         </article>
+         <article class="product-card" onclick="location.href='product.html'">
             <div class="product-img-wrapper"><img class="product-img" src="src/img/whiteTeddyLying.jpg"
                   onerror="this.style.background='#d4d0e0';this.removeAttribute('src')"></div>
             <div class="product-info">
@@ -185,8 +195,8 @@
                <div class="product-footer"><span class="product-price">€15.95</span><button class="btn-cart">Do
                      košíka</button></div>
             </div>
-         </div>
-         <div class="product-card" onclick="location.href='product.html'">
+         </article>
+         <article class="product-card" onclick="location.href='product.html'">
             <div class="product-img-wrapper"><img class="product-img" src="src/img/rabbit.jpg"
                   onerror="this.style.background='#d4d0e0';this.removeAttribute('src')"></img></div>
             <div class="product-info">
@@ -194,8 +204,8 @@
                <div class="product-footer"><span class="product-price">€11.95</span><button class="btn-cart">Do
                      košíka</button></div>
             </div>
-         </div>
-         <div class="product-card" onclick="location.href='product.html'">
+         </article>
+         <article class="product-card" onclick="location.href='product.html'">
             <div class="product-img-wrapper"><img class="product-img" src="src/img/lion.jpg"
                   onerror="this.style.background='#d4d0e0';this.removeAttribute('src')"></img></div>
             <div class="product-info">
@@ -203,8 +213,8 @@
                <div class="product-footer"><span class="product-price">€14.95</span><button class="btn-cart">Do
                      košíka</button></div>
             </div>
-         </div>
-         <div class="product-card" onclick="location.href='product.html'">
+         </article>
+         <article class="product-card" onclick="location.href='product.html'">
             <div class="product-img-wrapper"><img class="product-img" src="src/img/elephant.jpg"
                   onerror="this.style.background='#d4d0e0';this.removeAttribute('src')"></img></div>
             <div class="product-info">
@@ -212,8 +222,8 @@
                <div class="product-footer"><span class="product-price">€16.95</span><button class="btn-cart">Do
                      košíka</button></div>
             </div>
-         </div>
-         <div class="product-card" onclick="location.href='product.html'">
+         </article>
+         <article class="product-card" onclick="location.href='product.html'">
             <div class="product-img-wrapper"><img class="product-img" src="src/img/sickBear.jpg"
                   onerror="this.style.background='#d4d0e0';this.removeAttribute('src')"></img></div>
             <div class="product-info">
@@ -221,8 +231,8 @@
                <div class="product-footer"><span class="product-price">€10.95</span><button class="btn-cart">Do
                      košíka</button></div>
             </div>
-         </div>
-         <div class="product-card" onclick="location.href='product.html'">
+         </article>
+         <article class="product-card" onclick="location.href='product.html'">
             <div class="product-img-wrapper"><img class="product-img" src="src/img/doggie.jpg"
                   onerror="this.style.background='#d4d0e0';this.removeAttribute('src')"></img></div>
             <div class="product-info">
@@ -230,8 +240,8 @@
                <div class="product-footer"><span class="product-price">€10.95</span><button class="btn-cart">Do
                      košíka</button></div>
             </div>
-         </div>
-         <div class="product-card" onclick="location.href='product.html'">
+         </article>
+         <article class="product-card" onclick="location.href='product.html'">
             <div class="product-img-wrapper"><img class="product-img" src="src/img/bearInChair.jpg"
                   onerror="this.style.background='#d4d0e0';this.removeAttribute('src')"></img></div>
             <div class="product-info">
@@ -239,8 +249,8 @@
                <div class="product-footer"><span class="product-price">€24.95</span><button class="btn-cart">Do
                      košíka</button></div>
             </div>
-         </div>
-         <div class="product-card" onclick="location.href='product.html'">
+         </article>
+         <article class="product-card" onclick="location.href='product.html'">
             <div class="product-img-wrapper"><img class="product-img" src="src/img/dog.jpg"
                   onerror="this.style.background='#d4d0e0';this.removeAttribute('src')"></img></div>
             <div class="product-info">
@@ -248,8 +258,8 @@
                <div class="product-footer"><span class="product-price">€14.95</span><button class="btn-cart">Do
                      košíka</button></div>
             </div>
-         </div>
-         <div class="product-card" onclick="location.href='product.html'">
+         </article>
+         <article class="product-card" onclick="location.href='product.html'">
             <div class="product-img-wrapper"><img class="product-img" src="src/img/pinkPinguin.jpg"
                   onerror="this.style.background='#d4d0e0';this.removeAttribute('src')"></img></div>
             <div class="product-info">
@@ -257,8 +267,8 @@
                <div class="product-footer"><span class="product-price">€11.95</span><button class="btn-cart">Do
                      košíka</button></div>
             </div>
-         </div>
-         <div class="product-card" onclick="location.href='product.html'">
+         </article>
+         <article class="product-card" onclick="location.href='product.html'">
             <div class="product-img-wrapper"><img class="product-img" src="src/img/basik1.jpg"
                   onerror="this.style.background='#d4d0e0';this.removeAttribute('src')"></img></div>
             <div class="product-info">
@@ -266,8 +276,8 @@
                <div class="product-footer"><span class="product-price">€21.95</span><button class="btn-cart">Do
                      košíka</button></div>
             </div>
-         </div>
-         <div class="product-card" onclick="location.href='product.html'">
+         </article>
+         <article class="product-card" onclick="location.href='product.html'">
             <div class="product-img-wrapper"><img class="product-img" src="src/img/orangeDino.jpg"
                   onerror="this.style.background='#d4d0e0';this.removeAttribute('src')"></img></div>
             <div class="product-info">
@@ -275,8 +285,8 @@
                <div class="product-footer"><span class="product-price">€18.95</span><button class="btn-cart">Do
                      košíka</button></div>
             </div>
-         </div>
-         <div class="product-card" onclick="location.href='product.html'">
+         </article>
+         <article class="product-card" onclick="location.href='product.html'">
             <div class="product-img-wrapper"><img class="product-img" src="src/img/MedvedTricko3.jpg"
                   onerror="this.style.background='#d4d0e0';this.removeAttribute('src')"></img></div>
             <div class="product-info">
@@ -284,8 +294,8 @@
                <div class="product-footer"><span class="product-price">€19.95</span><button class="btn-cart">Do
                      košíka</button></div>
             </div>
-         </div>
-         <div class="product-card" onclick="location.href='product.html'">
+         </article>
+         <article class="product-card" onclick="location.href='product.html'">
             <div class="product-img-wrapper"><img class="product-img" src="src/img/whiteTiger.jpg"
                   onerror="this.style.background='#d4d0e0';this.removeAttribute('src')"></img></div>
             <div class="product-info">
@@ -293,8 +303,8 @@
                <div class="product-footer"><span class="product-price">€18.95</span><button class="btn-cart">Do
                      košíka</button></div>
             </div>
-         </div>
-         <div class="product-card" onclick="location.href='product.html'">
+         </article>
+         <article class="product-card" onclick="location.href='product.html'">
             <div class="product-img-wrapper"><img class="product-img" src="src/img/snowGiraffes.jpg"
                   onerror="this.style.background='#d4d0e0';this.removeAttribute('src')"></img></div>
             <div class="product-info">
@@ -302,8 +312,8 @@
                <div class="product-footer"><span class="product-price">€16.95</span><button class="btn-cart">Do
                      košíka</button></div>
             </div>
-         </div>
-         <div class="product-card" onclick="location.href='product.html'">
+         </article>
+         <article class="product-card" onclick="location.href='product.html'">
             <div class="product-img-wrapper"><img class="product-img" src="src/img/horse.jpg"
                   onerror="this.style.background='#d4d0e0';this.removeAttribute('src')"></img></div>
             <div class="product-info">
@@ -311,8 +321,8 @@
                <div class="product-footer"><span class="product-price">€14.95</span><button class="btn-cart">Do
                      košíka</button></div>
             </div>
-         </div>
-         <div class="product-card" onclick="location.href='product.html'">
+         </article>
+         <article class="product-card" onclick="location.href='product.html'">
             <div class="product-img-wrapper"><img class="product-img" style="background:#d4d0e0"
                   src="src/img/whiteTeddy.jpg"></img></div>
             <div class="product-info">
@@ -320,8 +330,8 @@
                <div class="product-footer"><span class="product-price">€9.95</span><button class="btn-cart">Do
                      košíka</button></div>
             </div>
-         </div>
-         <div class="product-card" onclick="location.href='product.html'">
+         </article>
+         <article class="product-card" onclick="location.href='product.html'">
             <div class="product-img-wrapper"><img class="product-img" src="src/img/unicorn.jpg"
                   onerror="this.style.background='#d4d0e0';this.removeAttribute('src')"></img></div>
             <div class="product-info">
@@ -329,10 +339,10 @@
                <div class="product-footer"><span class="product-price">€17.95</span><button class="btn-cart">Do
                      košíka</button></div>
             </div>
-         </div>
+         </article>
 
 
-      </div>
+      </section>
       <div class="pagination" id="pagination">
          <button class="page-btn active">1</button>
          <button class="page-btn">2</button>
