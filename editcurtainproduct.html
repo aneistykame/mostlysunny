@@ -285,9 +285,19 @@
             <div class="form-group">
                <label>Fotografia produktu</label>
                <div class="img-upload" onclick="document.getElementById('imgFile').click()">
-                  <input type="file" id="imgFile" accept="image/*" onchange="showFileName(this)">
+                  <input type="file" id="imgFile1" accept="image/*" onchange="showFileName(this)">
                   <div class="img-upload-icon">🖼️</div>
-                  <div id="fileName">white_teddy.jpg</div>
+                  <div id="fileName">white_teddy_left.jpg</div>
+               </div>
+               <div class="img-upload" onclick="document.getElementById('imgFile').click()">
+                  <input type="file" id="imgFile2" accept="image/*" onchange="showFileName(this)">
+                  <div class="img-upload-icon">🖼️</div>
+                  <div id="fileName">white_teddy_right.jpg</div>
+               </div>
+               <div class="img-upload" onclick="document.getElementById('imgFile').click()">
+                  <input type="file" id="imgFile3" accept="image/*" onchange="showFileName(this)">
+                  <div class="img-upload-icon">🖼️</div>
+                  <div id="fileName">white_teddy_top.jpg</div>
                </div>
             </div>
 
@@ -325,8 +335,10 @@
          const name = document.getElementById('name').value.trim();
          const price = document.getElementById('price').value;
          const category = document.getElementById('category').value;
-         if (!name || !price || !category) {
-            alert('Vyplňte aspoň názov, kategóriu a cenu.');
+         const image1 = document.getElementById('imgFile1').value;
+         const image2 = document.getElementById('imgFile2').value;
+         if (!name || !price || !category || !image1 || !image2) {
+            alert('Vyplňte aspoň názov, kategóriu, cenu a dva obrázky.');
             return;
          }
          const toast = document.getElementById('toast');
