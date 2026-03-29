@@ -32,30 +32,27 @@
       </div>
    </header>
    <div class="sidebar-overlay" id="sidebarOverlay"></div>
-
-   <nav class="sidebar">
-      <div class="sidebar-title">Kategórie</div>
-      <ul>
-         <li><a href="category.html">Plyšové hračky <span class="arrow">›</span></a></li>
-         <li><a href="category.html">Bábiky <span class="arrow">›</span></a></li>
-         <li><a href="category.html">Pre najmenších <span class="arrow">›</span></a></li>
-         <li><a href="category.html">Elektronika <span class="arrow">›</span></a></li>
-         <li><a href="category.html">Puzzle <span class="arrow">›</span></a></li>
-         <li><a href="category.html">Stavebnice <span class="arrow">›</span></a></li>
-         <li><a href="category.html">Spoločenské hry <span class="arrow">›</span></a></li>
-         <li><a href="category.html">Dopravné prostriedky <span class="arrow">›</span></a></li>
-         <li><a href="category.html">Roboti <span class="arrow">›</span></a></li>
-         <li><a href="category.html">Zvieratká <span class="arrow">›</span></a></li>
-         <li><a href="category.html">Interaktívne zvieratá <span class="arrow">›</span></a></li>
-         <li><a href="category.html">Hudobné nástroje <span class="arrow">›</span></a></li>
-         <li><a href="category.html">Do záhrady <span class="arrow">›</span></a></li>
-         <li><a href="category.html">Do vody <span class="arrow">›</span></a></li>
-         <li><a href="category.html">Vozidlá <span class="arrow">›</span></a></li>
-      </ul>
-   </nav>
-
    <div class="page-wrapper">
-      <div class="sidebar-spacer"></div>
+      <nav class="sidebar">
+         <div class="sidebar-title">Kategórie</div>
+         <ul>
+            <li><a href="category.html">Plyšové hračky <span class="arrow">›</span></a></li>
+            <li><a href="category.html">Bábiky <span class="arrow">›</span></a></li>
+            <li><a href="category.html">Pre najmenších <span class="arrow">›</span></a></li>
+            <li><a href="category.html">Elektronika <span class="arrow">›</span></a></li>
+            <li><a href="category.html">Puzzle <span class="arrow">›</span></a></li>
+            <li><a href="category.html">Stavebnice <span class="arrow">›</span></a></li>
+            <li><a href="category.html">Spoločenské hry <span class="arrow">›</span></a></li>
+            <li><a href="category.html">Dopravné prostriedky <span class="arrow">›</span></a></li>
+            <li><a href="category.html">Roboti <span class="arrow">›</span></a></li>
+            <li><a href="category.html">Zvieratká <span class="arrow">›</span></a></li>
+            <li><a href="category.html">Interaktívne zvieratá <span class="arrow">›</span></a></li>
+            <li><a href="category.html">Hudobné nástroje <span class="arrow">›</span></a></li>
+            <li><a href="category.html">Do záhrady <span class="arrow">›</span></a></li>
+            <li><a href="category.html">Do vody <span class="arrow">›</span></a></li>
+            <li><a href="category.html">Vozidlá <span class="arrow">›</span></a></li>
+         </ul>
+      </nav>
 
       <div class="product-page">
 
@@ -175,6 +172,9 @@
       burgerBtn.addEventListener('click', toggleSidebar);
       overlay.addEventListener('click', toggleSidebar);
       document.addEventListener('keydown', e => { if (e.key === 'Escape') document.body.classList.remove('sidebar-open'); });
+      window.addEventListener('resize', () => {
+         if (window.innerWidth > 1100) document.body.classList.remove('sidebar-open');
+      });
 
       /*IMAGE SWITCH*/
       const mainImg = document.getElementById('mainImg');

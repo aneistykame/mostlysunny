@@ -347,7 +347,7 @@
    color: var(--text-light);
 }
 
-@media (max-width: 860px) {
+@media (max-width: 670px) {
    .product-main {
       grid-template-columns: 1fr;
       grid-template-rows: auto;
