@@ -8,20 +8,12 @@
     <style>
         :root {
             --purple: #8584B3;
-            --purple-light: #b8b7d8;
             --purple-dark: #6b6a9a;
-            --pink: #d4a0b5;
-            --pink-light: #e8c5d5;
             --bg: #e8e8f5;
             --card-bg: #f5f0f5;
-            --sidebar-bg: #d8d8ee;
-            --banner-1: #c8a0c8;
-            --banner-2: #d4a8c0;
-            --banner-3: #c0a0c8;
-            --banner-4: #d8b8d0;
-            --btn-bg: #b0b0c8;
             --text: #3a3a5c;
             --text-light: #7070a0;
+            --sidebar-bg: #d8d8ee;
         }
 
         * {
@@ -39,7 +31,6 @@
             min-height: 100vh;
         }
 
-        /* HEADER */
         header {
             background: var(--purple);
             padding: 12px 28px;
@@ -53,18 +44,14 @@
         }
 
         .logo {
-            font-family: 'Trebuchet MS', sans-serif;
             font-size: 20px;
             color: #fff;
-            white-space: nowrap;
-            text-decoration: none;
         }
 
         .search-box {
             flex: 1;
             max-width: 420px;
             margin: 0 auto;
-            position: relative;
         }
 
         .search-box input {
@@ -73,15 +60,8 @@
             border-radius: 20px;
             border: none;
             background: #f0eef8;
-            font-family: 'Nunito', sans-serif;
             font-size: 14px;
             color: var(--text);
-            outline: none;
-            transition: box-shadow 0.2s;
-        }
-
-        .search-box input:focus {
-            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.35);
         }
 
         .header-right {
@@ -98,14 +78,12 @@
             cursor: pointer;
             padding: 4px 6px;
             border-radius: 8px;
-            transition: background 0.2s;
         }
 
         .header-right button:hover {
             background: rgba(255, 255, 255, 0.18);
         }
 
-        /* MAIN */
         .main {
             flex: 1;
             display: flex;
@@ -114,84 +92,84 @@
             padding: 40px;
         }
 
-        /* CART WINDOW */
+        /* CART CONTAINER - rovnaké ako Doprava */
         .cart-container {
             background: white;
             width: 100%;
             max-width: 1100px;
-            min-height: 450px;
             padding: 40px;
             border-radius: 12px;
             box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
-            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
         }
 
-        /* CHECKOUT STEPS */
         .checkout-steps {
             font-size: 14px;
             color: var(--text-light);
             margin-bottom: 25px;
         }
 
-        /* TABLE */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        th,
-        td {
-            padding: 14px;
-            border-bottom: 1px solid var(--text-light);
-        }
-
-        .product-cell {
-            width: 100%;
-        }
-
-        .product-info {
+        .cart-item {
             display: flex;
             align-items: center;
-            gap: 15px;
-            flex-wrap: wrap;
+            background: var(--sidebar-bg);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
         }
 
         .product-img {
-            width: 60px;
+            width: 70px;
+                height: 70px;
+                object-fit: cover;
+                border-radius: 8px;
         }
 
-        .product-text {
-            display: flex;
-            flex-direction: column;
-            color: var(--text)
+        .item-info {
+            flex: 1;
+            margin-left: 15px;
         }
 
         .product-name {
             font-weight: bold;
-            margin-bottom: 5px;
-            color: var(--text)
+            margin-bottom: 8px;
         }
 
-        .product-quantity input {
+        .quantity input {
             width: 60px;
-            padding: 4px;
+            padding: 5px;
             margin-left: 5px;
-            color: var(--text)
+            border-radius: 6px;
+            border: 1px solid var(--text-light);
         }
 
         .price {
-            text-align: right;
             font-weight: bold;
-            width: 120px;
-            white-space: nowrap;
+            margin-left: 15px;
         }
 
-        /* BUTTON */
+        .remove-btn {
+            background: none;
+            border: none;
+            color: var(--text);
+            font-weight: bold;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+        .total-container {
+            text-align: right;
+            font-weight: bold;
+            margin-top: 10px;
+            font-size: 16px;
+        }
+
         .checkout-btn {
-            position: absolute;
-            bottom: 30px;
-            right: 40px;
-            padding: 12px 22px;
+            margin-top: 20px;
+            width: 100%;
+            padding: 12px;
             border: none;
             background: var(--purple);
             color: white;
@@ -204,67 +182,29 @@
             background: var(--purple-dark);
         }
 
-        /* FOOTER */
+        .empty-cart {
+            text-align: center;
+            font-size: 18px;
+            color: var(--text-light);
+            margin: 50px 0;
+        }
+
         footer {
             background: #6b6a9a;
             color: white;
             text-align: center;
             padding: 24px;
             font-size: 13px;
-            letter-spacing: 0.5px;
         }
 
-        /* TABLET */
-        @media (max-width:900px) {
-            .main {
-                padding: 20px;
-            }
-
-            .cart-container {
-                padding: 25px;
-            }
-
-            .product-info {
-                flex-direction: row;
-            }
-        }
-
-        /* MOBILE */
-        @media (max-width:600px) {
-            header {
-                padding: 10px 14px;
-                flex-wrap: wrap;
-            }
-
-            .search-box {
-                order: 3;
-                max-width: 100%;
-                flex: 1 1 100%;
-            }
-
-            .header-right {
-                margin-left: 0;
-            }
-
-            .product-info {
+        @media (max-width: 600px) {
+            .cart-item {
                 flex-direction: column;
                 align-items: flex-start;
             }
 
             .price {
-                width: 100%;
-                text-align: left;
                 margin-top: 5px;
-            }
-
-            .checkout-btn {
-                position: static;
-                margin-top: 25px;
-                width: 100%;
-            }
-
-            .cart-container {
-                padding: 20px;
             }
         }
     </style>
@@ -278,31 +218,80 @@
         </div>
         <div class="header-right">
             <button>👤</button>
-            <button>🛒</button>
-            <button>✕</button>
+            <button onclick="location.href='cart.html'">🛒</button>
+            <button onclick="location.href='index.html'">✕</button>
         </div>
     </header>
+
     <div class="main">
         <div class="cart-container">
             <div class="checkout-steps"><b>Košík</b> → Doprava → Platba → Údaje</div>
-            <table>
-                <tr>
-                    <td class="product-cell">
-                        <div class="product-info">
-                            <img src="teddy.png" class="product-img">
-                            <div class="product-text">
-                                <div class="product-name">Plyšový medveď</div>
-                                <div class="product-quantity">Množstvo:<input type="number" value="1" min="1"></div>
-                            </div>
+
+            <div id="cart-items">
+                <div class="cart-item" data-price="15.99">
+                    <img src="src/img/teddy.png" class="product-img">
+                    <div class="item-info">
+                        <div class="product-name">Plyšový medveď</div>
+                        <div class="quantity">Množstvo:
+                            <input type="number" value="1" min="1">
                         </div>
-                    </td>
-                    <td class="price">€15.99</td>
-                </tr>
-            </table>
-            <button class="checkout-btn" onclick="location.href='cart2.html'">Pokračovať k platbe</button>
+                    </div>
+                    <div class="price">€15.99</div>
+                    <button class="remove-btn">✕</button>
+                </div>
+            </div>
+
+            <div class="total-container">Spolu: €15.99</div>
+            <div class="empty-cart" style="display:none;">Your cart is empty</div>
+
+            <button class="checkout-btn" onclick="location.href='cart2.html'">Pokračovať k doprave</button>
         </div>
     </div>
-    <footer>© 2026 My Website</footer>
+
+    <footer>© 2026 Mostly Sunny Toys</footer>
+
+    <script>
+        const totalContainer = document.querySelector('.total-container');
+        const cartItems = document.getElementById('cart-items');
+        const emptyCart = document.querySelector('.empty-cart');
+
+        function updateTotal() {
+            let total = 0;
+            const items = cartItems.querySelectorAll('.cart-item');
+            items.forEach(item => {
+                const price = parseFloat(item.dataset.price);
+                const qty = parseInt(item.querySelector('input').value);
+                total += price * qty;
+            });
+            totalContainer.textContent = `Spolu: €${total.toFixed(2)}`;
+
+            if (items.length === 0) {
+                emptyCart.style.display = 'block';
+                totalContainer.style.display = 'none';
+                document.querySelector('.checkout-btn').style.display = 'none';
+            } else {
+                emptyCart.style.display = 'none';
+                totalContainer.style.display = 'block';
+                document.querySelector('.checkout-btn').style.display = 'block';
+            }
+        }
+
+        function addEventListeners() {
+            document.querySelectorAll('.remove-btn').forEach(btn => {
+                btn.addEventListener('click', e => {
+                    e.target.closest('.cart-item').remove();
+                    updateTotal();
+                });
+            });
+
+            document.querySelectorAll('.cart-item input').forEach(input => {
+                input.addEventListener('change', updateTotal);
+            });
+        }
+
+        addEventListeners();
+        updateTotal();
+    </script>
 </body>
 
 </html>
