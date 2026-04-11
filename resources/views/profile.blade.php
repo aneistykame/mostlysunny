@@ -170,7 +170,7 @@
 <body>
 
    <header>
-      <div class="logo-text" onclick="location.href='index.html'">
+      <div class="logo-text" onclick="location.href='{{ url('/') }}'">
          Mostly Sunny Toys
       </div>
       <div class="search-box">
@@ -178,8 +178,8 @@
          <input type="text" placeholder="Hľadať produkty...">
       </div>
       <div class="header-icons">
-         <button title="Účet" onclick="location.href='login.html'">👤 Účet</button>
-         <button title="Košík" onclick="location.href='cart.html'">🛒 Košík</button>
+         <button title="Účet" onclick="location.href='{{ route('dashboard') }}'">👤 {{ Auth::user()->name }}</button>
+         <button title="Košík" onclick="location.href='{{ url('/cart') }}'">🛒 Košík</button>
       </div>
    </header>
 
@@ -191,38 +191,37 @@
 
             <div class="form-group">
                <label>Meno</label>
-               <div class="static-field">Ján</div>
-            </div>
-
-            <div class="form-group">
-               <label>Priezvisko</label>
-               <div class="static-field">Novák</div>
+               <div class="static-field">{{ Auth::user()->name }}</div>
             </div>
 
             <div class="form-group">
                <label>Email</label>
-               <div class="static-field">jan@example.com</div>
+               <div class="static-field">{{ Auth::user()->email }}</div>
             </div>
 
             <div class="form-group">
-               <label>Telefón</label>
-               <div class="static-field">+421 900 000 000</div>
+               <label>Účet vytvorený</label>
+               <div class="static-field">{{ Auth::user()->created_at->format('d.m.Y') }}</div>
             </div>
          </div>
 
-         <!-- LOGOUT -->
-         <button class="btn logout-btn" onclick="location.href='index.html'">Odhlásiť sa</button>
+         <form method="POST" action="{{ route('logout') }}">
+            @csrf
+            <button type="submit" class="btn logout-btn">
+               Odhlásiť sa
+            </button>
+         </form>
 
-         <!-- ORDERS -->
          <div class="section" style="margin-top:30px;">
             <h3>História objednávok</h3>
 
-            <div class="order">
-               <img src="src/img/sickBear.jpg" alt="produkt">
+            <p style="color: var(--text-light); font-size: 14px;">Momentálne nemáte žiadne reálne objednávky v databáze.</p>
 
+            <div class="order">
+               <img src="{{ asset('src/img/sickBear.jpg') }}" alt="produkt">
                <div class="order-content">
                   <div class="order-top">
-                     <span>Objednávka #2026001</span>
+                     <span>Ukážková objednávka #2026001</span>
                      <span>€20.98</span>
                   </div>
                   <div class="order-items">
@@ -230,21 +229,6 @@
                   </div>
                </div>
             </div>
-
-            <div class="order">
-               <img src="src/img/doggie.jpg" alt="produkt">
-
-               <div class="order-content">
-                  <div class="order-top">
-                     <span>Objednávka #2025998</span>
-                     <span>€12.50</span>
-                  </div>
-                  <div class="order-items">
-                     Hračka pes ×1
-                  </div>
-               </div>
-            </div>
-
          </div>
 
       </div>

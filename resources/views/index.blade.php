@@ -26,8 +26,17 @@
          <input type="text" placeholder="Hľadať produkty...">
       </div>
       <div class="header-icons">
-         <button title="Účet" onclick="location.href='login.html'">👤 Účet</button>
-         <button title="Košík" onclick="location.href='cart.html'">🛒 Košík</button>
+         @auth
+            <button title="Môj profil" onclick="location.href='{{ route('dashboard') }}'">
+                👤 {{ Auth::user()->name }}
+            </button>
+         @else
+            <button title="Prihlásiť sa" onclick="location.href='{{ route('login') }}'">
+                👤 Prihlásiť sa
+            </button>
+         @endauth
+
+         <button title="Košík" onclick="location.href='{{ url('cart') }}'">🛒 Košík</button>
       </div>
    </header>
    <div class="sidebar-overlay" id="sidebarOverlay"></div>
@@ -35,21 +44,21 @@
       <nav class="sidebar">
          <div class="sidebar-title">Kategórie</div>
          <ul>
-            <li><a href="category.html">Plyšové hračky <span class="arrow">›</span></a></li>
-            <li><a href="category.html">Bábiky <span class="arrow">›</span></a></li>
-            <li><a href="category.html">Pre najmenších <span class="arrow">›</span></a></li>
-            <li><a href="category.html">Elektronika <span class="arrow">›</span></a></li>
-            <li><a href="category.html">Puzzle <span class="arrow">›</span></a></li>
-            <li><a href="category.html">Stavebnice <span class="arrow">›</span></a></li>
-            <li><a href="category.html">Spoločenské hry <span class="arrow">›</span></a></li>
-            <li><a href="category.html">Dopravné prostriedky <span class="arrow">›</span></a></li>
-            <li><a href="category.html">Roboti <span class="arrow">›</span></a></li>
-            <li><a href="category.html">Zvieratká <span class="arrow">›</span></a></li>
-            <li><a href="category.html">Interaktívne zvieratá <span class="arrow">›</span></a></li>
-            <li><a href="category.html">Hudobné nástroje <span class="arrow">›</span></a></li>
-            <li><a href="category.html">Do záhrady <span class="arrow">›</span></a></li>
-            <li><a href="category.html">Do vody <span class="arrow">›</span></a></li>
-            <li><a href="category.html">Vozidlá <span class="arrow">›</span></a></li>
+            <li><a href="category">Plyšové hračky <span class="arrow">›</span></a></li>
+            <li><a href="category">Bábiky <span class="arrow">›</span></a></li>
+            <li><a href="category">Pre najmenších <span class="arrow">›</span></a></li>
+            <li><a href="category">Elektronika <span class="arrow">›</span></a></li>
+            <li><a href="category">Puzzle <span class="arrow">›</span></a></li>
+            <li><a href="category">Stavebnice <span class="arrow">›</span></a></li>
+            <li><a href="category">Spoločenské hry <span class="arrow">›</span></a></li>
+            <li><a href="category">Dopravné prostriedky <span class="arrow">›</span></a></li>
+            <li><a href="category">Roboti <span class="arrow">›</span></a></li>
+            <li><a href="category">Zvieratká <span class="arrow">›</span></a></li>
+            <li><a href="category">Interaktívne zvieratá <span class="arrow">›</span></a></li>
+            <li><a href="category">Hudobné nástroje <span class="arrow">›</span></a></li>
+            <li><a href="category">Do záhrady <span class="arrow">›</span></a></li>
+            <li><a href="category">Do vody <span class="arrow">›</span></a></li>
+            <li><a href="category">Vozidlá <span class="arrow">›</span></a></li>
          </ul>
       </nav>
       <main class="main-content">
@@ -60,7 +69,7 @@
                   <div class="large-intro">☀ Jarná kolekcia 2026</div>
                   <div class="large-title">Zľava na všetko<br>s kódom <em>"APRIL24"</em></div>
                </div>
-               <button class="large-go" onclick="location.href='category.html'">Nakupovať →</button>
+               <button class="large-go" onclick="location.href='category'">Nakupovať →</button>
             </div>
          </div>
          <div class="midi-banners">
@@ -80,11 +89,11 @@
 
          <div class="section-hd">
             <h1 class="section-hd-title">Odporúčané produkty</h1>
-            <a href="category.html" class="section-hd-link">Zobraziť všetky →</a>
+            <a href="category" class="section-hd-link">Zobraziť všetky →</a>
          </div>
 
          <section class="product-grid">
-            <article class="product-card" onclick="location.href='product.html'">
+            <article class="product-card" onclick="location.href='product'">
                <div class="product-img-wrapper"><img class="product-img" src="src/img/sheep.jpg"></div>
                <div class="product-info">
                   <div class="product-name">Plyšová hračka ovečka</div>
@@ -95,7 +104,7 @@
                </div>
 
             </article>
-            <article class="product-card" onclick="location.href='product.html'">
+            <article class="product-card" onclick="location.href='product'">
                <div class="product-img-wrapper">
                   <img class="product-img" src="src/img/teddyAdvent.jpg" onerror="this.style.display='none'">
                </div>
@@ -108,7 +117,7 @@
                   </div>
                </div>
             </article>
-            <article class="product-card" onclick="location.href='product.html'">
+            <article class="product-card" onclick="location.href='product'">
                <div class="product-img-wrapper">
                   <img class="product-img" src="src/img/whiteTeddyLying.jpg" onerror="this.style.display='none'">
                </div>
@@ -121,7 +130,7 @@
                   </div>
                </div>
             </article>
-            <article class="product-card" onclick="location.href='product.html'">
+            <article class="product-card" onclick="location.href='product'">
                <div class="product-img-wrapper">
                   <img class="product-img" src="src/img/basik1.jpg"
                      onerror="this.style.background='var(--purple-faint)';this.removeAttribute('src')">
@@ -135,7 +144,7 @@
                   </div>
                </div>
             </article>
-            <article class="product-card" onclick="location.href='product.html'">
+            <article class="product-card" onclick="location.href='product'">
                <div class="product-img-wrapper">
                   <img class="product-img" src="src/img/MedvedTricko3.jpg"
                      onerror="this.style.background='var(--purple-faint)';this.removeAttribute('src')">
@@ -152,7 +161,7 @@
          </section>
 
          <section class="promo-row">
-            <article class="promo-box" onclick="location.href='category.html'">
+            <article class="promo-box" onclick="location.href='category'">
                <div class="promo-box-bg"></div>
                <div class="promo-box-overlay"></div>
                <div class="promo-box-body">

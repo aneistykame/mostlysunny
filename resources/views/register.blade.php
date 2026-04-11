@@ -191,30 +191,59 @@
     </style>
 </head>
 <body>
-    <header>Mostly Sunny Toys<button class="close-btn" onclick="location.href='index.html'">✕</button></header>
+    <header>
+        Mostly Sunny Toys
+        <button class="close-btn" onclick="location.href='{{ url('/') }}'">✕</button>
+    </header>
+
     <div class="main-container">
         <div class="side">
-            <img src="src/img/sun.png">
+            <img src="{{ asset('src/img/sun.png') }}">
         </div>
+
         <div class="register-box">
             <h2>Register</h2>
-            <form>
-                <input type="text" placeholder="Meno" required>
-                <input type="email" placeholder="Email" required>
-                <input type="password" placeholder="Heslo" required>
-                <input type="password" placeholder="Potvrdiť heslo" required>
-                <button class="register-btn" onclick="location.href='login.html'">Vytvoriť účet</button>
+
+            @if ($errors->any())
+                <div style="color: #e3342f; margin-bottom: 15px; font-size: 14px;">
+                    <ul style="list-style: none;">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
+            <form method="POST" action="{{ route('register') }}">
+                @csrf
+
+                <input type="text" name="name" placeholder="Meno" value="{{ old('name') }}" required autofocus>
+
+                <input type="email" name="email" placeholder="Email" value="{{ old('email') }}" required>
+
+                <input type="password" name="password" placeholder="Heslo" required autocomplete="new-password">
+
+                <input type="password" name="password_confirmation" placeholder="Potvrdiť heslo" required>
+
+                <button type="submit" class="register-btn">Vytvoriť účet</button>
             </form>
+
             <div class="divider">alebo</div>
+
             <div class="social-login">
-                <button class="social-btn" onclick="location.href='index.html'">Registrovať cez Google</button>
+                <button type="button" class="social-btn">Registrovať cez Google</button>
             </div>
-            <div class="login">Máte už účet? <a href="login.html">Prihláste sa</a></div>
+
+            <div class="login">
+                Máte už účet? <a href="{{ route('login') }}">Prihláste sa</a>
+            </div>
         </div>
+
         <div class="side">
-            <img src="src/img/sun.png">
+            <img src="{{ asset('src/img/sun.png') }}">
         </div>
     </div>
+
     <footer>© 2026 Mostly Sunny Toys</footer>
 </body>
 </html>
