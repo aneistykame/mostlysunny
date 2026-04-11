@@ -7,7 +7,7 @@
    <title>Mostly Sunny Toys</title>
    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&display=swap"
       rel="stylesheet">
-   <link href="mainstyle.css" rel="stylesheet">
+   <link href="{{ asset('mainstyle.css') }}" rel="stylesheet">
 </head>
 
 <body>
@@ -44,21 +44,21 @@
       <nav class="sidebar">
          <div class="sidebar-title">Kategórie</div>
          <ul>
-            <li><a href="category">Plyšové hračky <span class="arrow">›</span></a></li>
-            <li><a href="category">Bábiky <span class="arrow">›</span></a></li>
-            <li><a href="category">Pre najmenších <span class="arrow">›</span></a></li>
-            <li><a href="category">Elektronika <span class="arrow">›</span></a></li>
-            <li><a href="category">Puzzle <span class="arrow">›</span></a></li>
-            <li><a href="category">Stavebnice <span class="arrow">›</span></a></li>
-            <li><a href="category">Spoločenské hry <span class="arrow">›</span></a></li>
-            <li><a href="category">Dopravné prostriedky <span class="arrow">›</span></a></li>
-            <li><a href="category">Roboti <span class="arrow">›</span></a></li>
-            <li><a href="category">Zvieratká <span class="arrow">›</span></a></li>
-            <li><a href="category">Interaktívne zvieratá <span class="arrow">›</span></a></li>
-            <li><a href="category">Hudobné nástroje <span class="arrow">›</span></a></li>
-            <li><a href="category">Do záhrady <span class="arrow">›</span></a></li>
-            <li><a href="category">Do vody <span class="arrow">›</span></a></li>
-            <li><a href="category">Vozidlá <span class="arrow">›</span></a></li>
+            <li><a href="{{ route('category', 'Plyšové hračky') }}">Plyšové hračky <span class="arrow">›</span></a></li>
+            <li><a href="{{ route('category', 'Bábiky') }}">Bábiky <span class="arrow">›</span></a></li>
+            <li><a href="{{ route('category', 'Pre najmenších') }}">Pre najmenších <span class="arrow">›</span></a></li>
+            <li><a href="{{ route('category', 'Elektronika') }}">Elektronika <span class="arrow">›</span></a></li>
+            <li><a href="{{ route('category', 'Puzzle') }}">Puzzle <span class="arrow">›</span></a></li>
+            <li><a href="{{ route('category', 'Stavebnice') }}">Stavebnice <span class="arrow">›</span></a></li>
+            <li><a href="{{ route('category', 'Spoločenské hry') }}">Spoločenské hry <span class="arrow">›</span></a></li>
+            <li><a href="{{ route('category', 'Dopravné prostriedky') }}">Dopravné prostriedky <span class="arrow">›</span></a></li>
+            <li><a href="{{ route('category', 'Roboti') }}">Roboti <span class="arrow">›</span></a></li>
+            <li><a href="{{ route('category', 'Zvieratká') }}">Zvieratká <span class="arrow">›</span></a></li>
+            <li><a href="{{ route('category', 'Interaktívne zvieratá') }}">Interaktívne zvieratá <span class="arrow">›</span></a></li>
+            <li><a href="{{ route('category', 'Hudobné nástroje') }}">Hudobné nástroje <span class="arrow">›</span></a></li>
+            <li><a href="{{ route('category', 'Do záhrady') }}">Do záhrady <span class="arrow">›</span></a></li>
+            <li><a href="{{ route('category', 'Do vody') }}">Do vody <span class="arrow">›</span></a></li>
+            <li><a href="{{ route('category', 'Vozidlá') }}">Vozidlá <span class="arrow">›</span></a></li>
          </ul>
       </nav>
       <main class="main-content">
@@ -93,71 +93,18 @@
          </div>
 
          <section class="product-grid">
-            <article class="product-card" onclick="location.href='product'">
-               <div class="product-img-wrapper"><img class="product-img" src="src/img/sheep.jpg"></div>
-               <div class="product-info">
-                  <div class="product-name">Plyšová hračka ovečka</div>
-                  <div class="product-footer">
-                     <span class="product-price">€12.95</span>
-                     <button class="btn-cart">Do košíka</button>
+            @foreach($products->take(5) as $product)
+               <article class="product-card" onclick="location.href='product'">
+                  <div class="product-img-wrapper"><img class="product-img" src="{{ asset($product->mainImage->image ?? 'src/img/placeholder.jpg') }}" alt="{{ $product->name }}"></div>
+                  <div class="product-info">
+                     <h3 class="product-name">{{ $product->name }}</h3>
+                     <div class="product-footer">
+                        <p class="product-price">{{ $product->price }} €</p>
+                        <button class="btn-cart">Do košíka</button>
+                     </div>
                   </div>
-               </div>
-
-            </article>
-            <article class="product-card" onclick="location.href='product'">
-               <div class="product-img-wrapper">
-                  <img class="product-img" src="src/img/teddyAdvent.jpg" onerror="this.style.display='none'">
-               </div>
-               <div class="product-info">
-                  <div class="product-name">Cestujúci plyšový medvedík</div>
-                  <div class="product-footer">
-                     <span class="product-price">€15.95</span>
-                     <button class="btn-cart">Do
-                        košíka</button>
-                  </div>
-               </div>
-            </article>
-            <article class="product-card" onclick="location.href='product'">
-               <div class="product-img-wrapper">
-                  <img class="product-img" src="src/img/whiteTeddyLying.jpg" onerror="this.style.display='none'">
-               </div>
-               <div class="product-info">
-                  <div class="product-name">Biely plyšový medvedík</div>
-                  <div class="product-footer">
-                     <span class="product-price">€15.95</span>
-                     <button class="btn-cart">Do
-                        košíka</button>
-                  </div>
-               </div>
-            </article>
-            <article class="product-card" onclick="location.href='product'">
-               <div class="product-img-wrapper">
-                  <img class="product-img" src="src/img/basik1.jpg"
-                     onerror="this.style.background='var(--purple-faint)';this.removeAttribute('src')">
-               </div>
-               <div class="product-info">
-                  <div class="product-name">Plyšová mačka</div>
-                  <div class="product-footer">
-                     <span class="product-price">€21.95</span>
-                     <button class="btn-cart">Do
-                        košíka</button>
-                  </div>
-               </div>
-            </article>
-            <article class="product-card" onclick="location.href='product'">
-               <div class="product-img-wrapper">
-                  <img class="product-img" src="src/img/MedvedTricko3.jpg"
-                     onerror="this.style.background='var(--purple-faint)';this.removeAttribute('src')">
-               </div>
-               <div class="product-info">
-                  <div class="product-name">Plyšový medvedík s tričkom</div>
-                  <div class="product-footer">
-                     <span class="product-price">€19.95</span>
-                     <button class="btn-cart">Do
-                        košíka</button>
-                  </div>
-               </div>
-            </article>
+               </article>
+            @endforeach
          </section>
 
          <section class="promo-row">

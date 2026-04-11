@@ -15,9 +15,10 @@ use App\Http\Controllers\Auth\RegisteredUserController;
 */
 
 // Hlavná stránka
-Route::get('/', function () {
-    return view('index');
-})->name('index');
+use App\Http\Controllers\ProductController;
+
+Route::get('/', [ProductController::class, 'index'])->name('index');
+Route::get('/product/{id}', [ProductController::class, 'show'])->name('product.show');
 
 // Stránka Login
 Route::get('/login', function () {
@@ -34,6 +35,8 @@ Route::get('/profile', function () {
     return view('profile');
 })->middleware(['auth'])->name('dashboard');
 
+// category
+Route::get('/category/{category}', [ProductController::class, 'category'])->name('category');
 
 /*
 |--------------------------------------------------------------------------

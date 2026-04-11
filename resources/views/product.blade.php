@@ -4,11 +4,11 @@
 <head>
    <meta charset="UTF-8">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>Plyšová sova – Mostly Sunny Toys</title>
+   <title>{{ $product->name }} - Mostly Sunny Toys</title>
    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&display=swap"
       rel="stylesheet">
-   <link href="mainstyle.css" rel="stylesheet">
-   <link href="productstyle.css" rel="stylesheet">
+   <link href="{{ asset('mainstyle.css') }}" rel="stylesheet">
+   <link href="{{ asset('productstyle.css') }}" rel="stylesheet">
 </head>
 
 <body>
@@ -36,32 +36,32 @@
       <nav class="sidebar">
          <div class="sidebar-title">Kategórie</div>
          <ul>
-            <li><a href="category.html">Plyšové hračky <span class="arrow">›</span></a></li>
-            <li><a href="category.html">Bábiky <span class="arrow">›</span></a></li>
-            <li><a href="category.html">Pre najmenších <span class="arrow">›</span></a></li>
-            <li><a href="category.html">Elektronika <span class="arrow">›</span></a></li>
-            <li><a href="category.html">Puzzle <span class="arrow">›</span></a></li>
-            <li><a href="category.html">Stavebnice <span class="arrow">›</span></a></li>
-            <li><a href="category.html">Spoločenské hry <span class="arrow">›</span></a></li>
-            <li><a href="category.html">Dopravné prostriedky <span class="arrow">›</span></a></li>
-            <li><a href="category.html">Roboti <span class="arrow">›</span></a></li>
-            <li><a href="category.html">Zvieratká <span class="arrow">›</span></a></li>
-            <li><a href="category.html">Interaktívne zvieratá <span class="arrow">›</span></a></li>
-            <li><a href="category.html">Hudobné nástroje <span class="arrow">›</span></a></li>
-            <li><a href="category.html">Do záhrady <span class="arrow">›</span></a></li>
-            <li><a href="category.html">Do vody <span class="arrow">›</span></a></li>
-            <li><a href="category.html">Vozidlá <span class="arrow">›</span></a></li>
+            <li><a href="{{ route('category', 'Plyšové hračky') }}">Plyšové hračky <span class="arrow">›</span></a></li>
+            <li><a href="{{ route('category', 'Bábiky') }}">Bábiky <span class="arrow">›</span></a></li>
+            <li><a href="{{ route('category', 'Pre najmenších') }}">Pre najmenších <span class="arrow">›</span></a></li>
+            <li><a href="{{ route('category', 'Elektronika') }}">Elektronika <span class="arrow">›</span></a></li>
+            <li><a href="{{ route('category', 'Puzzle') }}">Puzzle <span class="arrow">›</span></a></li>
+            <li><a href="{{ route('category', 'Stavebnice') }}">Stavebnice <span class="arrow">›</span></a></li>
+            <li><a href="{{ route('category', 'Spoločenské hry') }}">Spoločenské hry <span class="arrow">›</span></a></li>
+            <li><a href="{{ route('category', 'Dopravné prostriedky') }}">Dopravné prostriedky <span class="arrow">›</span></a></li>
+            <li><a href="{{ route('category', 'Roboti') }}">Roboti <span class="arrow">›</span></a></li>
+            <li><a href="{{ route('category', 'Zvieratká') }}">Zvieratká <span class="arrow">›</span></a></li>
+            <li><a href="{{ route('category', 'Interaktívne zvieratá') }}">Interaktívne zvieratá <span class="arrow">›</span></a></li>
+            <li><a href="{{ route('category', 'Hudobné nástroje') }}">Hudobné nástroje <span class="arrow">›</span></a></li>
+            <li><a href="{{ route('category', 'Do záhrady') }}">Do záhrady <span class="arrow">›</span></a></li>
+            <li><a href="{{ route('category', 'Do vody') }}">Do vody <span class="arrow">›</span></a></li>
+            <li><a href="{{ route('category', 'Vozidlá') }}">Vozidlá <span class="arrow">›</span></a></li>
          </ul>
       </nav>
 
       <div class="product-page">
 
          <nav class="breadcrumb">
-            <a href="index.html">Domov</a>
+            <a href="{{ route('index') }}">Domov</a>
             <span>›</span>
-            <a href="category.html">Plyšové hračky</a>
+            <a href="{{ route('category', $product->category) }}">{{ $product->category }}</a>
             <span>›</span>
-            Plyšová sova
+            {{ $product->name }}
          </nav>
 
          <!-- MAIN PRODUCT SECTION -->
@@ -69,26 +69,24 @@
 
             <!-- THUMBNAILS -->
             <div class="thumbs" id="thumbs">
-               <div class="thumb active" data-src="src/img/OwlFirst.jpg">
-                  <img src="src/img/OwlFirst.jpg" alt="Sova 1">
+               @foreach($product->images as $img)
+               <div class="thumb {{ $loop->first ? 'active' : '' }}" data-src="{{ asset($img->image) }}">
+                  <img src="{{ asset($img->image) }}" alt="{{ $product->name }}">
                </div>
-               <div class="thumb" data-src="src/img/owlSec.jpg">
-                  <img src="src/img/owlSec.jpg" alt="Sova 2">
-               </div>
-               <div class="thumb" data-src="src/img/owlClose.jpg">
-                  <img src="src/img/owlClose.jpg" alt="Sova detail">
-               </div>
+               @endforeach
             </div>
 
             <!-- MAIN IMAGE -->
             <div class="main-img-wrap">
-               <img class="main-img" id="mainImg" src="src/img/OwlFirst.jpg" alt="Plyšová sova">
+               <img class="main-img" id="mainImg"
+                     src="{{ asset($product->images->first()->image ?? $product->image) }}"
+                     alt="{{ $product->name }}">
             </div>
 
             <!-- INFO -->
             <div class="product-info">
-               <div class="product-category">Plyšové hračky</div>
-               <h1 class="product-title">Plyšová sova</h1>
+               <div class="product-category">{{ $product->category }}</div>
+               <h1 class="product-title">{{ $product->name }}</h1>
 
                <div class="product-rating">
                   <span class="stars">★★★★★</span>
@@ -98,17 +96,19 @@
                <div class="divider"></div>
 
                <div class="specs-grid">
-                  <div class="spec-item">
-                     <div class="spec-label">Materiál</div>
-                     <div class="spec-value">Polyester (plyš)</div>
-                  </div>
-                  <div class="spec-item">
-                     <div class="spec-label">Veľkosť</div>
-                     <div class="spec-value">20 cm</div>
-                  </div>
-                  <div class="spec-item">
-                     <div class="spec-label">Farba</div>
-                     <div class="spec-value">Biela, hnedá, čierna</div>
+                  <div class="specs-grid">
+                     @if($product->material)
+                     <div class="spec-item">
+                        <div class="spec-label">Materiál</div>
+                        <div class="spec-value">{{ $product->material }}</div>
+                     </div>
+                     @endif
+                     @if($product->color)
+                     <div class="spec-item">
+                        <div class="spec-label">Farba</div>
+                        <div class="spec-value">{{ $product->color }}</div>
+                     </div>
+                     @endif
                   </div>
                   <div class="spec-item">
                      <div class="spec-label">Vhodné od</div>
@@ -119,7 +119,7 @@
                <div class="divider"></div>
 
                <div class="price-block">
-                  <div class="product-price">€13.95</div>
+                  <div class="product-price">€{{ number_format($product->price, 2) }}</div>
                   <div class="price-note">vrátane DPH</div>
                </div>
 
@@ -150,12 +150,7 @@
                <button class="desc-tab">Recenzie (38)</button>
             </div>
             <div class="desc-body">
-               Zoznám sa s tou najroztomilejšou sovou, akú si kedy videl! Jej obrovské zlaté očká ťa okamžite očaria
-               a jej hebké plyšové telíčko si priam pýta objatie. Táto malá sova je spoločník na večery, dekorácia
-               do izby a dokonalý darček pre niekoho, na kom ti záleží.
-               <br><br>
-               Mäkučká, hrejivá a neuveriteľne milá — raz ju chytíš do rúk a už ju nebudeš chcieť pustiť.
-               Perfektná pre milovníkov cute estetiky, cozy vibe a všetkého, čo robí deň o trochu krajším.
+               {{ $product->description }}
             </div>
          </section>
 
