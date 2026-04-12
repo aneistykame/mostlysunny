@@ -11,7 +11,7 @@ use Illuminate\Validation\Rules;
 
 class RegisteredUserController extends Controller
 {
-    // Zobrazenie tvojho register.blade.php
+    // Zobrazenie register.blade.php
     public function create()
     {
         return view('register');

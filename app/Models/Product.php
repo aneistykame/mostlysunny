@@ -2,20 +2,34 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
+    use HasFactory;
+
+    protected $primaryKey = 'id';
+
     protected $fillable = [
-    'name', 'description', 'price', 'image', 'category', 'stock', 'material', 'color'
+        'name', 
+        'description', 
+        'price', 
+        'color', 
+        'category_id',
+        'stock', 
+        'material'
     ];
+
+    //relácia na obrázky produktu
     public function images()
     {
-        return $this->hasMany(ProductImage::class);
+        return $this->hasMany(ProductImage::class, 'product_id', 'product_id');
     }
 
     public function mainImage()
     {
-        return $this->hasOne(ProductImage::class)->where('is_main', true);
+        return $this->hasOne(ProductImage::class, 'product_id', 'product_id')
+                    ->where('is_main', true);
     }
 }

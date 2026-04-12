@@ -1,3 +1,14 @@
+@php
+    $cartCount = 0;
+    if (auth()->check()) {
+        $cartCount = \App\Models\CartItem::whereHas('cart', function($q) {
+            $q->where('user_id', auth()->id());
+        })->sum('quantity');
+    } else {
+        $cartCount = collect(session()->get('cart'))->sum('quantity');
+    }
+@endphp
+
 <!DOCTYPE html>
 <html lang="sk">
 
@@ -101,16 +112,29 @@
             <span></span><span></span><span></span>
          </div>
       </div>
-      <div class="logo-text" onclick="location.href='index.html'">
+      <div class="logo-text" onclick="location.href='{{ route('index') }}'">
          Mostly Sunny Toys
       </div>
-      <div class="search-box">
+      <form action="{{ route('products.index') }}" method="GET" class="search-box">
          <span class="search-icon">🔍</span>
-         <input type="text" placeholder="Hľadať produkty...">
-      </div>
+         <input type="text" name="search" placeholder="Hľadať produkty..." value="{{ request('search') }}">
+      </form>
       <div class="header-icons">
-         <button title="Účet" onclick="location.href='login.html'">👤 Účet</button>
-         <button title="Košík" onclick="location.href='cart.html'">🛒 Košík</button>
+          @auth
+            <button title="Môj profil" onclick="location.href='{{ route('dashboard') }}'">
+                👤 {{ Auth::user()->name }}
+            </button>
+         @else
+            <button title="Prihlásiť sa" onclick="location.href='{{ route('login') }}'">
+                👤 Prihlásiť sa
+            </button>
+         @endauth
+         <button title="Košík" onclick="location.href='{{ route('cart.index') }}'" style="position: relative;">
+         🛒 Košík
+         @if($cartCount > 0)
+            <span class="cart-badge">{{ $cartCount }}</span>
+         @endif
+      </button>
       </div>
    </header>
    <div class="sidebar-overlay" id="sidebarOverlay"></div>
@@ -154,37 +178,41 @@
                   <option>Najnovšie</option>
                </select>
             </div>
-
-
          </section>
-
          <section class="product-grid" id="productGrid">
-
             @foreach($products as $product)
-            <article class="product-card" onclick="location.href='{{ route('product.show', $product->id) }}'">
-               <div class="product-img-wrapper">
-                  <img class="product-img" src="{{ asset($product->mainImage->image ?? 'src/img/placeholder.jpg') }}"
-                        onerror="this.style.background='#d4d0e0';this.removeAttribute('src')">
-               </div>
-               <div class="product-info">
-                  <div class="product-name">{{ $product->name }}</div>
-                  <div class="product-footer">
-                        <span class="product-price">€{{ number_format($product->price, 2) }}</span>
-                        <button class="btn-cart">Do košíka</button>
+               <article class="product-card">
+                  {{-- Klikateľný obrázok a meno smerujú na detail --}}
+                  <div onclick="location.href='{{ route('product.show', $product->id) }}'">
+                     <div class="product-img-wrapper">
+                           <img class="product-img" src="{{ asset($product->mainImage->image ?? 'src/img/placeholder.jpg') }}"
+                              onerror="this.style.background='#d4d0e0';this.removeAttribute('src')">
+                     </div>
+                     <div class="product-info">
+                           <div class="product-name">{{ $product->name }}</div>
+                     </div>
                   </div>
-               </div>
-            </article>
-            @endforeach
-
-
-         </section>
+                  {{-- Footer s cenou a samostatným formulárom pre košík --}}
+                  <div class="product-footer">
+                     <span class="product-price">€{{ number_format($product->price, 2) }}</span>
+                     <form action="{{ route('cart.add', ['product_id' => $product->id]) }}" method="POST">
+                        @csrf
+                        <form action="{{ route('cart.add', ['product_id' => $product->id]) }}" method="POST" onclick="event.stopPropagation();">
+                           @csrf
+                           <button type="submit" class="btn-cart">Do košíka</button>
+                        </form>
+                        @endforeach
+                     </form>
+                  </div>
+               </article>
+            </section>
          <div class="pagination" id="pagination">
             <button class="page-btn active">1</button>
             <button class="page-btn">2</button>
          </div>
 
       </main>
-   </div><!-- /.page-wrapper -->
+   </div>
 
    <footer>© 2026 Mostly Sunny Toys</footer>
 

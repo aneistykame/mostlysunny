@@ -194,75 +194,88 @@
         </div>
     </header>
     <div class="main">
-        <div class="cart-container">
-            <div class="checkout-steps">Košík → <b>Doprava</b> → Platba → Údaje</div>
-            <div class="checkout-layout">
-                <div class="shipping-section">
-                    <h3 style="margin-bottom:20px;">Vyber spôsob dopravy</h3>
-                    <!-- KURIER -->
-                    <div class="shipping-option">
-                        <div class="shipping-head">
-                            <div class="shipping-left">
-                                <input type="radio" name="shipping">
-                                <span>Kuriér na adresu</span>
-                            </div>
-                            <div class="shipping-price">€4.99</div>
+    <div class="cart-container">
+        <div class="checkout-steps">Košík → <b>Doprava</b> → Platba → Údaje</div>
+        <div class="checkout-layout">
+            <div class="shipping-section">
+                <h3 style="margin-bottom:20px;">Vyber spôsob dopravy</h3>
+                <div class="shipping-option">
+                    <div class="shipping-head">
+                        <div class="shipping-left">
+                            <input type="radio" name="shipping" checked>
+                            <span>Kuriér na adresu</span>
                         </div>
+                        <div class="shipping-price">€4.99</div>
                     </div>
-                    <!-- ZASIELKOVNA -->
-                    <div class="shipping-option">
-                        <div class="shipping-head">
-                            <div class="shipping-left">
-                                <input type="radio" name="shipping">
-                                <span>Zásielkovňa</span>
-                            </div>
-                            <div class="shipping-price">€2.99</div>
-                        </div>
-                        <div class="form-group">
-                            <label>Vyber pobočku</label>
-                            <select>
-                                <option>Bratislava – Centrum</option>
-                                <option>Nitra – OC Mlyny</option>
-                                <option>Trnava – City Arena</option>
-                            </select>
-                        </div>
-                    </div>
-                    <!-- OSOBNY ODBER -->
-                    <div class="shipping-option">
-                        <div class="shipping-head">
-                            <div class="shipping-left">
-                                <input type="radio" name="shipping">
-                                <span>Osobný odber</span>
-                            </div>
-                            <div class="shipping-price">€0.00</div>
-                        </div>
-                        <p style="font-size:14px;">
-                            Osobný odber je možný na adrese:<br>
-                            <strong>Mostly Sunny Toys<br>
-                                Hlavná 15, Nitra</strong>
-                        </p>
-                    </div>
-                    <button class="checkout-btn" onclick="location.href='cart3.html'">Pokračovať k platbe</button>
                 </div>
-                <!-- RIGHT -->
-                <div class="cart-summary">
-                    <div class="summary-title">Tvoj košík</div>
+                <div class="shipping-option">
+                    <div class="shipping-head">
+                        <div class="shipping-left">
+                            <input type="radio" name="shipping">
+                            <span>Zásielkovňa</span>
+                        </div>
+                        <div class="shipping-price">€2.99</div>
+                    </div>
+                    <div class="form-group">
+                        <label>Vyber pobočku</label>
+                        <select>
+                            <option>Bratislava – Centrum</option>
+                            <option>Nitra – OC Mlyny</option>
+                            <option>Trnava – City Arena</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="shipping-option">
+                    <div class="shipping-head">
+                        <div class="shipping-left">
+                            <input type="radio" name="shipping">
+                            <span>Osobný odber</span>
+                        </div>
+                        <div class="shipping-price">€0.00</div>
+                    </div>
+                    <p style="font-size:14px;">
+                        Osobný odber je možný na adrese:<br>
+                        <strong>Mostly Sunny Toys<br>
+                        Hlavná 15, Nitra</strong>
+                    </p>
+                </div>
+                <button class="checkout-btn" onclick="location.href='{{ url('/checkout/payment') }}'">Pokračovať k platbe</button>
+            </div>
+
+            <div class="cart-summary">
+                <div class="summary-title">Tvoj košík</div>
+                
+                @forelse($cartItems as $id => $item)
+                    @php
+                        // Zjednotenie dát pre prihlásených aj hostí
+                        $isObject = is_object($item);
+                        $product = $isObject ? $item->product : (isset($item['product']) ? (object)$item['product'] : null);
+                        $qty = $isObject ? $item->quantity : $item['quantity'];
+                        $price = $isObject ? ($item->product->price ?? 0) : ($item['price'] ?? 0);
+                    @endphp
+                    
                     <div class="summary-item">
-                        <span>Plyšový medveď ×1</span>
-                        <span>€15.99</span>
+                        <span>{{ $product->name ?? 'Produkt' }} ×{{ $qty }}</span>
+                        <span>{{ number_format($price * $qty, 2) }} €</span>
                     </div>
-                    <div class="summary-item">
-                        <span>Doprava</span>
-                        <span>€4.99</span>
-                    </div>
-                    <div class="summary-total">
-                        <span>Spolu</span>
-                        <span>€20.98</span>
-                    </div>
+                @empty
+                    <div class="summary-item">Košík je prázdny</div>
+                @endforelse
+
+                <div class="summary-item" style="margin-top: 20px; color: var(--text-light);">
+                    <span>Doprava (kuriér)</span>
+                    <span>€4.99</span>
+                </div>
+
+                <div class="summary-total">
+                    <span>Spolu</span>
+                    {{-- Celková suma z košíka + doprava --}}
+                    <span>{{ number_format($total + 4.99, 2) }} €</span>
                 </div>
             </div>
         </div>
     </div>
+</div>
     <footer>© 2026 Mostly Sunny Toys</footer>
 </body>
 

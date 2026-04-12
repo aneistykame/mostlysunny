@@ -7,12 +7,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Auth\RegisteredUserController;
-
-/*
-|--------------------------------------------------------------------------
-| ZOBRAZOVACIE ROUTY (GET)
-|--------------------------------------------------------------------------
-*/
+use App\Http\Controllers\CartController;
 
 // Hlavná stránka
 use App\Http\Controllers\ProductController;
@@ -25,12 +20,12 @@ Route::get('/login', function () {
     return view('login');
 })->name('login');
 
-// Stránka Register (Cez Controller alebo View)
+// Stránka Register
 Route::get('/register', function () {
     return view('register');
 })->name('register');
 
-// Profil (Prístupný len pre prihlásených)
+// Profil
 Route::get('/profile', function () {
     return view('profile');
 })->middleware(['auth'])->name('dashboard');
@@ -38,13 +33,8 @@ Route::get('/profile', function () {
 // category
 Route::get('/category/{category}', [ProductController::class, 'category'])->name('category');
 
-/*
-|--------------------------------------------------------------------------
-| LOGIKA (POST)
-|--------------------------------------------------------------------------
-*/
 
-// 1. Spracovanie PRIHLÁSENIA
+//Spracovanie PRIHLÁSENIA
 Route::post('/login', function (Request $request) {
     $credentials = $request->validate([
         'email' => ['required', 'email'],
@@ -62,7 +52,7 @@ Route::post('/login', function (Request $request) {
     ])->onlyInput('email');
 });
 
-// 2. Spracovanie REGISTRÁCIE (Ručne, keďže nemáš Controller)
+//Spracovanie REGISTRÁCIE
 Route::post('/register', function (Request $request) {
     $request->validate([
         'name' => ['required', 'string', 'max:255'],
@@ -78,11 +68,11 @@ Route::post('/register', function (Request $request) {
 
     Auth::login($user);
 
-    // Presmerovanie na HLAVNÚ stránku
+    //Presmerovanie na HLAVNÚ stránku
     return redirect()->route('index');
 });
 
-// 3. Spracovanie ODHLÁSENIA
+//Spracovanie ODHLÁSENIA
 Route::post('/logout', function (Request $request) {
     Auth::logout();
 
@@ -91,3 +81,26 @@ Route::post('/logout', function (Request $request) {
 
     return redirect()->route('index');
 })->name('logout');
+
+Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+
+//Pridanie produktu do košíka
+Route::post('/cart/add/{product_id}', [CartController::class, 'add'])->name('cart.add');
+
+//Odstránenie položky z košíka
+Route::delete('/cart/remove/{product_id}', [CartController::class, 'remove'])->name('cart.remove');
+
+//Aktualizácia množstva v košíku
+Route::patch('/cart/update/{product_id}', [CartController::class, 'update'])->name('cart.update');
+
+//Hlavná stránka s bannermi
+Route::get('/', [ProductController::class, 'home'])->name('index');
+
+//Stránka vyhľadávania a kategórií
+Route::get('/category', [ProductController::class, 'index'])->name('products.index');
+
+//konkrétna kategória zo sidebar
+Route::get('/category/{category}', [ProductController::class, 'category'])->name('category');
+
+//shipping
+Route::get('/checkout', [CartController::class, 'checkout'])->name('checkout');

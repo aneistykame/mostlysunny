@@ -16,7 +16,7 @@
             --card-bg: #f5f0f5;
             --text: #3a3a5c;
             --text-light: #7070a0;
-            --sidebar-bg: #d8d8ee;
+            --sidebar-bg: #22223c;
         }
 
         * {
@@ -164,7 +164,7 @@
 
 <body>
     <header>
-        <div class="logo-text" onclick="location.href='index.html'">
+        <div class="logo-text" onclick="location.href='{{ url('/') }}'">
             Mostly Sunny Toys
         </div>
         <div class="search-box">
@@ -172,80 +172,59 @@
             <input type="text" placeholder="Hľadať produkty...">
         </div>
         <div class="header-icons">
-            <button title="Účet" onclick="location.href='login.html'">👤 Účet</button>
-            <button title="Košík" onclick="location.href='cart.html'">🛒 Košík</button>
+            <button title="Účet" onclick="location.href='{{ route('login') }}'">👤 Účet</button>
+            <button title="Košík" onclick="location.href='{{ route('cart.index') }}'">🛒 Košík</button>
         </div>
     </header>
 
     <div class="main">
         <div class="cart-container">
             <div class="checkout-steps"><b>Košík</b> → Doprava → Platba → Údaje</div>
-
             <div id="cart-items">
-                <div class="cart-item" data-price="15.99">
-                    <img src="src/img/whiteTeddyLying.jpg" class="product-img">
+                @forelse($cartItems as $id => $item)
+                <div class="cart-item">
+                    {{-- Obrázok produktu --}}
+                    <img src="{{ asset($item['product']->mainImage->image ?? 'src/img/placeholder.jpg') }}" class="product-img">
                     <div class="item-info">
-                        <div class="product-name">Plyšový medveď</div>
-                        <div class="quantity">Množstvo:
-                            <input type="number" value="1" min="1">
+                        <div class="product-name">
+                            {{ is_array($item['product']) ? $item['product']['name'] : $item['product']->name }}
+                        </div>
+                        <div class="quantity">
+                            {{-- FORMULÁR PRE ZMENU MNOŽSTVA --}}
+                            <form action="{{ route('cart.update', $item->cart_item_id) }}" method="POST" id="update-form-{{ $item->cart_item_id }}">
+                                @csrf
+                                @method('PATCH')
+                                <input type="number" name="quantity" value="{{ $item->quantity }}" min="1" onchange="document.getElementById('update-form-{{ $item->cart_item_id }}').submit()">
+                            </form>
                         </div>
                     </div>
-                    <div class="price">€15.99</div>
-                    <button class="remove-btn">✕</button>
+                    <div class="price">
+                        {{ number_format($item['product']->price * $item['quantity'], 2) }} €
+                    </div>
+                    {{-- FORMULÁR NA VYMAZANIE --}}
+                    {{-- Dôležité: Uisti sa, že v route() posielaš správne ID (v tvojom prípade asi $item['product']->id alebo $id) --}}
+                    <form action="{{ route('cart.remove', $item->cart_item_id) }}" method="POST">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="remove-btn">✕</button>
+                    </form>
                 </div>
+                @empty
+                <div class="empty-cart">Tvoj košík je momentálne prázdny.</div>
+                @endforelse
             </div>
-
-            <div class="total-container">Spolu: €15.99</div>
-            <div class="empty-cart" style="display:none;">Your cart is empty</div>
-
-            <button class="checkout-btn" onclick="location.href='cart2.html'">Pokračovať k doprave</button>
+            {{-- Ak košík nie je prázdny, zobrazíme sumu a tlačidlo --}}
+            @if(count($cartItems) > 0)
+            <div class="total-container">
+                Spolu: {{ number_format($total, 2) }} €
+            </div>
+            {{-- Smerovanie na ďalší krok objednávky --}}
+            <button class="checkout-btn" onclick="location.href='{{ url('/checkout') }}'">
+                Pokračovať k doprave
+            </button>
+            @endif
         </div>
     </div>
-
     <footer>© 2026 Mostly Sunny Toys</footer>
-
-    <script>
-        const totalContainer = document.querySelector('.total-container');
-        const cartItems = document.getElementById('cart-items');
-        const emptyCart = document.querySelector('.empty-cart');
-
-        function updateTotal() {
-            let total = 0;
-            const items = cartItems.querySelectorAll('.cart-item');
-            items.forEach(item => {
-                const price = parseFloat(item.dataset.price);
-                const qty = parseInt(item.querySelector('input').value);
-                total += price * qty;
-            });
-            totalContainer.textContent = `Spolu: €${total.toFixed(2)}`;
-
-            if (items.length === 0) {
-                emptyCart.style.display = 'block';
-                totalContainer.style.display = 'none';
-                document.querySelector('.checkout-btn').style.display = 'none';
-            } else {
-                emptyCart.style.display = 'none';
-                totalContainer.style.display = 'block';
-                document.querySelector('.checkout-btn').style.display = 'block';
-            }
-        }
-
-        function addEventListeners() {
-            document.querySelectorAll('.remove-btn').forEach(btn => {
-                btn.addEventListener('click', e => {
-                    e.target.closest('.cart-item').remove();
-                    updateTotal();
-                });
-            });
-
-            document.querySelectorAll('.cart-item input').forEach(input => {
-                input.addEventListener('change', updateTotal);
-            });
-        }
-
-        addEventListeners();
-        updateTotal();
-    </script>
 </body>
-
 </html>

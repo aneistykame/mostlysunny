@@ -11,6 +11,19 @@
 </head>
 
 <body>
+   @php
+    $cartCount = 0;
+    if (auth()->check()) {
+        // Spočítame quantity zo všetkých CartItems daného usera
+        $cartCount = \App\Models\CartItem::whereHas('cart', function($query) {
+            $query->where('user_id', auth()->id());
+        })->sum('quantity');
+    } else {
+        // Spočítame quantity zo Session
+        $sessionCart = session()->get('cart', collect());
+        $cartCount = $sessionCart->sum('quantity');
+    }
+   @endphp
 
    <header>
       <div class="burger-area" id="burgerBtn">
@@ -21,10 +34,10 @@
       <div class="logo-text">
          Mostly Sunny Toys
       </div>
-      <div class="search-box">
+      <form action="{{ route('products.index') }}" method="GET" class="search-box">
          <span class="search-icon">🔍</span>
-         <input type="text" placeholder="Hľadať produkty...">
-      </div>
+         <input type="text" name="search" placeholder="Hľadať produkty..." value="{{ request('search') }}">
+      </form>
       <div class="header-icons">
          @auth
             <button title="Môj profil" onclick="location.href='{{ route('dashboard') }}'">
@@ -36,7 +49,12 @@
             </button>
          @endauth
 
-         <button title="Košík" onclick="location.href='{{ url('cart') }}'">🛒 Košík</button>
+        <button title="Košík" onclick="location.href='{{ route('cart.index') }}'" style="position: relative;">
+            🛒 Košík
+            @if($cartCount > 0)
+               <span class="cart-badge">{{ $cartCount }}</span>
+            @endif
+         </button>
       </div>
    </header>
    <div class="sidebar-overlay" id="sidebarOverlay"></div>
@@ -86,7 +104,6 @@
             </div>
          </div>
 
-
          <div class="section-hd">
             <h1 class="section-hd-title">Odporúčané produkty</h1>
             <a href="category" class="section-hd-link">Zobraziť všetky →</a>
@@ -94,15 +111,28 @@
 
          <section class="product-grid">
             @foreach($products->take(5) as $product)
-               <article class="product-card" onclick="location.href='product'">
-                  <div class="product-img-wrapper"><img class="product-img" src="{{ asset($product->mainImage->image ?? 'src/img/placeholder.jpg') }}" alt="{{ $product->name }}"></div>
-                  <div class="product-info">
-                     <h3 class="product-name">{{ $product->name }}</h3>
-                     <div class="product-footer">
-                        <p class="product-price">{{ $product->price }} €</p>
-                        <button class="btn-cart">Do košíka</button>
+               {{-- Odstránil som onclick z article, aby sa karta správala prirodzene --}}
+               <article class="product-card">
+                     {{-- Kliknutím na obrázok alebo meno pôjdeš na detail --}}
+                     <div class="product-img-wrapper" onclick="location.href='product'" style="cursor: pointer;">
+                        <img class="product-img" src="{{ asset($product->mainImage->image ?? 'src/img/placeholder.jpg') }}" alt="{{ $product->name }}">
                      </div>
-                  </div>
+                     <div class="product-info">
+                        <h3 class="product-name" onclick="location.href='product'" style="cursor: pointer;">
+                           {{ $product->name }}
+                        </h3>  
+                        <div class="product-footer">
+                           <p class="product-price">{{ number_format($product->price, 2) }} €</p>
+                           
+                           {{-- FORMULÁR PRE PRIDANIE DO KOŠÍKA --}}
+                           <form action="{{ route('cart.add', $product->id) }}" method="POST">
+                                 @csrf
+                                 {{-- Skrytý vstup pre množstvo (defaultne 1) --}}
+                                 <input type="hidden" name="quantity" value="1">
+                                 <button type="submit" class="btn-cart">Do košíka</button>
+                           </form>
+                        </div>
+                     </div>
                </article>
             @endforeach
          </section>
@@ -130,8 +160,6 @@
                </div>
             </article>
          </section>
-
-
       </main>
    </div>
 
