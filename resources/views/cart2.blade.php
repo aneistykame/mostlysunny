@@ -244,7 +244,6 @@
 
             <div class="cart-summary">
                 <div class="summary-title">Tvoj košík</div>
-                
                 @forelse($cartItems as $id => $item)
                     @php
                         // Zjednotenie dát pre prihlásených aj hostí

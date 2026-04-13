@@ -28,31 +28,34 @@ class ProductController extends Controller
                 $q->where('name', 'ILIKE', "%{$search}%")
                 ->orWhere('description', 'ILIKE', "%{$search}%");
             });
-            $category = $search; //nazov kategorie bude zadaný searchom
+            $category = $search;
         } else {
             $category = "Všetky produkty";
         }
 
-        $products = $query->get();
+        // Zmena tu: pridávame paginate a appends
+        $products = $query->paginate(20)->appends($request->all());
 
-        //vypisanie kategorie a produktov
         return view('category', compact('products', 'category'));
     }
         
     public function category(Request $request, $category)
     {
+        // POZOR: v modeli si mal category_id, v query máš 'category'. 
+        // Skontroluj, či sa stĺpec v DB naozaj volá 'category'.
         $query = Product::where('category', $category);
 
-        //search v rámci kategórie
         if ($request->filled('search')) {
             $search = $request->input('search');
             $query->where(function($q) use ($search) {
                 $q->where('name', 'ILIKE', "%{$search}%")
-                  ->orWhere('description', 'ILIKE', "%{$search}%");
+                ->orWhere('description', 'ILIKE', "%{$search}%");
             });
         }
 
-        $products = $query->get();
+        // Zmena tu: pridávame paginate a appends
+        $products = $query->paginate(20)->appends($request->all());
+
         return view('category', compact('products', 'category'));
     }
 

@@ -182,33 +182,52 @@
          <section class="product-grid" id="productGrid">
             @foreach($products as $product)
                <article class="product-card">
-                  {{-- Klikateľný obrázok a meno smerujú na detail --}}
-                  <div onclick="location.href='{{ route('product.show', $product->id) }}'">
+                  <div onclick="location.href='{{ route('product.show', $product->id) }}'" style="cursor: pointer;">
                      <div class="product-img-wrapper">
-                           <img class="product-img" src="{{ asset($product->mainImage->image ?? 'src/img/placeholder.jpg') }}"
+                           <img class="product-img" src="{{ asset($product->mainImage->image_path ?? 'src/img/placeholder.jpg') }}"
                               onerror="this.style.background='#d4d0e0';this.removeAttribute('src')">
                      </div>
                      <div class="product-info">
                            <div class="product-name">{{ $product->name }}</div>
                      </div>
                   </div>
-                  {{-- Footer s cenou a samostatným formulárom pre košík --}}
                   <div class="product-footer">
                      <span class="product-price">€{{ number_format($product->price, 2) }}</span>
                      <form action="{{ route('cart.add', ['product_id' => $product->id]) }}" method="POST">
                         @csrf
-                        <form action="{{ route('cart.add', ['product_id' => $product->id]) }}" method="POST" onclick="event.stopPropagation();">
-                           @csrf
-                           <button type="submit" class="btn-cart">Do košíka</button>
-                        </form>
-                        @endforeach
+                        <button type="submit" class="btn-cart">Do košíka</button>
                      </form>
                   </div>
                </article>
-            </section>
+            @endforeach
+         </section>
          <div class="pagination" id="pagination">
-            <button class="page-btn active">1</button>
-            <button class="page-btn">2</button>
+            
+            @if ($products->onFirstPage())
+               <button class="page-btn arrow" disabled style="opacity: 0.5; cursor: not-allowed;">&lsaquo;</button>
+            @else
+               <button class="page-btn arrow" onclick="location.href='{{ $products->previousPageUrl() }}'">&lsaquo;</button>
+            @endif
+
+            {{-- čísla strán --}}
+            @foreach ($products->onEachSide(2)->linkCollection() as $link)
+               @if (is_numeric($link['label']))
+                     {{-- Číselné stránky --}}
+                     <button class="page-btn {{ $link['active'] ? 'active' : '' }}" 
+                           onclick="location.href='{{ $link['url'] }}'">
+                        {{ $link['label'] }}
+                     </button>
+               @elseif ($link['label'] === '...')
+                     
+                     <span class="page-btn" style="cursor: default; background: transparent; display: flex; align-items: center; justify-content: center;">...</span>
+               @endif
+            @endforeach
+
+            @if ($products->hasMorePages())
+               <button class="page-btn arrow" onclick="location.href='{{ $products->nextPageUrl() }}'">&rsaquo;</button>
+            @else
+               <button class="page-btn arrow" disabled style="opacity: 0.5; cursor: not-allowed;">&rsaquo;</button>
+            @endif
          </div>
 
       </main>
