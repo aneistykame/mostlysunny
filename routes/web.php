@@ -101,3 +101,6 @@ Route::get('/category/{category}', [ProductController::class, 'category'])->name
 
 //shipping
 Route::get('/checkout', [CartController::class, 'checkout'])->name('checkout');
+
+Route::get('/', [ProductController::class, 'home'])->name('index');
+Route::get('/product/{id}', [ProductController::class, 'show'])->name('product.show');
