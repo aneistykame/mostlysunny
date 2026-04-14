@@ -33,32 +33,36 @@ class CartController extends Controller
     public function add(Request $request, $productId)
     {
         $product = Product::findOrFail($productId);
+        $quantity = max(1, (int) $request->input('quantity', 1));
 
         if (Auth::check()) {
             $cart = Cart::firstOrCreate(['user_id' => Auth::id()]);
             $cartItem = CartItem::where('cart_id', $cart->cart_id)
-                                ->where('product_id', $productId)->first();
+                                ->where('product_id', $productId)
+                                ->first();
 
             if ($cartItem) {
-                $cartItem->increment('quantity');
+                $cartItem->quantity += $quantity;
+                $cartItem->save();
             } else {
                 CartItem::create([
                     'cart_id'    => $cart->cart_id,
                     'product_id' => $productId,
-                    'quantity'   => 1
+                    'quantity'   => $quantity
                 ]);
             }
         } else {
             $cart = Session::get('cart', []);
 
             if (isset($cart[$productId])) {
-                $cart[$productId]['quantity']++;
+                $cart[$productId]['quantity'] += $quantity;
             } else {
                 $cart[$productId] = [
-                    'product_id' => $productId,
-                    'name'       => $product->name,
-                    'price'      => $product->price,
-                    'quantity'   => 1,
+                'product_id' => $productId,
+                'name'       => $product->name,
+                'price'      => $product->price,
+                'quantity'   => $quantity,
+                'image'      => $product->mainImage->image ?? null,
                 ];
             }
 
@@ -69,64 +73,63 @@ class CartController extends Controller
     }
 
     public function update(Request $request, $id)
-{
-    $item = \App\Models\CartItem::find($id);
-    
-    if (!$item) {
-        // Ak ti vypíše toto, tak Controller nevie nájsť ten riadok v DB!
-        return "Položka s ID $id neexistuje v databáze.";
-    }
-
-    $item->quantity = $request->quantity;
-    $item->save();
-
-    return redirect()->back();
-}
-
-public function remove($id)
-{
-    //prihlaseny mazanie z DB
-    if (auth()->check()) {
-        $cartItem = \App\Models\CartItem::where('cart_item_id', $id)->first();
-
-        if ($cartItem) {
-            $cartItem->delete();
+    {
+        $item = \App\Models\CartItem::find($id);
+        
+        if (!$item) {
+            return "Položka s ID $id neexistuje v databáze.";
         }
-    } else {
-        //mazanie zo session
-        $cart = session()->get('cart', []);
 
-        if (isset($cart[$id])) {
-            unset($cart[$id]);
-            session()->put('cart', $cart);
-        }
+        $item->quantity = $request->quantity;
+        $item->save();
+
+        return redirect()->back();
     }
 
-    return redirect()->back()->with('success', 'Produkt bol odstránený z košíka.');
-}
-public function checkout()
-{
-    //nacitanie položiek z DB alebo session
-    if (auth()->check()) {
-        $cartItems = \App\Models\CartItem::with('product')
-            ->whereHas('cart', function($q) {
-                $q->where('user_id', auth()->id());
-            })->get();
-    } else {
-        $cartItems = session()->get('cart', []);
-    }
-
-    //celková cena
-    $total = 0;
-    foreach ($cartItems as $item) {
+    public function remove($id)
+    {
+        //prihlaseny mazanie z DB
         if (auth()->check()) {
-            $total += $item->product->price * $item->quantity;
-        } else {
-            $total += $item['price'] * $item['quantity'];
-        }
-    }
+            $cartItem = \App\Models\CartItem::where('cart_item_id', $id)->first();
 
-    return view('cart2', compact('cartItems', 'total'));
-}
+            if ($cartItem) {
+                $cartItem->delete();
+            }
+        } else {
+            //mazanie zo session
+            $cart = session()->get('cart', []);
+
+            if (isset($cart[$id])) {
+                unset($cart[$id]);
+                session()->put('cart', $cart);
+            }
+        }
+
+        return redirect()->back()->with('success', 'Produkt bol odstránený z košíka.');
+    }
+    public function checkout()
+    {
+        //nacitanie položiek z DB alebo session
+        if (auth()->check()) {
+            $cartItems = \App\Models\CartItem::with('product')
+                ->whereHas('cart', function($q) {
+                    $q->where('user_id', auth()->id());
+                })->get();
+        } else {
+            $cartItems = session()->get('cart', []);
+        }
+
+        //celková cena
+        $total = 0;
+        foreach ($cartItems as $item) {
+            if (auth()->check()) {
+                $total += $item->product->price * $item->quantity;
+            } else {
+                $total += $item['price'] * $item['quantity'];
+            }
+        }
+
+        return view('cart2', compact('cartItems', 'total'));
+    }
 
 }

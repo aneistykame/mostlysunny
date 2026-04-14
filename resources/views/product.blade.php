@@ -1,3 +1,13 @@
+@php
+   $cartCount = 0;
+   if (auth()->check()) {
+      $cartCount = \App\Models\CartItem::whereHas('cart', function($q) {
+         $q->where('user_id', auth()->id());
+      })->sum('quantity');
+   } else {
+      $cartCount = collect(session()->get('cart', []))->sum('quantity');
+   }
+@endphp
 <!DOCTYPE html>
 <html lang="sk">
 
@@ -19,16 +29,29 @@
             <span></span><span></span><span></span>
          </div>
       </div>
-      <div class="logo-text" onclick="location.href='index.html'">
+      <div class="logo-text" onclick="location.href='{{ route('index') }}'">
          Mostly Sunny Toys
       </div>
-      <div class="search-box">
+      <form action="{{ route('products.index') }}" method="GET" class="search-box">
          <span class="search-icon">🔍</span>
-         <input type="text" placeholder="Hľadať produkty...">
-      </div>
+         <input type="text" name="search" placeholder="Hľadať produkty..." value="{{ request('search') }}">
+      </form>
       <div class="header-icons">
-         <button title="Účet" onclick="location.href='login.html'">👤 Účet</button>
-         <button title="Košík" onclick="location.href='cart.html'">🛒 Košík</button>
+         @auth
+            <button title="Môj profil" onclick="location.href='{{ route('dashboard') }}'">
+               👤 {{ Auth::user()->name }}
+            </button>
+         @else
+            <button title="Prihlásiť sa" onclick="location.href='{{ route('login') }}'">
+               👤 Prihlásiť sa
+            </button>
+         @endauth
+         <button title="Košík" onclick="location.href='{{ route('cart.index') }}'" style="position: relative;">
+         🛒 Košík
+         @if($cartCount > 0)
+            <span class="cart-badge">{{ $cartCount }}</span>
+         @endif
+      </button>
       </div>
    </header>
    <div class="sidebar-overlay" id="sidebarOverlay"></div>
@@ -126,10 +149,14 @@
                <div class="buy-row">
                   <div class="qty-wrap">
                      <button class="qty-btn" id="qtyMinus">−</button>
-                     <input class="qty-input" id="qtyInput" type="number" value="1" min="1">
+                     <input class="qty-input" id="qtyInput" type="number" value="1" min="1" name = "qtyInput">
                      <button class="qty-btn" id="qtyPlus">+</button>
                   </div>
-                  <button class="btn-cart-main">🛒 Do košíka</button>
+                  <form action="{{ route('cart.add', $product->id) }}" method="POST" id="cartForm">
+                     @csrf
+                     <input type="hidden" name="quantity" id="quantityHidden" value="1">
+                     <button type="submit" class="btn-cart-main">🛒 Do košíka</button>
+                  </form>
                   <button class="btn-wishlist" title="Pridať do wishlistu">♡</button>
                </div>
 
@@ -194,19 +221,28 @@
          thumb.addEventListener('click', () => switchImage(thumb));
       });
 
-      const qtyInput = document.getElementById('qtyInput');
-      document.getElementById('qtyMinus').addEventListener('click', () => {
-         if (qtyInput.value > 1) qtyInput.value--;
-      });
-      document.getElementById('qtyPlus').addEventListener('click', () => {
-         qtyInput.value++;
-      });
 
       document.querySelectorAll('.desc-tab').forEach(tab => {
          tab.addEventListener('click', () => {
             document.querySelectorAll('.desc-tab').forEach(t => t.classList.remove('active'));
             tab.classList.add('active');
          });
+      });
+
+      const qtyInput = document.getElementById('qtyInput');
+      const quantityHidden = document.getElementById('quantityHidden');
+
+      document.getElementById('qtyMinus').addEventListener('click', () => {
+         if (qtyInput.value > 1) qtyInput.value--;
+         quantityHidden.value = qtyInput.value;
+      });
+      document.getElementById('qtyPlus').addEventListener('click', () => {
+         qtyInput.value++;
+         quantityHidden.value = qtyInput.value;
+      });
+
+      qtyInput.addEventListener('input', () => {
+         quantityHidden.value = qtyInput.value;
       });
    </script>
 

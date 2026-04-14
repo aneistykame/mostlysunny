@@ -1,3 +1,13 @@
+@php
+      $cartCount = 0;
+      if (auth()->check()) {
+         $cartCount = \App\Models\CartItem::whereHas('cart', function($q) {
+            $q->where('user_id', auth()->id());
+         })->sum('quantity');
+      } else {
+         $cartCount = collect(session()->get('cart', []))->sum('quantity');
+      }
+   @endphp
 <!DOCTYPE html>
 <html lang="sk">
 
@@ -11,20 +21,7 @@
 </head>
 
 <body>
-   @php
-    $cartCount = 0;
-    if (auth()->check()) {
-        // Spočítame quantity zo všetkých CartItems daného usera
-        $cartCount = \App\Models\CartItem::whereHas('cart', function($query) {
-            $query->where('user_id', auth()->id());
-        })->sum('quantity');
-    } else {
-        // Spočítame quantity zo Session
-        $sessionCart = session()->get('cart', collect());
-        $cartCount = $sessionCart->sum('quantity');
-    }
-   @endphp
-
+   
    <header>
       <div class="burger-area" id="burgerBtn">
          <div class="burger-icon">

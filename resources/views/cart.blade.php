@@ -1,3 +1,13 @@
+@php
+    $cartCount = 0;
+    if (auth()->check()) {
+        $cartCount = \App\Models\CartItem::whereHas('cart', function($q) {
+            $q->where('user_id', auth()->id());
+        })->sum('quantity');
+    } else {
+        $cartCount = collect(session()->get('cart', []))->sum('quantity');
+    }
+@endphp
 <!DOCTYPE html>
 <html lang="sk">
 
@@ -65,7 +75,7 @@
         .cart-item {
             display: flex;
             align-items: center;
-            background: var(--sidebar-bg);
+            background: var(--card-bg);
             padding: 15px;
             border-radius: 10px;
             margin-bottom: 15px;
@@ -162,19 +172,37 @@
 </head>
 
 <body>
-    <header>
-        <div class="logo-text" onclick="location.href='{{ url('/') }}'">
-            Mostly Sunny Toys
+<header>
+    <div class="burger-area" id="burgerBtn">
+        <div class="burger-icon">
+        <span></span><span></span><span></span>
         </div>
-        <div class="search-box">
-            <span class="search-icon">🔍</span>
-            <input type="text" placeholder="Hľadať produkty...">
-        </div>
-        <div class="header-icons">
-            <button title="Účet" onclick="location.href='{{ route('login') }}'">👤 Účet</button>
-            <button title="Košík" onclick="location.href='{{ route('cart.index') }}'">🛒 Košík</button>
-        </div>
-    </header>
+    </div>
+    <div class="logo-text" onclick="location.href='{{ route('index') }}'">
+        Mostly Sunny Toys
+    </div>
+    <form action="{{ route('products.index') }}" method="GET" class="search-box">
+        <span class="search-icon">🔍</span>
+        <input type="text" name="search" placeholder="Hľadať produkty..." value="{{ request('search') }}">
+    </form>
+    <div class="header-icons">
+        @auth
+        <button title="Môj profil" onclick="location.href='{{ route('dashboard') }}'">
+            👤 {{ Auth::user()->name }}
+        </button>
+        @else
+        <button title="Prihlásiť sa" onclick="location.href='{{ route('login') }}'">
+            👤 Prihlásiť sa
+        </button>
+        @endauth
+        <button title="Košík" onclick="location.href='{{ route('cart.index') }}'" style="position: relative;">
+        🛒 Košík
+        @if($cartCount > 0)
+        <span class="cart-badge">{{ $cartCount }}</span>
+        @endif
+    </button>
+    </div>
+</header>
 
     <div class="main">
         <div class="cart-container">
@@ -186,7 +214,7 @@
                     @if(is_object($item))
                         <img src="{{ asset($item->product->mainImage->image ?? 'src/img/placeholder.jpg') }}" class="product-img">
                     @else
-                        <img src="{{ asset('src/img/placeholder.jpg') }}" class="product-img">
+                        <img src="{{ asset($item['image'] ?? 'src/img/placeholder.jpg') }}" class="product-img">
                     @endif
 
                     <div class="item-info">
