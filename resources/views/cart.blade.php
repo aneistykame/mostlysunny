@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&display=swap"
         rel="stylesheet">
-    <link href="mainstyle.css" rel="stylesheet">
+    <link href="{{ asset('mainstyle.css') }}" rel="stylesheet">
     <title>Košík</title>
     <style>
         :root {
@@ -16,7 +16,6 @@
             --card-bg: #f5f0f5;
             --text: #3a3a5c;
             --text-light: #7070a0;
-            --sidebar-bg: #22223c;
         }
 
         * {
@@ -183,31 +182,54 @@
             <div id="cart-items">
                 @forelse($cartItems as $id => $item)
                 <div class="cart-item">
-                    {{-- Obrázok produktu --}}
-                    <img src="{{ asset($item['product']->mainImage->image ?? 'src/img/placeholder.jpg') }}" class="product-img">
+
+                    @if(is_object($item))
+                        <img src="{{ asset($item->product->mainImage->image ?? 'src/img/placeholder.jpg') }}" class="product-img">
+                    @else
+                        <img src="{{ asset('src/img/placeholder.jpg') }}" class="product-img">
+                    @endif
+
                     <div class="item-info">
                         <div class="product-name">
-                            {{ is_array($item['product']) ? $item['product']['name'] : $item['product']->name }}
+                            {{ is_object($item) ? $item->product->name : $item['name'] }}
                         </div>
+
                         <div class="quantity">
-                            {{-- FORMULÁR PRE ZMENU MNOŽSTVA --}}
+                            @if(is_object($item))
                             <form action="{{ route('cart.update', $item->cart_item_id) }}" method="POST" id="update-form-{{ $item->cart_item_id }}">
                                 @csrf
                                 @method('PATCH')
-                                <input type="number" name="quantity" value="{{ $item->quantity }}" min="1" onchange="document.getElementById('update-form-{{ $item->cart_item_id }}').submit()">
+                                <input type="number" name="quantity" value="{{ $item->quantity }}" min="1"
+                                    onchange="document.getElementById('update-form-{{ $item->cart_item_id }}').submit()">
                             </form>
+                            @else
+                                Množstvo: {{ $item['quantity'] }}
+                            @endif
                         </div>
                     </div>
+
                     <div class="price">
-                        {{ number_format($item['product']->price * $item['quantity'], 2) }} €
+                        @if(is_object($item))
+                            {{ number_format($item->product->price * $item->quantity, 2) }} €
+                        @else
+                            {{ number_format($item['price'] * $item['quantity'], 2) }} €
+                        @endif
                     </div>
-                    {{-- FORMULÁR NA VYMAZANIE --}}
-                    {{-- Dôležité: Uisti sa, že v route() posielaš správne ID (v tvojom prípade asi $item['product']->id alebo $id) --}}
+
+                    @if(is_object($item))
                     <form action="{{ route('cart.remove', $item->cart_item_id) }}" method="POST">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="remove-btn">✕</button>
                     </form>
+                    @else
+                    <form action="{{ route('cart.remove', $id) }}" method="POST">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="remove-btn">✕</button>
+                    </form>
+                    @endif
+
                 </div>
                 @empty
                 <div class="empty-cart">Tvoj košík je momentálne prázdny.</div>

@@ -41,15 +41,15 @@
       <div class="header-icons">
          @auth
             <button title="Môj profil" onclick="location.href='{{ route('dashboard') }}'">
-                👤 {{ Auth::user()->name }}
+               👤 {{ Auth::user()->name }}
             </button>
          @else
             <button title="Prihlásiť sa" onclick="location.href='{{ route('login') }}'">
-                👤 Prihlásiť sa
+               👤 Prihlásiť sa
             </button>
          @endauth
 
-        <button title="Košík" onclick="location.href='{{ route('cart.index') }}'" style="position: relative;">
+         <button title="Košík" onclick="location.href='{{ route('cart.index') }}'" style="position: relative;">
             🛒 Košík
             @if($cartCount > 0)
                <span class="cart-badge">{{ $cartCount }}</span>
@@ -114,7 +114,7 @@
                {{-- Odstránil som onclick z article, aby sa karta správala prirodzene --}}
                <article class="product-card">
                      {{-- Kliknutím na obrázok alebo meno pôjdeš na detail --}}
-                     <div class="product-img-wrapper" onclick="location.href='product'" style="cursor: pointer;">
+                     <div class="product-img-wrapper" onclick="location.href='{{ route('product.show', $product->id) }}'" style="cursor: pointer;">
                         <img class="product-img" src="{{ asset($product->mainImage->image ?? 'src/img/placeholder.jpg') }}" alt="{{ $product->name }}">
                      </div>
                      <div class="product-info">

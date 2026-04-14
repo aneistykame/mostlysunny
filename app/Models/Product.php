@@ -24,12 +24,12 @@ class Product extends Model
     //relácia na obrázky produktu
     public function images()
     {
-        return $this->hasMany(ProductImage::class, 'product_id', 'product_id');
+        return $this->hasMany(ProductImage::class, 'product_id', 'id');
     }
 
     public function mainImage()
     {
-        return $this->hasOne(ProductImage::class, 'product_id', 'product_id')
+        return $this->hasOne(ProductImage::class, 'product_id', 'id')
                     ->where('is_main', true);
     }
 }

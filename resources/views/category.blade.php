@@ -15,7 +15,7 @@
 <head>
    <meta charset="UTF-8">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>Kategória – Mostly Sunny Toys</title>
+   <title>Kategória - Mostly Sunny Toys</title>
    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&display=swap"
       rel="stylesheet">
    <link href="{{ asset('mainstyle.css') }}" rel="stylesheet">
@@ -96,7 +96,15 @@
       .product-card.hidden {
          display: none;
       }
+      .product-grid {
+         align-content: start;
+         justify-content: start;
+         grid-template-columns: repeat(auto-fill, minmax(180px, 220px));
+      }
 
+      .product-card {
+         max-width: 220px;
+      }
       @media (max-width: 700px) {
          .main-content {
             padding: 10px;
@@ -120,13 +128,13 @@
          <input type="text" name="search" placeholder="Hľadať produkty..." value="{{ request('search') }}">
       </form>
       <div class="header-icons">
-          @auth
+         @auth
             <button title="Môj profil" onclick="location.href='{{ route('dashboard') }}'">
-                👤 {{ Auth::user()->name }}
+               👤 {{ Auth::user()->name }}
             </button>
          @else
             <button title="Prihlásiť sa" onclick="location.href='{{ route('login') }}'">
-                👤 Prihlásiť sa
+               👤 Prihlásiť sa
             </button>
          @endauth
          <button title="Košík" onclick="location.href='{{ route('cart.index') }}'" style="position: relative;">
@@ -162,41 +170,69 @@
 
       <main class="main-content">
 
-         <section class="category-topbar">
-            <h1 class="category-title">{{ $category }}</h1>
-            <div class="wrapper">
-               <select class="sort-select">
-                  <option>Všetky</option>
-                  <option>Iba veľké</option>
-                  <option>Iba malé</option>
-                  <option>Iba s hodnotením</option>
+         <form method="GET" action="{{ route('category', $category) }}" id="filterForm">
+      <section class="category-topbar">
+         <h1 class="category-title">{{ $category }}</h1>
+         <div class="wrapper">
+
+               <select class="sort-select" name="color" onchange="document.getElementById('filterForm').submit()">
+                  <option value="">Všetky farby</option>
+                  @foreach($colors as $color)
+                     <option value="{{ $color }}" {{ request('color') == $color ? 'selected' : '' }}>
+                           {{ $color }}
+                     </option>
+                  @endforeach
                </select>
-               <select class="sort-select">
-                  <option>Zoradiť: Odporúčané</option>
-                  <option>Cena: od najnižšej</option>
-                  <option>Cena: od najvyššej</option>
-                  <option>Najnovšie</option>
+
+               <select class="sort-select" name="material" onchange="document.getElementById('filterForm').submit()">
+                  <option value="">Všetky materiály</option>
+                  @foreach($materials as $material)
+                     <option value="{{ $material }}" {{ request('material') == $material ? 'selected' : '' }}>
+                           {{ $material }}
+                     </option>
+                  @endforeach
                </select>
-            </div>
-         </section>
+
+               <input class="sort-select" type="number" name="price_min" placeholder="Cena od €"
+                     value="{{ request('price_min') }}" style="width:90px">
+               <input class="sort-select" type="number" name="price_max" placeholder="Cena do €"
+                     value="{{ request('price_max') }}" style="width:90px">
+
+               <select class="sort-select" name="sort" onchange="document.getElementById('filterForm').submit()">
+                  <option value="">Zoradiť: Odporúčané</option>
+                  <option value="price_asc" {{ request('sort') == 'price_asc' ? 'selected' : '' }}>
+                     Cena: od najnižšej
+                  </option>
+                  <option value="price_desc" {{ request('sort') == 'price_desc' ? 'selected' : '' }}>
+                     Cena: od najvyššej
+                  </option>
+                  <option value="newest" {{ request('sort') == 'newest' ? 'selected' : '' }}>
+                     Najnovšie
+                  </option>
+               </select>
+
+               <button type="submit" class="sort-select" style="cursor:pointer">Filtrovať</button>
+         </div>
+      </section>
+</form>
          <section class="product-grid" id="productGrid">
             @foreach($products as $product)
                <article class="product-card">
-                  <div onclick="location.href='{{ route('product.show', $product->id) }}'" style="cursor: pointer;">
-                     <div class="product-img-wrapper">
-                           <img class="product-img" src="{{ asset($product->mainImage->image_path ?? 'src/img/placeholder.jpg') }}"
-                              onerror="this.style.background='#d4d0e0';this.removeAttribute('src')">
-                     </div>
-                     <div class="product-info">
-                           <div class="product-name">{{ $product->name }}</div>
-                     </div>
+                  <div class="product-img-wrapper" onclick="location.href='{{ route('product.show', $product->id) }}'" style="cursor: pointer;">
+                        <img class="product-img" src="{{ asset($product->mainImage->image ?? 'src/img/placeholder.jpg') }}"
+                           onerror="this.style.background='#d4d0e0';this.removeAttribute('src')">
                   </div>
-                  <div class="product-footer">
-                     <span class="product-price">€{{ number_format($product->price, 2) }}</span>
-                     <form action="{{ route('cart.add', ['product_id' => $product->id]) }}" method="POST">
-                        @csrf
-                        <button type="submit" class="btn-cart">Do košíka</button>
-                     </form>
+                  <div class="product-info">
+                     <h3 class="product-name">{{ $product->name }}</h3>
+                     <div class="product-footer">
+                        <p class="product-price">€{{ number_format($product->price, 2) }}</p>
+                        <form action="{{ route('cart.add', $product->id) }}" method="POST">
+                                    @csrf
+                                    {{-- Skrytý vstup pre množstvo (defaultne 1) --}}
+                                    <input type="hidden" name="quantity" value="1">
+                                    <button type="submit" class="btn-cart">Do košíka</button>
+                        </form>
+                     </div>
                   </div>
                </article>
             @endforeach

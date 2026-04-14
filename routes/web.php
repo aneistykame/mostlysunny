@@ -93,9 +93,6 @@ Route::delete('/cart/remove/{product_id}', [CartController::class, 'remove'])->n
 //Aktualizácia množstva v košíku
 Route::patch('/cart/update/{product_id}', [CartController::class, 'update'])->name('cart.update');
 
-//Hlavná stránka s bannermi
-Route::get('/', [ProductController::class, 'home'])->name('index');
-
 //Stránka vyhľadávania a kategórií
 Route::get('/category', [ProductController::class, 'index'])->name('products.index');
 

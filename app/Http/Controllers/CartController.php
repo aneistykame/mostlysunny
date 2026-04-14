@@ -14,17 +14,17 @@ class CartController extends Controller
     public function index()
     {
         if (Auth::check()) {
-            //prihlaseny
-            $cart = Cart::where('user_id', Auth::id())->with('items.product')->first();
+            $cart = Cart::where('user_id', Auth::id())->with('items.product.mainImage')->first();
             $cartItems = $cart ? $cart->items : collect();
-        } else {
-            //neprihlaseny
-            $cartItems = Session::get('cart', collect());
-        }
 
-        $total = 0;
-        foreach($cartItems as $item) {
-            $total += $item['quantity'] * ($item['product']->price ?? $item['price']);
+            $total = $cartItems->sum(fn($item) => $item->quantity * $item->product->price);
+        } else {
+            $cartItems = Session::get('cart', []);
+
+            $total = 0;
+            foreach ($cartItems as $item) {
+                $total += $item['quantity'] * $item['price'];
+            }
         }
 
         return view('cart', compact('cartItems', 'total'));
@@ -35,37 +35,31 @@ class CartController extends Controller
         $product = Product::findOrFail($productId);
 
         if (Auth::check()) {
-            //prihlaseny
             $cart = Cart::firstOrCreate(['user_id' => Auth::id()]);
-            $cartItem = CartItem::where('cart_id', $cart->cart_id)->where('product_id', $productId)->first();
+            $cartItem = CartItem::where('cart_id', $cart->cart_id)
+                                ->where('product_id', $productId)->first();
 
             if ($cartItem) {
                 $cartItem->increment('quantity');
             } else {
                 CartItem::create([
-                    'cart_id' => $cart->cart_id,
+                    'cart_id'    => $cart->cart_id,
                     'product_id' => $productId,
-                    'quantity' => 1
+                    'quantity'   => 1
                 ]);
             }
         } else {
-            //neprihlaseny
-            $cart = Session::get('cart', collect());
+            $cart = Session::get('cart', []);
 
-            if ($cart->has($productId)) {
-                //zvysenie množstva, ak už existuje v košíku
-                $item = $cart->get($productId);
-                $item['quantity']++;
-                $cart->put($productId, $item);
+            if (isset($cart[$productId])) {
+                $cart[$productId]['quantity']++;
             } else {
-                //pridanie nového produktu do košíka
-                $cart->put($productId, [
-                    'product_id' => $product->product_id,
-                    'name' => $product->name,
-                    'price' => $product->price,
-                    'quantity' => 1,
-                    'product' => $product
-                ]);
+                $cart[$productId] = [
+                    'product_id' => $productId,
+                    'name'       => $product->name,
+                    'price'      => $product->price,
+                    'quantity'   => 1,
+                ];
             }
 
             Session::put('cart', $cart);
