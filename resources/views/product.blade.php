@@ -19,41 +19,42 @@
       rel="stylesheet">
    <link href="{{ asset('mainstyle.css') }}" rel="stylesheet">
    <link href="{{ asset('productstyle.css') }}" rel="stylesheet">
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
 <body>
 
-   <header>
-      <div class="burger-area" id="burgerBtn">
-         <div class="burger-icon">
-            <span></span><span></span><span></span>
-         </div>
+<header>
+   <div class="burger-area" id="burgerBtn">
+      <div class="burger-icon">
+         <span></span><span></span><span></span>
       </div>
-      <div class="logo-text" onclick="location.href='{{ route('index') }}'">
-         Mostly Sunny Toys
-      </div>
-      <form action="{{ route('products.index') }}" method="GET" class="search-box">
-         <span class="search-icon">🔍</span>
-         <input type="text" name="search" placeholder="Hľadať produkty..." value="{{ request('search') }}">
-      </form>
-      <div class="header-icons">
-         @auth
-            <button title="Môj profil" onclick="location.href='{{ route('dashboard') }}'">
-               👤 {{ Auth::user()->name }}
-            </button>
-         @else
-            <button title="Prihlásiť sa" onclick="location.href='{{ route('login') }}'">
-               👤 Prihlásiť sa
-            </button>
-         @endauth
-         <button title="Košík" onclick="location.href='{{ route('cart.index') }}'" style="position: relative;">
-         🛒 Košík
+   </div>
+   <div class="logo-text" onclick="location.href='{{ route('index') }}'">
+      Mostly Sunny Toys
+   </div>
+   <form action="{{ route('products.index') }}" method="GET" class="search-box">
+      <span class="search-icon"><i class="fa-solid fa-magnifying-glass"></i></span>
+      <input type="text" name="search" placeholder="Hľadať produkty..." value="{{ request('search') }}">
+   </form>
+   <div class="header-icons">
+      @auth
+         <button title="Môj profil" onclick="location.href='{{ route('dashboard') }}'">
+            <i class="fa-solid fa-user"></i> {{ Auth::user()->name }}
+         </button>
+      @else
+         <button title="Prihlásiť sa" onclick="location.href='{{ route('login') }}'">
+            <i class="fa-solid fa-circle-user"></i> Prihlásiť sa
+         </button>
+      @endauth
+      <button title="Košík" onclick="location.href='{{ route('cart.index') }}'" style="position: relative;">
+         <i class="fa-solid fa-cart-shopping"></i> Košík
          @if($cartCount > 0)
             <span class="cart-badge">{{ $cartCount }}</span>
          @endif
       </button>
-      </div>
-   </header>
+   </div>
+</header>
    <div class="sidebar-overlay" id="sidebarOverlay"></div>
    <div class="page-wrapper">
       <nav class="sidebar">

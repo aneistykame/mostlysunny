@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <title>Register</title>
     <style>
         :root {
@@ -191,10 +192,12 @@
     </style>
 </head>
 <body>
-    <header>
-        Mostly Sunny Toys
-        <button class="close-btn" onclick="location.href='{{ url('/') }}'">✕</button>
-    </header>
+<header>
+    Mostly Sunny Toys
+    <button class="close-btn" onclick="location.href='{{ url('/') }}'">
+        <i class="fa-solid fa-house"></i>
+    </button>
+</header>
 
     <div class="main-container">
         <div class="side">

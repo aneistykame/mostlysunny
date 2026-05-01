@@ -180,7 +180,9 @@
 <body>
     <header>
         Mostly Sunny Toys
-        <button class="close-btn" onclick="location.href='{{ url('/') }}'">✕</button>
+        <button class="close-btn" onclick="location.href='{{ url('/') }}'">
+            <i class="fa-solid fa-house"></i>
+        </button>
     </header>
 
     <div class="main-container">

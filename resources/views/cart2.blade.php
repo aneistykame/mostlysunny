@@ -7,6 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&display=swap"
         rel="stylesheet">
     <link href="mainstyle.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <title>Doprava</title>
     <style>
         :root {
@@ -185,12 +186,16 @@
             Mostly Sunny Toys
         </div>
         <div class="search-box">
-            <span class="search-icon">🔍</span>
+            <span class="search-icon"><i class="fa-solid fa-magnifying-glass"></i></span>
             <input type="text" placeholder="Hľadať produkty...">
         </div>
         <div class="header-icons">
-            <button title="Účet" onclick="location.href='login.html'">👤 Účet</button>
-            <button title="Košík" onclick="location.href='cart.html'">🛒 Košík</button>
+            <button title="Účet" onclick="location.href='login.html'">
+                <i class="fa-solid fa-user"></i> Účet
+            </button>
+            <button title="Košík" onclick="location.href='cart.html'">
+                <i class="fa-solid fa-cart-shopping"></i> Košík
+            </button>
         </div>
     </header>
     <div class="main">

@@ -17,6 +17,7 @@
    <title>Mostly Sunny Toys</title>
    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&display=swap"
       rel="stylesheet">
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
    <link href="{{ asset('mainstyle.css') }}" rel="stylesheet">
 </head>
 
@@ -28,26 +29,29 @@
             <span></span><span></span><span></span>
          </div>
       </div>
+      
       <div class="logo-text">
          Mostly Sunny Toys
       </div>
+
       <form action="{{ route('products.index') }}" method="GET" class="search-box">
-         <span class="search-icon">🔍</span>
+         <span class="search-icon"><i class="fa-solid fa-magnifying-glass"></i></span>
          <input type="text" name="search" placeholder="Hľadať produkty..." value="{{ request('search') }}">
       </form>
+
       <div class="header-icons">
          @auth
             <button title="Môj profil" onclick="location.href='{{ route('dashboard') }}'">
-               👤 {{ Auth::user()->name }}
+               <i class="fa-solid fa-user"></i> {{ Auth::user()->name }}
             </button>
          @else
             <button title="Prihlásiť sa" onclick="location.href='{{ route('login') }}'">
-               👤 Prihlásiť sa
+               <i class="fa-solid fa-circle-user"></i> Prihlásiť sa
             </button>
          @endauth
 
          <button title="Košík" onclick="location.href='{{ route('cart.index') }}'" style="position: relative;">
-            🛒 Košík
+            <i class="fa-solid fa-cart-shopping"></i> Košík
             @if($cartCount > 0)
                <span class="cart-badge">{{ $cartCount }}</span>
             @endif

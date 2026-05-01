@@ -19,6 +19,7 @@
    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&display=swap"
       rel="stylesheet">
    <link href="{{ asset('mainstyle.css') }}" rel="stylesheet">
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
    <style>
       .category-topbar {
          display: flex;
@@ -124,21 +125,21 @@
          Mostly Sunny Toys
       </div>
       <form action="{{ route('products.index') }}" method="GET" class="search-box">
-         <span class="search-icon">🔍</span>
+         <span class="search-icon"><i class="fa-solid fa-magnifying-glass"></i></span>
          <input type="text" name="search" placeholder="Hľadať produkty..." value="{{ request('search') }}">
       </form>
       <div class="header-icons">
          @auth
             <button title="Môj profil" onclick="location.href='{{ route('dashboard') }}'">
-               👤 {{ Auth::user()->name }}
+               <i class="fa-solid fa-user"></i> {{ Auth::user()->name }}
             </button>
          @else
             <button title="Prihlásiť sa" onclick="location.href='{{ route('login') }}'">
-               👤 Prihlásiť sa
+               <i class="fa-solid fa-user"></i> Prihlásiť sa
             </button>
          @endauth
          <button title="Košík" onclick="location.href='{{ route('cart.index') }}'" style="position: relative;">
-         🛒 Košík
+         <i class="fa-solid fa-cart-shopping"></i> Košík
          @if($cartCount > 0)
             <span class="cart-badge">{{ $cartCount }}</span>
          @endif
@@ -228,7 +229,7 @@
                         <p class="product-price">€{{ number_format($product->price, 2) }}</p>
                         <form action="{{ route('cart.add', $product->id) }}" method="POST">
                                     @csrf
-                                    {{-- Skrytý vstup pre množstvo (defaultne 1) --}}
+                                    {{-- Skrytý vstup pre množstvo --}}
                                     <input type="hidden" name="quantity" value="1">
                                     <button type="submit" class="btn-cart">Do košíka</button>
                         </form>

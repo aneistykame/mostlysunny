@@ -7,6 +7,7 @@
    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&display=swap"
       rel="stylesheet">
    <link href="mainstyle.css" rel="stylesheet">
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
    <title>Môj profil</title>
 
    <style>
@@ -169,19 +170,23 @@
 
 <body>
 
-   <header>
-      <div class="logo-text" onclick="location.href='{{ url('/') }}'">
-         Mostly Sunny Toys
-      </div>
-      <div class="search-box">
-         <span class="search-icon">🔍</span>
-         <input type="text" placeholder="Hľadať produkty...">
-      </div>
-      <div class="header-icons">
-         <button title="Účet" onclick="location.href='{{ route('dashboard') }}'">👤 {{ Auth::user()->name }}</button>
-         <button title="Košík" onclick="location.href='{{ url('/cart') }}'">🛒 Košík</button>
-      </div>
-   </header>
+<header>
+   <div class="logo-text" onclick="location.href='{{ url('/') }}'">
+      Mostly Sunny Toys
+   </div>
+   <div class="search-box">
+      <span class="search-icon"><i class="fa-solid fa-magnifying-glass"></i></span>
+      <input type="text" placeholder="Hľadať produkty...">
+   </div>
+   <div class="header-icons">
+      <button title="Účet" onclick="location.href='{{ route('dashboard') }}'">
+         <i class="fa-solid fa-user"></i> {{ Auth::user()->name }}
+      </button>
+      <button title="Košík" onclick="location.href='{{ url('/cart') }}'">
+         <i class="fa-solid fa-cart-shopping"></i> Košík
+      </button>
+   </div>
+</header>
 
    <div class="main">
       <div class="profile-container">
