@@ -21,10 +21,11 @@ Route::get('/login', function () {
 })->name('login');
 
 // Stránka Register
-Route::get('/register', function () {
-    return view('register');
-})->name('register');
+// Zobrazenie formulára (použije tvoj Controller)
+Route::get('/register', [RegisteredUserController::class, 'create'])->name('register');
 
+// Spracovanie registrácie (použije tvoj Controller so všetkou validáciou)
+Route::post('/register', [RegisteredUserController::class, 'store']);
 // Profil
 Route::get('/profile', function () {
     return view('profile');
@@ -53,24 +54,7 @@ Route::post('/login', function (Request $request) {
 });
 
 //Spracovanie REGISTRÁCIE
-Route::post('/register', function (Request $request) {
-    $request->validate([
-        'name' => ['required', 'string', 'max:255'],
-        'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-        'password' => ['required', 'min:8'], // Pridaj si prípadne 'confirmed', ak máš v HTML input password_confirmation
-    ]);
 
-    $user = User::create([
-        'name' => $request->name,
-        'email' => $request->email,
-        'password' => Hash::make($request->password),
-    ]);
-
-    Auth::login($user);
-
-    //Presmerovanie na HLAVNÚ stránku
-    return redirect()->route('index');
-});
 
 //Spracovanie ODHLÁSENIA
 Route::post('/logout', function (Request $request) {

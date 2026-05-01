@@ -222,7 +222,9 @@
 
                 <input type="text" name="name" placeholder="Meno" value="{{ old('name') }}" required autofocus>
 
-                <input type="email" name="email" placeholder="Email" value="{{ old('email') }}" required>
+                <!-- Pridaný dynamický štýl: ak je chyba v email, rámček bude červený -->
+                <input type="email" name="email" placeholder="Email" value="{{ old('email') }}" required 
+                    style="{{ $errors->has('email') ? 'border-color: #e3342f;' : '' }}">
 
                 <input type="password" name="password" placeholder="Heslo" required autocomplete="new-password">
 
