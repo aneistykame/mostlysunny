@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\CheckoutController;
 
 // Hlavná stránka
 use App\Http\Controllers\ProductController;
@@ -84,7 +85,19 @@ Route::get('/category', [ProductController::class, 'index'])->name('products.ind
 Route::get('/category/{category}', [ProductController::class, 'category'])->name('category');
 
 //shipping
-Route::get('/checkout', [CartController::class, 'checkout'])->name('checkout');
+Route::get('/checkout', [CheckoutController::class, 'showShipping'])->name('checkout.shipping');
 
 Route::get('/', [ProductController::class, 'home'])->name('index');
 Route::get('/product/{id}', [ProductController::class, 'show'])->name('product.show');
+
+Route::get('/checkout/shipping', [CheckoutController::class, 'showShipping'])->name('checkout.shipping');
+Route::post('/checkout/shipping', [CheckoutController::class, 'storeShipping'])->name('checkout.storeShipping');
+Route::get('/checkout/payment', [CheckoutController::class, 'showPayment'])->name('checkout.payment');
+Route::get('/checkout', [CheckoutController::class, 'showShipping'])->name('checkout.shipping');
+
+Route::get('/checkout/payment', [CheckoutController::class, 'showPayment'])->name('checkout.payment');
+Route::post('/checkout/payment', [CheckoutController::class, 'storePayment'])->name('checkout.storePayment');
+Route::get('/checkout/details', [CheckoutController::class, 'showDetails'])->name('checkout.details');
+
+Route::get('/checkout/details', [CheckoutController::class, 'showDetails'])->name('checkout.details');
+Route::post('/checkout/place-order', [CheckoutController::class, 'placeOrder'])->name('checkout.placeOrder');

@@ -202,85 +202,107 @@
     <div class="cart-container">
         <div class="checkout-steps">Košík → <b>Doprava</b> → Platba → Údaje</div>
         <div class="checkout-layout">
+            <form action="{{ route('checkout.storeShipping') }}" method="POST">
+            @csrf
             <div class="shipping-section">
                 <h3 style="margin-bottom:20px;">Vyber spôsob dopravy</h3>
+                
+                @foreach($shippingMethods as $method)
                 <div class="shipping-option">
                     <div class="shipping-head">
                         <div class="shipping-left">
-                            <input type="radio" name="shipping" checked>
-                            <span>Kuriér na adresu</span>
+                            <input type="radio" name="shipping_id" value="{{ $method->shipping_id }}" 
+                                class="shipping-radio" data-price="{{ $method->price }}"
+                                {{ $loop->first ? 'checked' : '' }}>
+                            <span>{{ $method->name }}</span>
                         </div>
-                        <div class="shipping-price">€4.99</div>
+                        <div class="shipping-price">€{{ number_format($method->price, 2) }}</div>
                     </div>
-                </div>
-                <div class="shipping-option">
-                    <div class="shipping-head">
-                        <div class="shipping-left">
-                            <input type="radio" name="shipping">
-                            <span>Zásielkovňa</span>
-                        </div>
-                        <div class="shipping-price">€2.99</div>
-                    </div>
-                    <div class="form-group">
+
+                    @if($method->name == 'Zásielkovňa')
+                    <div class="form-group branch-select" style="display:none;">
                         <label>Vyber pobočku</label>
-                        <select>
+                        <select name="branch_location">
                             <option>Bratislava – Centrum</option>
                             <option>Nitra – OC Mlyny</option>
                             <option>Trnava – City Arena</option>
                         </select>
                     </div>
+                    @endif
                 </div>
-                <div class="shipping-option">
-                    <div class="shipping-head">
-                        <div class="shipping-left">
-                            <input type="radio" name="shipping">
-                            <span>Osobný odber</span>
-                        </div>
-                        <div class="shipping-price">€0.00</div>
-                    </div>
-                    <p style="font-size:14px;">
-                        Osobný odber je možný na adrese:<br>
-                        <strong>Mostly Sunny Toys<br>
-                        Hlavná 15, Nitra</strong>
-                    </p>
-                </div>
-                <button class="checkout-btn" onclick="location.href='{{ url('/checkout/payment') }}'">Pokračovať k platbe</button>
+                @endforeach
+
+                <button type="submit" class="checkout-btn">Pokračovať k platbe</button>
             </div>
+        </form>
 
             <div class="cart-summary">
-                <div class="summary-title">Tvoj košík</div>
-                @forelse($cartItems as $id => $item)
-                    @php
-                        // Zjednotenie dát pre prihlásených aj hostí
-                        $isObject = is_object($item);
-                        $product = $isObject ? $item->product : (isset($item['product']) ? (object)$item['product'] : null);
-                        $qty = $isObject ? $item->quantity : $item['quantity'];
-                        $price = $isObject ? ($item->product->price ?? 0) : ($item['price'] ?? 0);
-                    @endphp
-                    
-                    <div class="summary-item">
-                        <span>{{ $product->name ?? 'Produkt' }} ×{{ $qty }}</span>
-                        <span>{{ number_format($price * $qty, 2) }} €</span>
-                    </div>
-                @empty
-                    <div class="summary-item">Košík je prázdny</div>
-                @endforelse
+    <div class="summary-title">Tvoj košík</div>
+    @php $firstMethod = $shippingMethods->first(); @endphp
+    
+    @foreach($cartItems as $id => $item)
+        @php
+            $isObject = is_object($item);
+            $productName = $isObject ? $item->product->name : ($item['name'] ?? 'Produkt');
+            $qty = $isObject ? $item->quantity : $item['quantity'];
+            $price = $isObject ? ($item->product->price ?? 0) : ($item['price'] ?? 0);
+        @endphp
+        <div class="summary-item">
+            <span>{{ $productName }} ×{{ $qty }}</span>
+            <span>{{ number_format($price * $qty, 2) }} €</span>
+        </div>
+    @endforeach
 
-                <div class="summary-item" style="margin-top: 20px; color: var(--text-light);">
-                    <span>Doprava (kuriér)</span>
-                    <span>€4.99</span>
-                </div>
+    <div class="summary-item" style="margin-top: 20px; color: var(--text-light);">
+        <span>Doprava</span>
+        <span id="shipping-price-display">€{{ number_format($firstMethod->price ?? 0, 2) }}</span>
+    </div>
 
-                <div class="summary-total">
-                    <span>Spolu</span>
-                    {{-- Celková suma z košíka + doprava --}}
-                    <span>{{ number_format($total + 4.99, 2) }} €</span>
-                </div>
-            </div>
+    <div class="summary-total">
+        <span>Spolu</span>
+        <span id="total-price-display">€{{ number_format($total + ($firstMethod->price ?? 0), 2) }}</span>
+    </div>
+</div>
         </div>
     </div>
 </div>
     <footer>© 2026 Mostly Sunny Toys</footer>
+
+<script>
+    const radios = document.querySelectorAll('.shipping-radio');
+    const shippingDisplay = document.getElementById('shipping-price-display');
+    const totalDisplay = document.getElementById('total-price-display');
+    const baseTotal = {{ $total }}; 
+
+    radios.forEach(radio => {
+        // Spustíme hneď pri načítaní, aby sa ukázala Zásielkovňa, ak je defaultne zvolená
+        if (radio.checked) {
+            updateSummary(radio);
+        }
+
+        radio.addEventListener('change', function() {
+            updateSummary(this);
+        });
+    });
+
+    function updateSummary(element) {
+        const price = parseFloat(element.dataset.price);
+        
+        // 1. Aktualizuj texty cez ID (presnejšie ako span:last-child)
+        shippingDisplay.innerText = '€' + price.toFixed(2);
+        totalDisplay.innerText = '€' + (baseTotal + price).toFixed(2);
+
+        // 2. Logika pre Zásielkovňu
+        // Najprv skryjeme všetky selecty
+        document.querySelectorAll('.branch-select').forEach(el => el.style.display = 'none');
+        
+        // Ak má tento rádio button v sebe branch-select, ukáž ho
+        const branchGroup = element.closest('.shipping-option').querySelector('.branch-select');
+        if(branchGroup) {
+            branchGroup.style.display = 'block';
+        }
+    }
+</script>
 </body>
 
 </html>

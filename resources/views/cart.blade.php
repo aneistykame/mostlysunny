@@ -270,9 +270,9 @@
                 Spolu: {{ number_format($total, 2) }} €
             </div>
             {{-- Smerovanie na ďalší krok objednávky --}}
-            <button class="checkout-btn" onclick="location.href='{{ url('/checkout') }}'">
-                Pokračovať k doprave
-            </button>
+            <button class="checkout-btn" onclick="location.href='{{ route('checkout.shipping') }}'">
+    Pokračovať k doprave
+</button>
             @endif
         </div>
     </div>
