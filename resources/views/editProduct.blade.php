@@ -7,7 +7,7 @@
    <title>Vymazať produkt</title>
    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&display=swap"
       rel="stylesheet">
-   <link href="adminstyle.css" rel="stylesheet">
+    <link href="{{ asset('adminstyle.css') }}" rel="stylesheet">
    <style>
       .page-title {
          font-size: 22px;
@@ -131,13 +131,25 @@
 
 <body>
    <header>
-      <div class="burger-area" id="burgerBtn">
-         <div class="burger-icon"><span></span><span></span><span></span></div>
-      </div>
-      <div class="logo-text" onclick="location.href='adminindex.html'">Mostly Sunny Admin</div>
-      <div class="header-icons">
-         <button onclick="location.href='adminlogin.html'">👤 Účet</button>
-      </div>
+       <div class="burger-area" id="burgerBtn">
+           <div class="burger-icon">
+               <span></span><span></span><span></span>
+           </div>
+       </div>
+       <div class="logo-text" onclick="location.href='{{ route('admin.dashboard') }}'">
+           Mostly Sunny Admin
+       </div>
+       <div class="header-icons">
+           @auth
+           <button title="Môj profil" onclick="location.href='{{ route('dashboard') }}'">
+               <i class="fa-solid fa-user"></i> {{ Auth::user()->name }}
+           </button>
+           @else
+           <button title="Prihlásiť sa" onclick="location.href='{{ route('login') }}'">
+               <i class="fa-solid fa-circle-user"></i> Prihlásiť sa
+           </button>
+           @endauth
+       </div>
    </header>
 
    <div class="sidebar-overlay" id="sidebarOverlay"></div>
@@ -145,9 +157,9 @@
       <nav class="sidebar">
          <div class="sidebar-title">Kategórie</div>
          <ul>
-            <li><a href="addProduct.html">Pridať nový produkt <span class="arrow">›</span></a></li>
-            <li><a href="deleteProduct.html">Vymazať produkt <span class="arrow">›</span></a></li>
-            <li class="active"><a href="editProduct.html">Zmeniť detaily produktu <span class="arrow">›</span></a></li>
+             <li><a href="{{ route('admin.products.create') }}">Pridať nový produkt <span class="arrow">›</span></a></li>
+             <li><a href="{{ route('admin.products.deleteProduct') }}">Vymazať produkt <span class="arrow">›</span></a></li>
+             <li class="active"><a href="{{ route('admin.products.editProduct') }}">Zmeniť detaily produktu <span class="arrow">›</span></a></li>
          </ul>
       </nav>
 
@@ -158,7 +170,23 @@
             <input type="text" id="searchInput" placeholder="Hľadať produkt..." oninput="filterProducts()">
          </div>
 
-         <div class="product-list" id="productList"></div>
+         <div class="product-list" id="productList">
+             @forelse($products as $product)
+             <div class="product-row" id="row-{{ $product->id }}" data-name="{{ strtolower($product->name) }}">
+                 <div class="product-row-img">
+                     <img src="{{ asset($product->image ?? 'src/img/placeholder.jpg') }}"
+                          style="width:52px;height:52px;border-radius:8px;object-fit:cover;" alt="">
+                 </div>
+                 <div class="product-row-info">
+                     <div class="product-row-name">{{ $product->name }}</div>
+                     <div class="product-row-meta">{{ $product->category }} · {{ number_format($product->price, 2) }} €</div>
+                 </div>
+                 <button class="btn-edit" onclick="location.href='{{ route('admin.products.edit', $product->id) }}'">Zmeniť</button>
+             </div>
+             @empty
+             <div class="empty-state">Žiadne produkty.</div>
+             @endforelse
+         </div>
       </main>
    </div>
 
@@ -173,37 +201,12 @@
       document.addEventListener('keydown', e => { if (e.key === 'Escape') document.body.classList.remove('sidebar-open'); });
       window.addEventListener('resize', () => { if (window.innerWidth > 1100) document.body.classList.remove('sidebar-open'); });
 
-      let products = [
-         { id: 1, name: 'Plyšová sova', category: 'Plyšové hračky', price: '€13.95' },
-         { id: 2, name: 'Plyšový medvedík', category: 'Plyšové hračky', price: '€15.95' },
-         { id: 3, name: 'Plyšový zajačik', category: 'Plyšové hračky', price: '€11.95' },
-         { id: 4, name: 'Plyšový lev', category: 'Plyšové hračky', price: '€14.95' },
-         { id: 5, name: 'Plyšový slon', category: 'Plyšové hračky', price: '€16.95' },
-         { id: 6, name: 'Stavebnica základná', category: 'Stavebnice', price: '€24.95' },
-         { id: 7, name: 'Spoločenská hra rodina', category: 'Spoločenské hry', price: '€19.95' },
-      ];
-
-      let deleteTargetId = null;
-
-      function renderProducts(list) {
-         const container = document.getElementById('productList');
-         if (list.length === 0) {
-            container.innerHTML = '<div class="empty-state">Žiadne produkty nenájdené.</div>';
-            return;
-         }
-         container.innerHTML = list.map(p => `
-            <div class="product-row" id="row-${p.id}">
-               <div class="product-row-img"></div>
-               <div class="product-row-info">
-                  <div class="product-row-name">${p.name}</div>
-                  <div class="product-row-meta">${p.category} · ${p.price}</div>
-               </div>
-               <button class="btn-edit" onclick="location.href='editcurtainproduct.html'">Zmeniť</button>
-            </div>
-         `).join('');
+      function filterProducts() {
+          const q = document.getElementById('searchInput').value.toLowerCase();
+          document.querySelectorAll('.product-row').forEach(row => {
+              row.style.display = row.dataset.name.includes(q) ? '' : 'none';
+          });
       }
-
-      renderProducts(products);
    </script>
 </body>
 

@@ -33,7 +33,7 @@ class ProductController extends Controller
             $category = "Všetky produkty";
         }
 
-        $products = $query->paginate(20)->appends($request->all());
+        $products = $query->paginate(10)->appends($request->all());
         $colors = collect();
     $materials = collect();
 

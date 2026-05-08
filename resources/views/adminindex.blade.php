@@ -7,7 +7,7 @@
    <title>Mostly Sunny Toys</title>
    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&display=swap"
       rel="stylesheet">
-   <link href="adminstyle.css" rel="stylesheet">
+   <link href="{{ asset('adminstyle.css') }}" rel="stylesheet">
 </head>
 
 <body>
@@ -18,11 +18,19 @@
             <span></span><span></span><span></span>
          </div>
       </div>
-      <div class="logo-text" onclick="location.href='adminindex.html'">
+      <div class="logo-text" onclick="location.href='{{ route('admin.dashboard') }}'">
          Mostly Sunny Admin
       </div>
       <div class="header-icons">
-         <button title="Účet" onclick="location.href='adminlogin.html'">👤 Účet</button>
+          @auth
+          <button title="Môj profil" onclick="location.href='{{ route('dashboard') }}'">
+              <i class="fa-solid fa-user"></i> {{ Auth::user()->name }}
+          </button>
+          @else
+          <button title="Prihlásiť sa" onclick="location.href='{{ route('login') }}'">
+              <i class="fa-solid fa-circle-user"></i> Prihlásiť sa
+          </button>
+          @endauth
       </div>
    </header>
    <div class="sidebar-overlay" id="sidebarOverlay"></div>
@@ -30,9 +38,9 @@
       <nav class="sidebar">
          <div class="sidebar-title">Kategórie</div>
          <ul>
-            <li><a href="addProduct.html">Pridať nový produkt <span class="arrow">›</span></a></li>
-            <li><a href="deleteProduct.html">Vymazať produkt <span class="arrow">›</span></a></li>
-            <li><a href="editProduct.html">Zmeniť detaily produktu <span class="arrow">›</span></a></li>
+            <li><a href="{{ route('admin.products.create') }}">Pridať nový produkt <span class="arrow">›</span></a></li>
+            <li><a href="{{ route('admin.products.deleteProduct') }}">Vymazať produkt <span class="arrow">›</span></a></li>
+            <li><a href="{{ route('admin.products.editProduct') }}">Zmeniť detaily produktu <span class="arrow">›</span></a></li>
          </ul>
       </nav>
       <main class="main-content">

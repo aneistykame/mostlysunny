@@ -8,12 +8,11 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\AdminController;
 
 // Hlavná stránka
 use App\Http\Controllers\ProductController;
 
-Route::get('/', [ProductController::class, 'index'])->name('index');
-Route::get('/product/{id}', [ProductController::class, 'show'])->name('product.show');
 
 // Stránka Login
 Route::get('/login', function () {
@@ -45,12 +44,16 @@ Route::post('/login', function (Request $request) {
     if (Auth::attempt($credentials)) {
         $request->session()->regenerate();
         // Presmerovanie na HLAVNÚ stránku
+        if (Auth::user()->role === 'admin') {
+            return redirect()->route('admin.dashboard');
+        }
         return redirect()->route('index');
     }
 
     return back()->withErrors([
         'email' => 'Nesprávne prihlasovacie údaje.',
     ])->onlyInput('email');
+
 });
 
 //Spracovanie REGISTRÁCIE
@@ -80,11 +83,38 @@ Route::patch('/cart/update/{product_id}', [CartController::class, 'update'])->na
 //Stránka vyhľadávania a kategórií
 Route::get('/category', [ProductController::class, 'index'])->name('products.index');
 
-//konkrétna kategória zo sidebar
-Route::get('/category/{category}', [ProductController::class, 'category'])->name('category');
-
 //shipping
 Route::get('/checkout', [CartController::class, 'checkout'])->name('checkout');
 
 Route::get('/', [ProductController::class, 'home'])->name('index');
 Route::get('/product/{id}', [ProductController::class, 'show'])->name('product.show');
+
+//admin
+Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
+
+    Route::get('/', [AdminController::class, 'dashboard'])
+        ->name('admin.dashboard');
+
+    Route::get('/products/create', [AdminController::class, 'create'])
+        ->name('admin.products.create');
+
+    Route::post('/products', [AdminController::class, 'store'])
+        ->name('admin.products.store');
+
+    Route::get('/products/{id}/edit', [AdminController::class, 'edit'])
+        ->name('admin.products.edit');
+
+    Route::put('/products/{id}', [AdminController::class, 'update'])
+        ->name('admin.products.update');
+
+    Route::delete('/products/{id}', [AdminController::class, 'destroy'])
+        ->name('admin.products.delete');
+
+    Route::get('/products/delete', [AdminController::class, 'deleteProduct'])
+        ->name('admin.products.deleteProduct');
+
+    Route::get('/products/edit', [AdminController::class, 'editProduct'])
+        ->name('admin.products.editProduct');
+
+
+});
