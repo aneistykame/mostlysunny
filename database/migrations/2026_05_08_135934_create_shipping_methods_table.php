@@ -12,13 +12,12 @@ return new class extends Migration
     public function up(): void
 {
     Schema::create('shipping_methods', function (Blueprint $table) {
-        $table->id('shipping_id'); // podľa tvojho diagramu
+        $table->id('shipping_id');
         $table->string('name');
         $table->decimal('price', 8, 2);
         $table->timestamps();
     });
 
-    // Hneď si tam pridajme základné dáta
     DB::table('shipping_methods')->insert([
         ['name' => 'Kuriér na adresu', 'price' => 4.99],
         ['name' => 'Zásielkovňa', 'price' => 2.99],

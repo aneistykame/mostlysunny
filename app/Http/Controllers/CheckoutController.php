@@ -12,7 +12,7 @@ class CheckoutController extends Controller
 {
     public function showShipping()
     {
-        // 1. Logika košíka (Zjednotená pre hostí aj prihlásených)
+        // Logika košíka
         if (Auth::check()) {
             $cartItems = CartItem::whereHas('cart', function($q) {
                 $q->where('user_id', Auth::id());
@@ -24,11 +24,9 @@ class CheckoutController extends Controller
             $total = collect($cartItems)->sum(fn($item) => $item['quantity'] * $item['price']);
         }
 
-        // 2. Načítanie dopravy z DB
+        // Načítanie dopravy z DB
         $shippingMethods = ShippingMethod::all();
 
-        // 3. VRÁTENIE SPRÁVNEHO VIEW
-        // Ak sa tvoj súbor volá resources/views/cart2.blade.php, musí tu byť 'cart2'
         return view('cart2', compact('cartItems', 'total', 'shippingMethods'));
     }
 
@@ -53,7 +51,7 @@ class CheckoutController extends Controller
 
     public function showPayment()
     {
-        // Kontrola, či si používateľ vybral dopravu v predošlom kroku
+        // Kontrola či si používateľ vybral dopravu v predošlom kroku
         if (!session()->has('shipping_selection')) {
             return redirect()->route('checkout.shipping');
         }
@@ -61,7 +59,7 @@ class CheckoutController extends Controller
         $paymentMethods = PaymentMethod::all();
         $shipping = session('shipping_selection');
 
-        // Načítanie košíka (rovnaká logika ako v cart2)
+        // Načítanie košíka
         if (auth()->check()) {
             $cartItems = \App\Models\CartItem::whereHas('cart', function($q) {
                 $q->where('user_id', auth()->id());
@@ -83,13 +81,12 @@ class CheckoutController extends Controller
 
         $payment = PaymentMethod::find($request->payment_id);
 
-        // Uložíme výber platby do Session
         session(['payment_selection' => [
             'id' => $payment->payment_id,
             'name' => $payment->name
         ]]);
 
-        return redirect()->route('checkout.details'); // Smer na cart4 (osobné údaje)
+        return redirect()->route('checkout.details'); // Smer na cart4
     }
 
 public function showDetails()
@@ -99,7 +96,7 @@ public function showDetails()
     $shipping = session('shipping_selection');
     $payment = session('payment_selection');
     
-    // Načítanie košíka (rovnako ako predtým)
+    // Načítanie košíka
     if (auth()->check()) {
         $cartItems = \App\Models\CartItem::whereHas('cart', function($q) {
             $q->where('user_id', auth()->id());
@@ -123,19 +120,18 @@ public function showDetails()
 
         $shipping = session('shipping_selection');
         $payment = session('payment_selection');
-        // Tu by sa rátal total košíka...
         
-        // 1. Vytvorenie objednávky
-        $order = new \App\Models\Order(); // Nezabudni vytvoriť model Order!
+        // Vytvorenie objednávky
+        $order = new \App\Models\Order();
         $order->fill($request->all());
         $order->user_id = auth()->id();
         $order->shipping_method = $shipping['name'];
         $order->shipping_price = $shipping['price'];
         $order->payment_method = $payment['name'];
-        $order->total_price = $request->total_val; // Pošleme si ju v skrytom poli
+        $order->total_price = $request->total_val;
         $order->save();
 
-        // 2. Vymazať košík a session
+        // Vymazať košík a session
         if (auth()->check()) {
             \App\Models\Cart::where('user_id', auth()->id())->delete();
         }

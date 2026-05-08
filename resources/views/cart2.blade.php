@@ -275,7 +275,6 @@
     const baseTotal = {{ $total }}; 
 
     radios.forEach(radio => {
-        // Spustíme hneď pri načítaní, aby sa ukázala Zásielkovňa, ak je defaultne zvolená
         if (radio.checked) {
             updateSummary(radio);
         }
@@ -288,12 +287,11 @@
     function updateSummary(element) {
         const price = parseFloat(element.dataset.price);
         
-        // 1. Aktualizuj texty cez ID (presnejšie ako span:last-child)
+        // Aktualizuj texty cez ID
         shippingDisplay.innerText = '€' + price.toFixed(2);
         totalDisplay.innerText = '€' + (baseTotal + price).toFixed(2);
 
-        // 2. Logika pre Zásielkovňu
-        // Najprv skryjeme všetky selecty
+        // Logika pre Zásielkovňu
         document.querySelectorAll('.branch-select').forEach(el => el.style.display = 'none');
         
         // Ak má tento rádio button v sebe branch-select, ukáž ho

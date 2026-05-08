@@ -17,7 +17,6 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        // Vložíme základné možnosti
         DB::table('payment_methods')->insert([
             ['name' => 'Platba kartou'],
             ['name' => 'Apple Pay / Google Pay'],

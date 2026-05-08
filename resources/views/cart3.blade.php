@@ -214,32 +214,32 @@
                             </div>
 
                                 @if($method->name == 'Platba kartou')
-<div class="card-details-fields" id="card-fields" style="margin-top: 15px;">
-    <div class="form-group">
-        <label>Číslo karty</label>
-        <input type="text" id="card_number" name="card_num" 
-               placeholder="0000 0000 0000 0000" 
-               pattern="\d{16}" title="Zadajte 16 číslic čísla karty" 
-               maxlength="16">
-    </div>
-    <div style="display:flex; gap:10px;">
-        <div class="form-group" style="flex:2;">
-            <label>Platnosť (MM/YY)</label>
-            <input type="text" id="card_expiry" name="card_exp" 
-                   placeholder="MM/YY" 
-                   pattern="(0[1-9]|1[0-2])\/?([0-9]{2})" 
-                   title="Formát musí byť MM/YY" maxlength="5">
-        </div>
-        <div class="form-group" style="flex:1;">
-            <label>CVC</label>
-            <input type="text" id="card_cvc" name="card_cvc" 
-                   placeholder="123" 
-                   pattern="\d{3}" title="Zadajte 3 číslice na zadnej strane karty" 
-                   maxlength="3">
-        </div>
-    </div>
-</div>
-@endif
+                                <div class="card-details-fields" id="card-fields" style="margin-top: 15px;">
+                                    <div class="form-group">
+                                        <label>Číslo karty</label>
+                                        <input type="text" id="card_number" name="card_num" 
+                                            placeholder="0000 0000 0000 0000" 
+                                            pattern="\d{16}" title="Zadajte 16 číslic čísla karty" 
+                                            maxlength="16">
+                                    </div>
+                                    <div style="display:flex; gap:10px;">
+                                        <div class="form-group" style="flex:2;">
+                                            <label>Platnosť (MM/YY)</label>
+                                            <input type="text" id="card_expiry" name="card_exp" 
+                                                placeholder="MM/YY" 
+                                                pattern="(0[1-9]|1[0-2])\/?([0-9]{2})" 
+                                                title="Formát musí byť MM/YY" maxlength="5">
+                                        </div>
+                                        <div class="form-group" style="flex:1;">
+                                            <label>CVC</label>
+                                            <input type="text" id="card_cvc" name="card_cvc" 
+                                                placeholder="123" 
+                                                pattern="\d{3}" title="Zadajte 3 číslice na zadnej strane karty" 
+                                                maxlength="3">
+                                        </div>
+                                    </div>
+                                </div>
+                            @endif
                         </div>
                         @endforeach
 

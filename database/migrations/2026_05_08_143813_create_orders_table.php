@@ -25,7 +25,7 @@ return new class extends Migration
             $table->decimal('shipping_price', 8, 2);
             $table->string('payment_method');
             $table->decimal('total_price', 8, 2);
-            $table->string('status')->default('nová');
+            $table->string('status')->default('nova');
             $table->timestamps();
         });
     }
