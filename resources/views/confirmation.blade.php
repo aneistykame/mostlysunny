@@ -184,30 +184,38 @@
             <div class="confirmation">
 
                <div class="success-box">
-                  <h2>🎉 Objednávka potvrdená!</h2>
-                  <p>Ďakujeme za nákup. Na email sme ti poslali potvrdenie.</p>
+                  <h2>Objednávka #{{ $order->id }} potvrdená!</h2>
+<p>Ďakujeme za nákup, <strong>{{ $order->first_name }}</strong>. Na email <strong>{{ $order->email }}</strong> sme ti poslali potvrdenie.</p>
                </div>
 
                <div class="invoice-box">
                   <h3 style="margin-bottom:15px;">Fakturačné údaje</h3>
 
+                  <div class="invoice-box">
+                  <h3 style="margin-bottom:15px;">Doručovacie údaje</h3>
+
                   <div class="invoice-row">
-                     <span>Meno:</span>
-                     <span>Ján Novák</span>
+                     <span>Meno a priezvisko:</span>
+                     <span>{{ $order->first_name }} {{ $order->last_name }}</span>
                   </div>
 
                   <div class="invoice-row">
-                     <span>Email:</span>
-                     <span>jan@example.com</span>
+                     <span>Adresa:</span>
+                     <span>{{ $order->address }}, {{ $order->zip }} {{ $order->city }}</span>
                   </div>
 
                   <div class="invoice-row">
                      <span>Telefón:</span>
-                     <span>+421 900 000 000</span>
+                     <span>{{ $order->phone }}</span>
+                  </div>
+
+                  <div class="invoice-row" style="margin-top: 15px; border-top: 1px solid #eee; padding-top: 10px;">
+                     <span>Spôsob platby:</span>
+                     <span>{{ $order->payment_method }}</span>
                   </div>
                </div>
 
-               <button class="btn btn-primary" onclick="location.href='index.html'">Späť na obchod</button>
+              <button class="btn btn-primary" onclick="window.location.href='{{ url('/') }}'">Späť na obchod</button>
 
             </div>
 
