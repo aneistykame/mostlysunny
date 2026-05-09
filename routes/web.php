@@ -41,19 +41,13 @@ Route::post('/login', function (Request $request) {
         'password' => ['required'],
     ]);
 
-    if (Auth::attempt($credentials)) {
-        $request->session()->regenerate();
-        // Presmerovanie na HLAVNÚ stránku
-        if (Auth::user()->role === 'admin') {
-            return redirect()->route('admin.dashboard');
-        }
-        return redirect()->route('index');
+    if (Auth::user()->role === 'admin') {
+        return redirect()->route('admin.dashboard');
     }
 
     return back()->withErrors([
         'email' => 'Nesprávne prihlasovacie údaje.',
     ])->onlyInput('email');
-
 });
 
 //Spracovanie REGISTRÁCIE
@@ -83,6 +77,14 @@ Route::patch('/cart/update/{product_id}', [CartController::class, 'update'])->na
 //Stránka vyhľadávania a kategórií
 Route::get('/category', [ProductController::class, 'index'])->name('products.index');
 
+//konkrétna kategória zo sidebar
+Route::get('/category/{category}', [ProductController::class, 'category'])->name('category');
+
+//shipping
+Route::get('/checkout', [CheckoutController::class, 'showShipping'])->name('checkout.shipping');
+
+Route::get('/', [ProductController::class, 'home'])->name('index');
+Route::get('/product/{id}', [ProductController::class, 'show'])->name('product.show');
 //shipping
 Route::get('/checkout', [CartController::class, 'checkout'])->name('checkout');
 
@@ -118,3 +120,16 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
 
 
 });
+
+
+Route::get('/checkout/shipping', [CheckoutController::class, 'showShipping'])->name('checkout.shipping');
+Route::post('/checkout/shipping', [CheckoutController::class, 'storeShipping'])->name('checkout.storeShipping');
+Route::get('/checkout/payment', [CheckoutController::class, 'showPayment'])->name('checkout.payment');
+Route::get('/checkout', [CheckoutController::class, 'showShipping'])->name('checkout.shipping');
+
+Route::get('/checkout/payment', [CheckoutController::class, 'showPayment'])->name('checkout.payment');
+Route::post('/checkout/payment', [CheckoutController::class, 'storePayment'])->name('checkout.storePayment');
+Route::get('/checkout/details', [CheckoutController::class, 'showDetails'])->name('checkout.details');
+
+Route::get('/checkout/details', [CheckoutController::class, 'showDetails'])->name('checkout.details');
+Route::post('/checkout/place-order', [CheckoutController::class, 'placeOrder'])->name('checkout.placeOrder');

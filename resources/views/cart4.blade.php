@@ -6,7 +6,7 @@
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&display=swap"
       rel="stylesheet">
-   <link href="mainstyle.css" rel="stylesheet">
+   <link href="{{ asset('mainstyle.css') }}" rel="stylesheet">
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
    <title>Dodacie údaje</title>
 
@@ -197,75 +197,66 @@
             Košík → Doprava → Platba → <b>Údaje</b>
          </div>
 
-         <div class="checkout-layout">
-
-            <!-- LEFT FORM -->
-            <div class="form-section">
-               <h3 style="margin-bottom:20px;">Dodacie údaje</h3>
-               <form>
-                  <div class="form-grid">
-
-                     <div class="form-group">
-                        <label>Meno</label>
-                        <input type="text">
-                     </div>
-
-                     <div class="form-group">
-                        <label>Priezvisko</label>
-                        <input type="text">
-                     </div>
-
-                     <div class="form-group full">
-                        <label>Email</label>
-                        <input type="email">
-                     </div>
-
-                     <div class="form-group full">
-                        <label>Telefón</label>
-                        <input type="tel">
-                     </div>
-
-                     <!-- NOVÉ POLIA -->
-                     <div class="form-group full">
-                        <label>Ulica a číslo</label>
-                        <input type="text">
-                     </div>
-
-                     <div class="form-group">
-                        <label>Mesto</label>
-                        <input type="text">
-                     </div>
-
-                     <div class="form-group">
-                        <label>PSČ</label>
-                        <input type="text">
-                     </div>
-
-                  </div>
-
-
-               </form>
-               <button class="checkout-btn" onclick="location.href='confirmation.html'">Dokončiť objednávku</button>
+         <form action="{{ route('checkout.placeOrder') }}" method="POST">
+    @csrf
+    <div class="checkout-layout">
+        <div class="form-section">
+            <h3 style="margin-bottom:20px;">Dodacie údaje</h3>
+            <div class="form-grid">
+                <div class="form-group"><label>Meno</label><input type="text" name="first_name" required></div>
+                <div class="form-group"><label>Priezvisko</label><input type="text" name="last_name" required></div>
+                <div class="form-group full">
+    <label>Email</label>
+    <input type="email" 
+           name="email" 
+           placeholder="meno@domena.sk" 
+           required 
+           {{-- Ak je prihlásený, vyplň email a pridaj atribút readonly --}}
+           @auth
+               value="{{ auth()->user()->email }}" 
+               readonly
+               style="background-color: #f0f0f0; cursor: not-allowed;"
+           @endauth
+    >
+    @auth
+        <small style="color: var(--text-light); font-size: 11px; margin-top: 4px;">
+            Email nie je možné zmeniť, pretože ste prihlásený.
+        </small>
+    @endauth
+</div>
+                <div class="form-group full"><label>Telefón</label><input type="tel" name="phone" required></div>
+                <div class="form-group full"><label>Ulica a číslo</label><input type="text" name="address" required></div>
+                <div class="form-group"><label>Mesto</label><input type="text" name="city" required></div>
+                <div class="form-group"><label>PSČ</label><input type="text" name="zip" required></div>
             </div>
+            
+            <input type="hidden" name="total_val" value="{{ $total + $shipping['price'] }}">
+            
+            <button type="submit" class="checkout-btn">Dokončiť objednávku</button>
+        </div>
 
-            <!-- RIGHT SUMMARY -->
-            <div class=" cart-summary">
-               <div class="summary-title">Tvoj košík</div>
-               <div class="summary-item">
-                  <span>Plyšový medveď ×1</span>
-                  <span>€15.99</span>
-               </div>
-               <div class="summary-item">
-                  <span>Doprava</span>
-                  <span>€4.99</span>
-               </div>
-               <div class="summary-total">
-                  <span>Spolu</span>
-                  <span>€20.98</span>
-               </div>
+        <div class="cart-summary">
+            <div class="summary-title">Tvoj košík</div>
+            @foreach($cartItems as $item)
+                <div class="summary-item">
+                    <span>{{ is_object($item) ? $item->product->name : $item['name'] }}</span>
+                    <span>€{{ number_format((is_object($item) ? $item->product->price : $item['price']) * (is_object($item) ? $item->quantity : $item['quantity']), 2) }}</span>
+                </div>
+            @endforeach
+            <div class="summary-item" style="border-top: 1px solid #ccc; padding-top: 10px;">
+                <span>Doprava: {{ $shipping['name'] }}</span>
+                <span>€{{ number_format($shipping['price'], 2) }}</span>
             </div>
-
-         </div>
+            <div class="summary-item">
+                <span>Spôsob Platby: {{ $payment['name'] }}</span>
+            </div>
+            <div class="summary-total">
+                <span>Spolu</span>
+                <span>€{{ number_format($total + $shipping['price'], 2) }}</span>
+            </div>
+        </div>
+    </div>
+</form>
       </div>
    </div>
 

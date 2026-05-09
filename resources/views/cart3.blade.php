@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&display=swap"
         rel="stylesheet">
-    <link href="mainstyle.css" rel="stylesheet">
+    <link href="{{ asset('mainstyle.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <title>Platba</title>
     <style>
@@ -197,78 +197,77 @@
             <div class="checkout-steps">
                 Košík → Doprava → <b>Platba</b> → Údaje
             </div>
-            <div class="checkout-layout">
-                <!-- LEFT SIDE -->
-                <div class="payment-section">
-                    <h3 style="margin-bottom:20px;">Vyber spôsob platby</h3>
-                    <!-- Platba kartou -->
-                    <div class="payment-option">
-                        <div class="payment-head">
-                            <div class="payment-left">
-                                <input type="radio" name="payment">
-                                <span>Platba kartou</span>
+            <form action="{{ route('checkout.storePayment') }}" method="POST">
+                @csrf
+                <div class="checkout-layout">
+                    <div class="payment-section">
+                        <h3 style="margin-bottom:20px;">Vyber spôsob platby</h3>
+                        
+                        @foreach($paymentMethods as $method)
+                        <div class="payment-option">
+                            <div class="payment-head">
+                                <div class="payment-left">
+                                    <input type="radio" name="payment_id" value="{{ $method->payment_id }}" 
+                                        {{ $loop->first ? 'checked' : '' }} class="payment-radio">
+                                    <span>{{ $method->name }}</span>
+                                </div>
                             </div>
+
+                                @if($method->name == 'Platba kartou')
+                                <div class="card-details-fields" id="card-fields" style="margin-top: 15px;">
+                                    <div class="form-group">
+                                        <label>Číslo karty</label>
+                                        <input type="text" id="card_number" name="card_num" 
+                                            placeholder="0000 0000 0000 0000" 
+                                            pattern="\d{16}" title="Zadajte 16 číslic čísla karty" 
+                                            maxlength="16">
+                                    </div>
+                                    <div style="display:flex; gap:10px;">
+                                        <div class="form-group" style="flex:2;">
+                                            <label>Platnosť (MM/YY)</label>
+                                            <input type="text" id="card_expiry" name="card_exp" 
+                                                placeholder="MM/YY" 
+                                                pattern="(0[1-9]|1[0-2])\/?([0-9]{2})" 
+                                                title="Formát musí byť MM/YY" maxlength="5">
+                                        </div>
+                                        <div class="form-group" style="flex:1;">
+                                            <label>CVC</label>
+                                            <input type="text" id="card_cvc" name="card_cvc" 
+                                                placeholder="123" 
+                                                pattern="\d{3}" title="Zadajte 3 číslice na zadnej strane karty" 
+                                                maxlength="3">
+                                        </div>
+                                    </div>
+                                </div>
+                            @endif
                         </div>
-                        <div class="form-group">
-                            <label>Typ karty</label>
-                            <select>
-                                <option>MasterCard</option>
-                                <option>Visa</option>
-                                <option>AMEX</option>
-                            </select>
+                        @endforeach
+
+                        <button type="submit" class="checkout-btn">Pokračovať k údajom</button>
+                    </div>
+
+                    <div class="cart-summary">
+                        <div class="summary-title">Tvoj košík</div>
+                        
+                        @foreach($cartItems as $item)
+                            <div class="summary-item">
+                                <span>{{ is_object($item) ? $item->product->name : $item['name'] }} ×{{ is_object($item) ? $item->quantity : $item['quantity'] }}</span>
+                                <span>€{{ number_format((is_object($item) ? $item->product->price : $item['price']) * (is_object($item) ? $item->quantity : $item['quantity']), 2) }}</span>
+                            </div>
+                        @endforeach
+                        
+                        <div class="summary-item" style="margin-top: 20px; color: var(--text-light);">
+                            <span>Doprava ({{ $shipping['name'] }})</span>
+                            <span>€{{ number_format($shipping['price'], 2) }}</span>
                         </div>
-                        <div class="form-group">
-                            <label>Číslo karty</label>
-                            <input type="text">
-                        </div>
-                        <div class="form-group">
-                            <label>Mesiac/rok platnosti</label>
-                            <input type="text">
-                        </div>
-                        <div class="form-group">
-                            <label>CVC</label>
-                            <input type="text">
+
+                        <div class="summary-total">
+                            <span>Spolu</span>
+                            <span>€{{ number_format($total + $shipping['price'], 2) }}</span>
                         </div>
                     </div>
-                    <!-- Apple/Google Pay -->
-                    <div class="payment-option">
-                        <div class="payment-head">
-                            <div class="payment-left">
-                                <input type="radio" name="payment">
-                                <span>Apple Pay / Google Pay</span>
-                            </div>
-                        </div>
-                        <p style="font-size:14px;">Platba prebehne cez Apple Pay alebo Google Pay.</p>
-                    </div>
-                    <!-- Dobierka -->
-                    <div class="payment-option">
-                        <div class="payment-head">
-                            <div class="payment-left">
-                                <input type="radio" name="payment">
-                                <span>Dobierka</span>
-                            </div>
-                        </div>
-                        <p style="font-size:14px;">Hotovosť pri doručení.</p>
-                    </div>
-                    <button class="checkout-btn" onclick="location.href='cart4.html'">Pokračovať k údajom</button>
                 </div>
-                <!-- RIGHT SIDE -->
-                <div class="cart-summary">
-                    <div class="summary-title">Tvoj košík</div>
-                    <div class="summary-item">
-                        <span>Plyšový medveď ×1</span>
-                        <span>€15.99</span>
-                    </div>
-                    <div class="summary-item">
-                        <span>Doprava</span>
-                        <span>€4.99</span>
-                    </div>
-                    <div class="summary-total">
-                        <span>Spolu</span>
-                        <span>€20.98</span>
-                    </div>
-                </div>
-            </div>
+            </form>
         </div>
     </div>
     <footer>© 2026 Mostly Sunny Toys</footer>
