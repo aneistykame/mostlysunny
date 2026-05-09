@@ -111,33 +111,77 @@ public function showDetails()
 }
 
     public function placeOrder(Request $request)
-    {
-        $request->validate([
-            'first_name' => 'required', 'last_name' => 'required',
-            'email' => 'required|email', 'phone' => 'required',
-            'address' => 'required', 'city' => 'required', 'zip' => 'required',
-        ]);
+{
+    $request->validate([
+        'first_name' => 'required', 'last_name' => 'required',
+        'email' => 'required|email', 'phone' => 'required',
+        'address' => 'required', 'city' => 'required', 'zip' => 'required',
+    ]);
 
-        $shipping = session('shipping_selection');
-        $payment = session('payment_selection');
-        
-        // Vytvorenie objednávky
-        $order = new \App\Models\Order();
-        $order->fill($request->all());
-        $order->user_id = auth()->id();
-        $order->shipping_method = $shipping['name'];
-        $order->shipping_price = $shipping['price'];
-        $order->payment_method = $payment['name'];
-        $order->total_price = $request->total_val;
-        $order->save();
+    $shipping = session('shipping_selection');
+    $payment = session('payment_selection');
+    
+    // 1. Vytvorenie objednávky
+    // 1. Vytvoríme inštanciu, ale neukladáme hneď cez fill všetko z requestu
+$order = new \App\Models\Order();
 
-        // Vymazať košík a session
-        if (auth()->check()) {
-            \App\Models\Cart::where('user_id', auth()->id())->delete();
+// Použijeme fill iba na tie polia, ktoré existujú v migrácii (meno, adresa, atď.)
+// total_val z requestu sa odignoruje, ak nie je v $fillable v modeli
+$order->fill($request->except('total_val')); 
+
+$order->user_id = auth()->id();
+$order->shipping_method = $shipping['name'];
+$order->shipping_price = $shipping['price'];
+$order->payment_method = $payment['name'];
+
+// Tu priradíme hodnotu z inputu "total_val" do stĺpca "total_price"
+$order->total_price = $request->total_val; 
+
+$order->save();
+
+    // 2. Uloženie položiek objednávky (OrderItem)
+    if (auth()->check()) {
+        $cartItems = \App\Models\CartItem::whereHas('cart', function($q) {
+            $q->where('user_id', auth()->id());
+        })->get();
+
+        foreach ($cartItems as $item) {
+            \App\Models\OrderItem::create([
+                'order_id' => $order->id,
+                'product_id' => $item->product_id,
+                'product_name' => $item->product->name,
+                'quantity' => $item->quantity,
+                'price' => $item->product->price,
+            ]);
         }
-        session()->forget(['cart', 'shipping_selection', 'payment_selection']);
-
-        return view('confirmation', ['order_id' => $order->id]);
+        // Vymazať košík v DB
+        \App\Models\Cart::where('user_id', auth()->id())->delete();
+    } else {
+        $cartItems = session()->get('cart', []);
+        foreach ($cartItems as $id => $details) {
+            \App\Models\OrderItem::create([
+                'order_id' => $order->id,
+                'product_id' => $id,
+                'product_name' => $details['name'],
+                'quantity' => $details['quantity'],
+                'price' => $details['price'],
+            ]);
+        }
     }
+
+    // 3. Vymazať session
+    session()->forget(['cart', 'shipping_selection', 'payment_selection']);
+
+    // 4. Presmerovanie na samostatnú routu (aby F5 na stránke nezopakovalo objednávku)
+    return redirect()->route('checkout.confirmation', $order->id);
+}
+
+public function confirmation(\App\Models\Order $order)
+{
+    // Načítame položky, aby sme ich mohli vypísať v zhrnutí
+    $order->load('items');
+    
+    return view('confirmation', compact('order'));
+}
 
 }

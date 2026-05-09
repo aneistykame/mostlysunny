@@ -17,8 +17,9 @@ class Order extends Model
     }
 
     //dokonccim
-    public function items()
-    {
-        // return $this->hasMany(OrderItem::class);
-    }
+// app/Models/Order.php
+public function items()
+{
+    return $this->hasMany(OrderItem::class);
+}
 }

@@ -9,6 +9,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\CheckoutController;
 
 // Hlavná stránka
 use App\Http\Controllers\ProductController;
@@ -26,8 +27,14 @@ Route::get('/register', [RegisteredUserController::class, 'create'])->name('regi
 // Spracovanie registrácie (použije tvoj Controller so všetkou validáciou)
 Route::post('/register', [RegisteredUserController::class, 'store']);
 // Profil
+// Profil s históriou objednávok
 Route::get('/profile', function () {
-    return view('profile');
+    $orders = \App\Models\Order::where('user_id', Auth::id())
+        ->with('items')
+        ->orderBy('created_at', 'desc')
+        ->get();
+
+    return view('profile', compact('orders'));
 })->middleware(['auth'])->name('dashboard');
 
 // category
@@ -35,21 +42,27 @@ Route::get('/category/{category}', [ProductController::class, 'category'])->name
 
 
 //Spracovanie PRIHLÁSENIA
+// Spracovanie PRIHLÁSENIA
 Route::post('/login', function (Request $request) {
     $credentials = $request->validate([
         'email' => ['required', 'email'],
         'password' => ['required'],
     ]);
 
-    if (Auth::user()->role === 'admin') {
-        return redirect()->route('admin.dashboard');
+    if (Auth::attempt($credentials)) {
+        $request->session()->regenerate();
+
+        if (Auth::user()->role === 'admin') {
+            return redirect()->route('admin.dashboard');
+        }
+
+        return redirect()->intended('/profile');
     }
 
     return back()->withErrors([
         'email' => 'Nesprávne prihlasovacie údaje.',
     ])->onlyInput('email');
 });
-
 //Spracovanie REGISTRÁCIE
 
 
@@ -133,3 +146,5 @@ Route::get('/checkout/details', [CheckoutController::class, 'showDetails'])->nam
 
 Route::get('/checkout/details', [CheckoutController::class, 'showDetails'])->name('checkout.details');
 Route::post('/checkout/place-order', [CheckoutController::class, 'placeOrder'])->name('checkout.placeOrder');
+
+Route::get('/confirmation/{order}', [CheckoutController::class, 'confirmation'])->name('checkout.confirmation');

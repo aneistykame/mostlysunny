@@ -217,23 +217,32 @@
             </button>
          </form>
 
-         <div class="section" style="margin-top:30px;">
+         <div class="section" style="margin-top:40px;">
             <h3>História objednávok</h3>
 
-            <p style="color: var(--text-light); font-size: 14px;">Momentálne nemáte žiadne reálne objednávky v databáze.</p>
-
-            <div class="order">
-               <img src="{{ asset('src/img/sickBear.jpg') }}" alt="produkt">
-               <div class="order-content">
-                  <div class="order-top">
-                     <span>Ukážková objednávka #2026001</span>
-                     <span>€20.98</span>
+            @forelse($orders as $order)
+               <div class="order">
+                  <div class="order-icon">
+                     <i class="fa-solid fa-box"></i>
                   </div>
-                  <div class="order-items">
-                     Plyšový medveď ×1
+                  <div class="order-content">
+                     <div class="order-top">
+                        <span><strong>Objednávka #{{ $order->id }}</strong> ({{ $order->created_at->format('d.m.Y') }})</span>
+                        <span><strong>{{ number_format($order->total_price, 2, ',', ' ') }} €</strong></span>
+                     </div>
+                     <div class="order-items">
+                        @foreach($order->items as $item)
+                           {{ $item->product_name }} ({{ $item->quantity }}ks){{ !$loop->last ? ', ' : '' }}
+                        @endforeach
+                     </div>
+                     <div class="order-status">
+                       Platba: {{ $order->payment_method }}
+                     </div>
                   </div>
                </div>
-            </div>
+            @empty
+               <p style="color: var(--text-light); font-size: 14px;">Zatiaľ ste neuskutočnili žiadne objednávky.</p>
+            @endforelse
          </div>
 
       </div>
