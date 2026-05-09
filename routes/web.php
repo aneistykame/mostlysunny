@@ -133,6 +133,8 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
 
     Route::delete('/products/{id}', [AdminController::class, 'destroy'])
         ->name('admin.products.delete');
+    Route::get('/profile', [AdminController::class, 'profile'])
+        ->name('admin.profile');
 });
 
 

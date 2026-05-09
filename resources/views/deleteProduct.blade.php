@@ -234,7 +234,7 @@
        </div>
        <div class="header-icons">
            @auth
-           <button title="Môj profil" onclick="location.href='{{ route('dashboard') }}'">
+           <button title="Môj profil" onclick="location.href='{{ Auth::user()->role === 'admin' ? route('admin.profile') : route('dashboard') }}'">
                <i class="fa-solid fa-user"></i> {{ Auth::user()->name }}
            </button>
            @else

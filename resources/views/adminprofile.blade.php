@@ -167,7 +167,7 @@
     <div class="logo-text" onclick="location.href='{{ route('admin.dashboard') }}'">Mostly Sunny Admin</div>
     <div class="header-icons">
         <button title="Dashboard" onclick="location.href='{{ route('admin.dashboard') }}'">
-            🏠 Dashboard
+            Dashboard
         </button>
     </div>
 </header>

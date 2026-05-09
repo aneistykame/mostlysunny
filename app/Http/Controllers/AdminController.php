@@ -118,4 +118,8 @@ class AdminController extends Controller
         $products = Product::latest()->get();
         return view('editProduct', compact('products'));
     }
+    public function profile()
+    {
+        return view('adminprofile');
+    }
 }
