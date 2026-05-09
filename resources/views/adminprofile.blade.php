@@ -6,7 +6,7 @@
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&display=swap"
       rel="stylesheet">
-   <link href="adminstyle.css" rel="stylesheet">
+    <link href="{{ asset('adminstyle.css') }}" rel="stylesheet">
    <title>Môj profil</title>
 
    <style>
@@ -160,39 +160,39 @@
 </head>
 
 <body>
+<header>
+    <div class="burger-area" id="burgerBtn">
+        <div class="burger-icon"><span></span><span></span><span></span></div>
+    </div>
+    <div class="logo-text" onclick="location.href='{{ route('admin.dashboard') }}'">Mostly Sunny Admin</div>
+    <div class="header-icons">
+        <button title="Dashboard" onclick="location.href='{{ route('admin.dashboard') }}'">
+            🏠 Dashboard
+        </button>
+    </div>
+</header>
 
-   <header>
-      <div class="burger-area" id="burgerBtn">
-         <div class="burger-icon">
-            <span></span><span></span><span></span>
-         </div>
-      </div>
-      <div class="logo-text" onclick="location.href='adminindex.html'">
-         Mostly Sunny Admin
-      </div>
-      <div class="header-icons">
-         <button title="Účet" onclick="location.href='adminlogin.html'">👤 Účet</button>
-      </div>
-   </header>
+<div class="main">
+    <div class="profile-container">
+        <div class="section">
+            <h3>Môj profil</h3>
+            <div>Prihlásený ako <b>{{ Auth::user()->name }}</b> ({{ Auth::user()->email }})</div>
+        </div>
 
-   <div class="main">
-      <div class="profile-container">
+        <form action="{{ route('logout') }}" method="POST">
+            @csrf
+            <button type="submit" class="btn logout-btn">Odhlásiť sa</button>
+        </form>
+    </div>
+</div>
 
-         <div class="section">
-            <div>Ste uspešné prihlasený ako <b>Admin1</b>.</div>
-         </div>
+<footer>© 2026 Mostly Sunny Toys</footer>
 
-         <!-- LOGOUT -->
-         <button class="btn logout-btn" onclick="location.href='adminindex.html'">Odhlásiť sa</button>
-
-
-      </div>
-   </div>
-
-   <footer>
-      © 2026 Mostly Sunny Toys
-   </footer>
-
+<script>
+    const burgerBtn = document.getElementById('burgerBtn');
+    const toggleSidebar = () => document.body.classList.toggle('sidebar-open');
+    burgerBtn.addEventListener('click', toggleSidebar);
+</script>
 </body>
 
 </html>

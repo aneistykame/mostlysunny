@@ -267,7 +267,7 @@
                @forelse($products as $product)
                <div class="product-row" id="row-{{ $product->id }}" data-name="{{ strtolower($product->name) }}">
                    <div class="product-row-img">
-                       <img src="{{ asset($product->image ?? 'src/img/placeholder.jpg') }}"
+                       <img src="{{ asset($product->mainImage->image ?? 'src/img/placeholder.jpg') }}"
                             style="width:52px;height:52px;border-radius:8px;object-fit:cover;" alt="">
                    </div>
                    <div class="product-row-info">

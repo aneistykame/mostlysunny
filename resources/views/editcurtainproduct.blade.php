@@ -4,10 +4,10 @@
 <head>
    <meta charset="UTF-8">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>Pridať produkt</title>
+   <title>Zmenit produkt</title>
    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&display=swap"
       rel="stylesheet">
-   <link href="adminstyle.css" rel="stylesheet">
+    <link href="{{ asset('adminstyle.css') }}" rel="stylesheet">
    <style>
       .page-title {
          font-size: 22px;
@@ -200,151 +200,137 @@
 
 <body>
    <header>
-      <div class="burger-area" id="burgerBtn">
-         <div class="burger-icon"><span></span><span></span><span></span></div>
-      </div>
-      <div class="logo-text" onclick="location.href='adminindex.html'">Mostly Sunny Admin</div>
-      <div class="header-icons">
-         <button onclick="location.href='adminlogin.html'">👤 Účet</button>
-      </div>
+       <div class="burger-area" id="burgerBtn">
+           <div class="burger-icon">
+               <span></span><span></span><span></span>
+           </div>
+       </div>
+       <div class="logo-text" onclick="location.href='{{ route('admin.dashboard') }}'">
+           Mostly Sunny Admin
+       </div>
+       <div class="header-icons">
+           @auth
+           <button title="Môj profil" onclick="location.href='{{ route('dashboard') }}'">
+               <i class="fa-solid fa-user"></i> {{ Auth::user()->name }}
+           </button>
+           @else
+           <button title="Prihlásiť sa" onclick="location.href='{{ route('login') }}'">
+               <i class="fa-solid fa-circle-user"></i> Prihlásiť sa
+           </button>
+           @endauth
+       </div>
    </header>
 
    <div class="sidebar-overlay" id="sidebarOverlay"></div>
    <div class="page-wrapper">
       <nav class="sidebar">
-         <div class="sidebar-title">Kategórie</div>
-         <ul>
-            <li><a href="addProduct.html">Pridať nový produkt <span class="arrow">›</span></a></li>
-            <li><a href="deleteProduct.html">Vymazať produkt <span class="arrow">›</span></a></li>
-            <li><a href="editProduct.html">Zmeniť detaily produktu <span class="arrow">›</span></a></li>
-         </ul>
+          <div class="sidebar-title">Kategórie</div>
+          <ul>
+              <li><a href="{{ route('admin.products.create') }}">Pridať nový produkt <span class="arrow">›</span></a></li>
+              <li><a href="{{ route('admin.products.deleteProduct') }}">Vymazať produkt <span class="arrow">›</span></a></li>
+              <li class="active"><a href="{{ route('admin.products.editProduct') }}">Zmeniť detaily produktu <span class="arrow">›</span></a></li>
+          </ul>
       </nav>
 
-      <main class="main-content">
-         <div class="page-title">Zmeniť produkt</div>
+       <main class="main-content">
+           <div class="page-title">Zmeniť produkt: {{ $product->name }}</div>
 
-         <div class="form-card">
-            <div class="form-row">
-               <div class="form-group">
-                  <label>Názov produktu</label>
-                  <input type="text" id="name" placeholder="napr. Plyšová sova" value="Biely plyšový medveď">
-               </div>
-               <div class="form-group">
-                  <label>Kategória</label>
-                  <select id="category">
-                     <option value="">Vybrať</option>
-                     <option selected>Plyšové hračky</option>
-                     <option>Bábiky</option>
-                     <option>Pre najmenších</option>
-                     <option>Elektronika</option>
-                     <option>Puzzle</option>
-                     <option>Stavebnice</option>
-                     <option>Spoločenské hry</option>
-                     <option>Dopravné prostriedky</option>
-                     <option>Roboti</option>
-                     <option>Zvieratká</option>
-                     <option>Interaktívne zvieratá</option>
-                     <option>Hudobné nástroje</option>
-                     <option>Do záhrady</option>
-                     <option>Do vody</option>
-                     <option>Vozidlá</option>
-                  </select>
-               </div>
-            </div>
+           <form action="{{ route('admin.products.update', $product->id) }}" method="POST" enctype="multipart/form-data">
+               @csrf
+               @method('PUT')
 
-            <div class="form-row">
-               <div class="form-group">
-                  <label>Cena (€)</label>
-                  <input type="number" id="price" placeholder="0.00" step="0.01" min="0" value="19.95">
-               </div>
-               <div class="form-group">
-                  <label>Skladom (ks)</label>
-                  <input type="number" id="stock" placeholder="0" min="0" value="2">
-               </div>
-            </div>
+               <div class="form-card">
+                   <div class="form-row">
+                       <div class="form-group">
+                           <label>Názov produktu</label>
+                           <input type="text" name="name" placeholder="napr. Plyšová sova" value="{{ old('name', $product->name) }}">
+                       </div>
+                       <div class="form-group">
+                           <label>Kategória</label>
+                           <select name="category">
+                               <option value="">Vybrať</option>
+                               @foreach(['Plyšové hračky','Bábiky','Pre najmenších','Elektronika','Puzzle','Stavebnice','Spoločenské hry','Dopravné prostriedky','Roboti','Zvieratká','Interaktívne zvieratá','Hudobné nástroje','Do záhrady','Do vody','Vozidlá'] as $cat)
+                               <option value="{{ $cat }}" {{ old('category', $product->category) === $cat ? 'selected' : '' }}>{{ $cat }}</option>
+                               @endforeach
+                           </select>
+                       </div>
+                   </div>
 
-            <div class="form-row">
-               <div class="form-group">
-                  <label>Materiál</label>
-                  <input type="text" id="material" placeholder="napr. Polyester" value="Polyester">
-               </div>
-               <div class="form-group">
-                  <label>Veľkosť</label>
-                  <input type="text" id="size" placeholder="napr. 20 cm" value="30 cm">
-               </div>
-            </div>
+                   <div class="form-row">
+                       <div class="form-group">
+                           <label>Cena (€)</label>
+                           <input type="number" name="price" placeholder="0.00" step="0.01" min="0" value="{{ old('price', $product->price) }}">
+                       </div>
+                   </div>
 
-            <div class="form-group">
-               <label>Popis</label>
-               <textarea id="desc"
-                  placeholder="Krátky popis produktu...">Mäkký biely plyšový medveď s jemnou srsťou, ideálny na objímanie. Vhodný pre deti od 3 rokov.</textarea>
-            </div>
+                   <div class="form-row">
+                       <div class="form-group">
+                           <label>Materiál</label>
+                           <input type="text" name="material" placeholder="napr. Polyester" value="{{ old('material', $product->material) }}">
+                       </div>
+                   </div>
 
-            <div class="divider"></div>
+                   <div class="form-row">
+                       <div class="form-group">
+                           <label>Skladom (ks)</label>
+                           <input type="number" name="stock" placeholder="0" min="0" value="{{ old('stock', $product->stock) }}">
+                       </div>
+                   </div>
 
-            <div class="form-group">
-               <label>Fotografia produktu</label>
-               <div class="img-upload" onclick="document.getElementById('imgFile').click()">
-                  <input type="file" id="imgFile1" accept="image/*" onchange="showFileName(this)">
-                  <div class="img-upload-icon">🖼️</div>
-                  <div id="fileName">white_teddy_left.jpg</div>
-               </div>
-               <div class="img-upload" onclick="document.getElementById('imgFile').click()">
-                  <input type="file" id="imgFile2" accept="image/*" onchange="showFileName(this)">
-                  <div class="img-upload-icon">🖼️</div>
-                  <div id="fileName">white_teddy_right.jpg</div>
-               </div>
-               <div class="img-upload" onclick="document.getElementById('imgFile').click()">
-                  <input type="file" id="imgFile3" accept="image/*" onchange="showFileName(this)">
-                  <div class="img-upload-icon">🖼️</div>
-                  <div id="fileName">white_teddy_top.jpg</div>
-               </div>
-            </div>
+                   <div class="form-group">
+                       <label>Farba</label>
+                       <input type="text" name="color" placeholder="napr. Modrá" value="{{ old('color', $product->color ?? '') }}">
+                   </div>
 
-            <div class="btn-row">
-               <button class="btn-secondary" onclick="clearForm()">Vymazať</button>
-               <button class="btn-primary" onclick="submitForm()">Uložiť zmeny</button>
-            </div>
-         </div>
-      </main>
+                   <div class="form-group">
+                       <label>Popis</label>
+                       <textarea name="description" placeholder="Krátky popis produktu...">{{ old('description', $product->description) }}</textarea>
+                   </div>
+
+                   <div class="divider"></div>
+
+                   <div class="form-group">
+                       <label>Fotografie produktu (min. 2, prvá bude hlavná)</label>
+                       <div class="img-upload" onclick="document.getElementById('imgFiles').click()">
+                           <input type="file" id="imgFiles" name="images[]" accept="image/*" multiple
+                                  onchange="showFileNames(this)">
+                           <div class="img-upload-icon">🖼️</div>
+                           <div id="fileName">Kliknite pre výber súborov</div>
+                       </div>
+                   </div>
+
+                   @if($errors->any())
+                   <div style="color:#e07070;font-size:13px;font-weight:700;">
+                       @foreach($errors->all() as $error)
+                       <div>{{ $error }}</div>
+                       @endforeach
+                   </div>
+                   @endif
+
+                   <div class="btn-row">
+                       <button type="button" class="btn-secondary" onclick="location.href='{{ route('admin.products.editProduct') }}'">Zrušiť</button>
+                       <button type="submit" class="btn-primary">Uložiť zmeny</button>
+                   </div>
+               </div>
+           </form>
+       </main>
    </div>
 
    <footer>© 2026 Mostly Sunny Toys</footer>
    <div class="success-toast" id="toast">✅ Produkt bol zmenený!</div>
 
    <script>
-      const burgerBtn = document.getElementById('burgerBtn');
-      const overlay = document.getElementById('sidebarOverlay');
-      const toggleSidebar = () => document.body.classList.toggle('sidebar-open');
-      burgerBtn.addEventListener('click', toggleSidebar);
-      overlay.addEventListener('click', toggleSidebar);
-      document.addEventListener('keydown', e => { if (e.key === 'Escape') document.body.classList.remove('sidebar-open'); });
-      window.addEventListener('resize', () => { if (window.innerWidth > 1100) document.body.classList.remove('sidebar-open'); });
-
-      function showFileName(input) {
-         document.getElementById('fileName').textContent = input.files[0]?.name || 'Kliknite pre výber súboru';
-      }
-
-      function clearForm() {
-         ['name', 'price', 'stock', 'material', 'size', 'desc'].forEach(id => document.getElementById(id).value = '');
-         document.getElementById('category').value = '';
-         document.getElementById('fileName').textContent = 'Kliknite pre výber súboru';
-      }
-
-      function submitForm() {
-         const name = document.getElementById('name').value.trim();
-         const price = document.getElementById('price').value;
-         const category = document.getElementById('category').value;
-         const image1 = document.getElementById('imgFile1').value;
-         const image2 = document.getElementById('imgFile2').value;
-         if (!name || !price || !category || !image1 || !image2) {
-            alert('Vyplňte aspoň názov, kategóriu, cenu a dva obrázky.');
-            return;
-         }
-         const toast = document.getElementById('toast');
-         toast.style.display = 'block';
-         setTimeout(() => { toast.style.display = 'none'; clearForm(); }, 2500);
-      }
+       const burgerBtn = document.getElementById('burgerBtn');
+       const overlay = document.getElementById('sidebarOverlay');
+       const toggleSidebar = () => document.body.classList.toggle('sidebar-open');
+       burgerBtn.addEventListener('click', toggleSidebar);
+       overlay.addEventListener('click', toggleSidebar);
+       document.addEventListener('keydown', e => { if (e.key === 'Escape') document.body.classList.remove('sidebar-open'); });
+       window.addEventListener('resize', () => { if (window.innerWidth > 1100) document.body.classList.remove('sidebar-open'); });
+       function showFileNames(input) {
+           const names = Array.from(input.files).map(f => f.name).join(', ');
+           document.getElementById('fileName').textContent = names || 'Kliknite pre výber súborov';
+       }
    </script>
 </body>
 

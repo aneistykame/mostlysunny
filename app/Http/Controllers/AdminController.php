@@ -20,59 +20,85 @@ class AdminController extends Controller
 
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
+        $request->validate([
+            'name'        => 'required|string|max:255',
             'description' => 'required|string',
-            'price' => 'required|numeric',
-            'category' => 'required|string',
-            'image' => 'required|image|mimes:jpg,jpeg,png,webp|max:2048',
+            'price'       => 'required|numeric',
+            'category'    => 'required|string',
+            'stock'       => 'required|integer|min:0',
+            'material'    => 'nullable|string|max:255',
+            'color'       => 'nullable|string|max:255',
+            'images'      => 'required|array|min:2',
+            'images.*'    => 'image|mimes:jpg,jpeg,png,webp|max:2048',
         ]);
 
-        $imagePath = $request->file('image')->store('products', 'public');
-        Product::create([
-            'name' => $validated['name'],
-            'description' => $validated['description'],
-            'price' => $validated['price'],
-            'category' => $validated['category'],
-            'image' => $imagePath,
+        $product = Product::create([
+            'name'        => $request->name,
+            'description' => $request->description,
+            'price'       => $request->price,
+            'category'    => $request->category,
+            'stock'       => $request->stock,
+            'material'    => $request->material,
+            'color'       => $request->color,
         ]);
 
-        return redirect()->route('admin.dashboard')
-            ->with('success', 'Produkt bol pridaný');
+        foreach ($request->file('images') as $index => $file) {
+            $path = 'storage/' . $file->store('products', 'public');
+            $product->images()->create([
+                'image'   => $path,
+                'is_main' => $index === 0,
+            ]);
+        }
+
+        return redirect()->route('admin.dashboard')->with('success', 'Produkt bol pridaný');
+    }
+
+    public function update(Request $request, $id)
+    {
+        $product = Product::findOrFail($id);
+
+        $request->validate([
+            'name'        => 'required|string|max:255',
+            'description' => 'required|string',
+            'price'       => 'required|numeric',
+            'category'    => 'required|string',
+            'stock'       => 'required|integer|min:0',
+            'material'    => 'nullable|string|max:255',
+            'color'       => 'nullable|string|max:255',
+            'images'      => 'nullable|array',
+            'images.*'    => 'image|mimes:jpg,jpeg,png,webp|max:2048',
+        ]);
+
+        $product->update([
+            'name'        => $request->name,
+            'description' => $request->description,
+            'price'       => $request->price,
+            'category'    => $request->category,
+            'stock'       => $request->stock,
+            'material'    => $request->material,
+            'color'       => $request->color,
+        ]);
+
+        if ($request->hasFile('images')) {
+            $product->images()->delete(); // replace all existing images
+            foreach ($request->file('images') as $index => $file) {
+                $path = 'storage/' . $file->store('products', 'public');
+                $product->images()->create([
+                    'image'   => $path,
+                    'is_main' => $index === 0,
+                ]);
+            }
+        }
+
+        return redirect()->route('admin.dashboard')->with('success', 'Produkt bol upravený');
     }
 
     public function edit($id)
     {
         $product = Product::findOrFail($id);
-
-        return view('editProduct', compact('product'));
+        return view('editcurtainproduct', compact('product'));
     }
-    public function update(Request $request, $id)
-    {
-        $product = Product::findOrFail($id);
 
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'required|string',
-            'price' => 'required|numeric',
-            'category' => 'required|string',
-            'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
-        ]);
-
-        if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('products', 'public');
-            $product->image = $imagePath;
-        }
-        $product->name = $validated['name'];
-        $product->description = $validated['description'];
-        $product->price = $validated['price'];
-        $product->category = $validated['category'];
-
-        $product->save();
-
-        return redirect()->route('admin.dashboard')
-            ->with('success', 'Produkt bol upravený');
-    }
     public function destroy($id)
     {
         $product = Product::findOrFail($id);
