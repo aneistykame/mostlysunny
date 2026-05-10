@@ -8,38 +8,60 @@ use App\Models\ProductImage;
 
 class ProductController extends Controller
 {
-    
+
     public function home()
     {
         //nacitanie 5 produktov z DB
         $products = Product::take(5)->get();
-        
+
         return view('index', compact('products'));
     }
 
     //zobrazovanie produktov
     public function index(Request $request)
     {
-        $query = Product::query();
+        $query = Product::with('mainImage');
 
         if ($request->filled('search')) {
             $search = $request->input('search');
             $query->where(function($q) use ($search) {
                 $q->where('name', 'ILIKE', "%{$search}%")
-                ->orWhere('description', 'ILIKE', "%{$search}%");
+                    ->orWhere('description', 'ILIKE', "%{$search}%");
             });
             $category = $search;
         } else {
             $category = "Všetky produkty";
         }
 
-        $products = $query->paginate(10)->appends($request->all());
-        $colors = collect();
-    $materials = collect();
+        if ($request->filled('color')) {
+            $query->where('color', $request->color);
+        }
+        if ($request->filled('material')) {
+            $query->where('material', $request->material);
+        }
+        if ($request->filled('price_min')) {
+            $query->where('price', '>=', $request->price_min);
+        }
+        if ($request->filled('price_max')) {
+            $query->where('price', '<=', $request->price_max);
+        }
 
-    return view('category', compact('products', 'category', 'colors', 'materials'));
+        switch ($request->sort) {
+            case 'price_asc':  $query->orderBy('price', 'asc'); break;
+            case 'price_desc': $query->orderBy('price', 'desc'); break;
+            case 'newest':     $query->orderBy('created_at', 'desc'); break;
+            default:           $query->orderBy('id', 'asc');
+        }
+
+        $filteredIds = (clone $query)->pluck('id');
+        $colors    = Product::whereIn('id', $filteredIds)->whereNotNull('color')->distinct()->pluck('color');
+        $materials = Product::whereIn('id', $filteredIds)->whereNotNull('material')->distinct()->pluck('material');
+
+        $products = $query->paginate(10)->appends($request->all());
+
+        return view('category', compact('products', 'category', 'colors', 'materials'));
     }
-        
+
     public function category(Request $request, $category)
     {
         $query = Product::with('mainImage')->where('category', $category);

@@ -168,7 +168,7 @@
 <body>
 
    <header>
-      <div class="logo-text" onclick="location.href='index.html'">
+      <div class="logo-text" onclick="location.href='{{ route('index') }}'">
          Mostly Sunny Toys
       </div>
         <div class="header-icons">

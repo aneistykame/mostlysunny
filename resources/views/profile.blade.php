@@ -174,10 +174,10 @@
    <div class="logo-text" onclick="location.href='{{ url('/') }}'">
       Mostly Sunny Toys
    </div>
-   <div class="search-box">
-      <span class="search-icon"><i class="fa-solid fa-magnifying-glass"></i></span>
-      <input type="text" placeholder="Hľadať produkty...">
-   </div>
+    <form action="{{ route('products.index') }}" method="GET" class="search-box">
+        <span class="search-icon"><i class="fa-solid fa-magnifying-glass"></i></span>
+        <input type="text" name="search" placeholder="Hľadať produkty..." value="{{ request('search') }}">
+    </form>
    <div class="header-icons">
       <button title="Účet" onclick="location.href='{{ route('dashboard') }}'">
          <i class="fa-solid fa-user"></i> {{ Auth::user()->name }}

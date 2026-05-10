@@ -193,7 +193,7 @@
 
 <body>
     <header>
-        <div class="logo-text" onclick="location.href='index.html'">
+        <div class="logo-text" onclick="location.href='{{ route('index') }}'">
             Mostly Sunny Toys
         </div>
 
@@ -224,12 +224,12 @@
             @csrf
             <div class="shipping-section">
                 <h3 style="margin-bottom:20px;">Vyber spôsob dopravy</h3>
-                
+
                 @foreach($shippingMethods as $method)
                 <div class="shipping-option">
                     <div class="shipping-head">
                         <div class="shipping-left">
-                            <input type="radio" name="shipping_id" value="{{ $method->shipping_id }}" 
+                            <input type="radio" name="shipping_id" value="{{ $method->shipping_id }}"
                                 class="shipping-radio" data-price="{{ $method->price }}"
                                 {{ $loop->first ? 'checked' : '' }}>
                             <span>{{ $method->name }}</span>
@@ -257,7 +257,7 @@
             <div class="cart-summary">
     <div class="summary-title">Tvoj košík</div>
     @php $firstMethod = $shippingMethods->first(); @endphp
-    
+
     @foreach($cartItems as $id => $item)
         @php
             $isObject = is_object($item);
@@ -290,7 +290,7 @@
     const radios = document.querySelectorAll('.shipping-radio');
     const shippingDisplay = document.getElementById('shipping-price-display');
     const totalDisplay = document.getElementById('total-price-display');
-    const baseTotal = {{ $total }}; 
+    const baseTotal = {{ $total }};
 
     radios.forEach(radio => {
         if (radio.checked) {
@@ -304,14 +304,14 @@
 
     function updateSummary(element) {
         const price = parseFloat(element.dataset.price);
-        
+
         // Aktualizuj texty cez ID
         shippingDisplay.innerText = '€' + price.toFixed(2);
         totalDisplay.innerText = '€' + (baseTotal + price).toFixed(2);
 
         // Logika pre Zásielkovňu
         document.querySelectorAll('.branch-select').forEach(el => el.style.display = 'none');
-        
+
         // Ak má tento rádio button v sebe branch-select, ukáž ho
         const branchGroup = element.closest('.shipping-option').querySelector('.branch-select');
         if(branchGroup) {

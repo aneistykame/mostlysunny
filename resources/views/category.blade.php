@@ -170,8 +170,10 @@
       </nav>
 
       <main class="main-content">
-
-         <form method="GET" action="{{ route('category', $category) }}" id="filterForm">
+          <form method="GET" action="{{ request()->filled('search') || !isset($isCategory) ? route('products.index') : route('category', $category) }}" id="filterForm">
+              @if(request()->filled('search'))
+              <input type="hidden" name="search" value="{{ request('search') }}">
+              @endif
       <section class="category-topbar">
          <h1 class="category-title">{{ $category }}</h1>
          <div class="wrapper">
@@ -239,7 +241,7 @@
             @endforeach
          </section>
          <div class="pagination" id="pagination">
-            
+
             @if ($products->onFirstPage())
                <button class="page-btn arrow" disabled style="opacity: 0.5; cursor: not-allowed;">&lsaquo;</button>
             @else
@@ -250,12 +252,12 @@
             @foreach ($products->onEachSide(2)->linkCollection() as $link)
                @if (is_numeric($link['label']))
                      {{-- Číselné stránky --}}
-                     <button class="page-btn {{ $link['active'] ? 'active' : '' }}" 
+                     <button class="page-btn {{ $link['active'] ? 'active' : '' }}"
                            onclick="location.href='{{ $link['url'] }}'">
                         {{ $link['label'] }}
                      </button>
                @elseif ($link['label'] === '...')
-                     
+
                      <span class="page-btn" style="cursor: default; background: transparent; display: flex; align-items: center; justify-content: center;">...</span>
                @endif
             @endforeach

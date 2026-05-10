@@ -201,7 +201,7 @@
                 </button>
             @endauth
 
-            <button title="Košík" onclick="location.href='{{ route('cart.index') }}'" style="position: relative;">
+            <button title="Košík" onclick="location.href='{{ route('index') }}'" style="position: relative;">
                 <i class="fa-solid fa-cart-shopping"></i> Košík
                 @if($cartCount > 0)
                 <span class="cart-badge">{{ $cartCount }}</span>
@@ -219,12 +219,12 @@
                 <div class="checkout-layout">
                     <div class="payment-section">
                         <h3 style="margin-bottom:20px;">Vyber spôsob platby</h3>
-                        
+
                         @foreach($paymentMethods as $method)
                         <div class="payment-option">
                             <div class="payment-head">
                                 <div class="payment-left">
-                                    <input type="radio" name="payment_id" value="{{ $method->payment_id }}" 
+                                    <input type="radio" name="payment_id" value="{{ $method->payment_id }}"
                                         {{ $loop->first ? 'checked' : '' }} class="payment-radio">
                                     <span>{{ $method->name }}</span>
                                 </div>
@@ -234,24 +234,24 @@
                                 <div class="card-details-fields" id="card-fields" style="margin-top: 15px;">
                                     <div class="form-group">
                                         <label>Číslo karty</label>
-                                        <input type="text" id="card_number" name="card_num" 
-                                            placeholder="0000 0000 0000 0000" 
-                                            pattern="\d{16}" title="Zadajte 16 číslic čísla karty" 
+                                        <input type="text" id="card_number" name="card_num"
+                                            placeholder="0000 0000 0000 0000"
+                                            pattern="\d{16}" title="Zadajte 16 číslic čísla karty"
                                             maxlength="16">
                                     </div>
                                     <div style="display:flex; gap:10px;">
                                         <div class="form-group" style="flex:2;">
                                             <label>Platnosť (MM/YY)</label>
-                                            <input type="text" id="card_expiry" name="card_exp" 
-                                                placeholder="MM/YY" 
-                                                pattern="(0[1-9]|1[0-2])\/?([0-9]{2})" 
+                                            <input type="text" id="card_expiry" name="card_exp"
+                                                placeholder="MM/YY"
+                                                pattern="(0[1-9]|1[0-2])\/?([0-9]{2})"
                                                 title="Formát musí byť MM/YY" maxlength="5">
                                         </div>
                                         <div class="form-group" style="flex:1;">
                                             <label>CVC</label>
-                                            <input type="text" id="card_cvc" name="card_cvc" 
-                                                placeholder="123" 
-                                                pattern="\d{3}" title="Zadajte 3 číslice na zadnej strane karty" 
+                                            <input type="text" id="card_cvc" name="card_cvc"
+                                                placeholder="123"
+                                                pattern="\d{3}" title="Zadajte 3 číslice na zadnej strane karty"
                                                 maxlength="3">
                                         </div>
                                     </div>
@@ -265,14 +265,14 @@
 
                     <div class="cart-summary">
                         <div class="summary-title">Tvoj košík</div>
-                        
+
                         @foreach($cartItems as $item)
                             <div class="summary-item">
                                 <span>{{ is_object($item) ? $item->product->name : $item['name'] }} ×{{ is_object($item) ? $item->quantity : $item['quantity'] }}</span>
                                 <span>€{{ number_format((is_object($item) ? $item->product->price : $item['price']) * (is_object($item) ? $item->quantity : $item['quantity']), 2) }}</span>
                             </div>
                         @endforeach
-                        
+
                         <div class="summary-item" style="margin-top: 20px; color: var(--text-light);">
                             <span>Doprava ({{ $shipping['name'] }})</span>
                             <span>€{{ number_format($shipping['price'], 2) }}</span>

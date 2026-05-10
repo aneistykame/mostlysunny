@@ -184,7 +184,7 @@
 <body>
 
    <header>
-      <div class="logo-text" onclick="location.href='index.html'">
+      <div class="logo-text" onclick="location.href='{{ route('index') }}'">
          Mostly Sunny Toys
       </div>
          <div class="header-icons">
@@ -224,13 +224,13 @@
                 <div class="form-group"><label>Priezvisko</label><input type="text" name="last_name" required></div>
                 <div class="form-group full">
     <label>Email</label>
-    <input type="email" 
-           name="email" 
-           placeholder="meno@domena.sk" 
-           required 
+    <input type="email"
+           name="email"
+           placeholder="meno@domena.sk"
+           required
            {{-- Ak je prihlásený, vyplň email a pridaj atribút readonly --}}
            @auth
-               value="{{ auth()->user()->email }}" 
+               value="{{ auth()->user()->email }}"
                readonly
                style="background-color: #f0f0f0; cursor: not-allowed;"
            @endauth
@@ -246,9 +246,9 @@
                 <div class="form-group"><label>Mesto</label><input type="text" name="city" required></div>
                 <div class="form-group"><label>PSČ</label><input type="text" name="zip" required></div>
             </div>
-            
+
             <input type="hidden" name="total_val" value="{{ $total + $shipping['price'] }}">
-            
+
             <button type="submit" class="checkout-btn">Dokončiť objednávku</button>
         </div>
 
