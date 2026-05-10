@@ -1,3 +1,13 @@
+@php
+    $cartCount = 0;
+    if (auth()->check()) {
+        $cartCount = \App\Models\CartItem::whereHas('cart', function($q) {
+            $q->where('user_id', auth()->id());
+        })->sum('quantity');
+    } else {
+        $cartCount = collect(session()->get('cart', []))->sum('quantity');
+    }
+@endphp
 <!DOCTYPE html>
 <html lang="sk">
 
@@ -161,18 +171,24 @@
       <div class="logo-text" onclick="location.href='index.html'">
          Mostly Sunny Toys
       </div>
-      <div class="search-box">
-         <span class="search-icon"><i class="fa-solid fa-magnifying-glass"></i></span>
-         <input type="text" placeholder="Hľadať produkty...">
-      </div>
-      <div class="header-icons">
-         <button title="Účet" onclick="location.href='login.html'">
-            <i class="fa-solid fa-user"></i> Účet
-         </button>
-         <button title="Košík" onclick="location.href='cart.html'">
-            <i class="fa-solid fa-cart-shopping"></i> Košík
-         </button>
-      </div>
+        <div class="header-icons">
+            @auth
+                <button title="Môj profil" onclick="location.href='{{ route('dashboard') }}'">
+                <i class="fa-solid fa-user"></i> {{ Auth::user()->name }}
+                </button>
+            @else
+                <button title="Prihlásiť sa" onclick="location.href='{{ route('login') }}'">
+                <i class="fa-solid fa-circle-user"></i> Prihlásiť sa
+                </button>
+            @endauth
+
+            <button title="Košík" onclick="location.href='{{ route('cart.index') }}'" style="position: relative;">
+                <i class="fa-solid fa-cart-shopping"></i> Košík
+                @if($cartCount > 0)
+                <span class="cart-badge">{{ $cartCount }}</span>
+                @endif
+            </button>
+        </div>
    </header>
 
    <div class="main">
