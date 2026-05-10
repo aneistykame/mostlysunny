@@ -286,33 +286,47 @@
                        <label>Popis</label>
                        <textarea name="description" placeholder="Krátky popis produktu...">{{ old('description', $product->description) }}</textarea>
                    </div>
-
-                   <div class="divider"></div>
-
                    <div class="form-group">
-                       <label>Fotografie produktu (min. 2, prvá bude hlavná)</label>
+                       <label>Pridať ďalšie fotografie</label>
                        <div class="img-upload" onclick="document.getElementById('imgFiles').click()">
                            <input type="file" id="imgFiles" name="images[]" accept="image/*" multiple
-                                  onchange="showFileNames(this)">
+                                  onchange="document.getElementById('fileName').textContent = Array.from(this.files).map(f=>f.name).join(', ')">
                            <div class="img-upload-icon">🖼️</div>
                            <div id="fileName">Kliknite pre výber súborov</div>
                        </div>
                    </div>
 
+                   <div class="divider"></div>
                    @if($errors->any())
                    <div style="color:#e07070;font-size:13px;font-weight:700;">
-                       @foreach($errors->all() as $error)
-                       <div>{{ $error }}</div>
-                       @endforeach
+                       @foreach($errors->all() as $error)<div>{{ $error }}</div>@endforeach
                    </div>
                    @endif
-
                    <div class="btn-row">
                        <button type="button" class="btn-secondary" onclick="location.href='{{ route('admin.products.editProduct') }}'">Zrušiť</button>
                        <button type="submit" class="btn-primary">Uložiť zmeny</button>
                    </div>
                </div>
            </form>
+
+           <div class="form-card" style="margin-top: 20px;">
+                    <label>Aktuálne fotografie</label>
+                    @foreach($product->images as $img)
+                   <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px;">
+                       <img src="{{ asset($img->image) }}"
+                            style="width:64px;height:64px;object-fit:cover;border-radius:8px;">
+                       <span style="font-size:13px;color:var(--purple-light);flex:1;">
+                                       {{ $img->is_main ? '(hlavná)' : '' }}
+                       </span>
+                       <form action="{{ route('admin.images.delete', $img->id) }}" method="POST">
+                           @csrf
+                           @method('DELETE')
+                           <button type="submit" class="btn-delete"
+                                   onclick="return confirm('Vymazať tento obrázok?')">Vymazať</button>
+                       </form>
+                   </div>
+                    @endforeach
+           </div>
        </main>
    </div>
 
@@ -331,6 +345,7 @@
            const names = Array.from(input.files).map(f => f.name).join(', ');
            document.getElementById('fileName').textContent = names || 'Kliknite pre výber súborov';
        }
+
    </script>
 </body>
 

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use Illuminate\Http\Request;
+use App\Models\ProductImage;
+use Illuminate\Support\Facades\Storage;
 
 class AdminController extends Controller
 {
@@ -80,12 +82,11 @@ class AdminController extends Controller
         ]);
 
         if ($request->hasFile('images')) {
-            $product->images()->delete(); // replace all existing images
-            foreach ($request->file('images') as $index => $file) {
+            foreach ($request->file('images') as $file) {
                 $path = 'storage/' . $file->store('products', 'public');
                 $product->images()->create([
                     'image'   => $path,
-                    'is_main' => $index === 0,
+                    'is_main' => false,
                 ]);
             }
         }
@@ -95,18 +96,34 @@ class AdminController extends Controller
 
     public function edit($id)
     {
-        $product = Product::findOrFail($id);
+        $product = Product::with('images')->findOrFail($id);
         return view('editcurtainproduct', compact('product'));
     }
 
     public function destroy($id)
     {
-        $product = Product::findOrFail($id);
+        $product = Product::with('images')->findOrFail($id);
+
+        foreach ($product->images as $image) {
+            $path = str_replace('storage/', '', $image->image);
+            Storage::disk('public')->delete($path);
+        }
+
         $product->delete();
 
-        return redirect()->route('admin.dashboard')
-            ->with('success', 'Produkt bol odstránený');
+        return redirect()->route('admin.dashboard')->with('success', 'Produkt bol odstránený');
     }
+
+    public function deleteImage($imageId)
+    {
+        $image = ProductImage::findOrFail($imageId);
+        $path = str_replace('storage/', '', $image->image);
+        Storage::disk('public')->delete($path);
+        $image->delete();
+
+        return back()->with('success', 'Obrázok bol odstránený');
+    }
+
     public function deleteProduct()
     {
         $products = Product::latest()->get();
